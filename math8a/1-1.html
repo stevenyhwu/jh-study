@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1-1 乘法公式｜可可貓的巧克力店</title>
+<meta name="description" content="國二上數學 1-1 乘法公式：跟著可可貓切巧克力、數巧克力，6 個關卡一步一步弄懂乘法公式。">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../assets/common.css">
+<link rel="stylesheet" href="../assets/lesson.css">
+<script defer src="../assets/common.js"></script>
+<script defer src="../assets/lesson.js"></script>
+<script defer src="1-1.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="home" href="../index.html">← 國二上數學</a>
+    <nav><a href="#map-sec">關卡</a><a href="#sheet">速查表</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="crumb">第 1 章 乘法公式與多項式</div>
+    <h1>1-1 乘法公式</h1>
+    <div class="meta"><span class="tag">可可貓的巧克力店 🍫</span><span class="tag">老師課程：國二上 1-1</span></div>
+  </div>
+
+  <section id="map-sec">
+    <div class="card shop">
+      <div class="say"><span class="cat" aria-hidden="true">🐱</span>
+        <div class="bubble">歡迎來到<b>可可貓的巧克力店</b>！<br>我需要一個會算巧克力的小幫手。每過一關，你就會學會一招<b>心算魔術</b>！<br>每一關都可以直接點進去玩 👇</div></div>
+      <p class="muted small" id="map-status"></p>
+      <div id="map" class="map"></div>
+    </div>
+  </section>
+
+  <section id="play" hidden></section>
+
+  <section class="block" id="sheet">
+    <h2>📄 巧克力公式速查表</h2>
+    <div class="row no-print" style="margin:0 0 6px"><button class="btn primary" type="button" id="print-btn">🖨️ 列印（A4）</button></div>
+    <div class="card sheet">
+      <table>
+        <tr><th>🔪 切開分開算<br><span class="muted small">分配律</span></th><td>\(6\times13=6\times10+6\times3\)<br>\(4\times9=4\times10-4\times1\)<br><span class="muted">切成好算的兩塊，或先假裝多一排再拿掉</span></td></tr>
+        <tr><th>🍓 正方形切四塊<br><span class="muted small">和的平方</span></th><td>\((a+b)^2=a^2+2ab+b^2\)<br><span class="muted">草莓 ＋ 兩塊橘子 ＋ 抹茶；別忘了兩塊橘子！</span></td></tr>
+        <tr><th>🐶 小狗咬兩排<br><span class="muted small">差的平方</span></th><td>\((a-b)^2=a^2-2ab+b^2\)<br><span class="muted">扣兩排，被扣兩次的角落要加回來</span></td></tr>
+        <tr><th>🐭 挖一角拼長方形<br><span class="muted small">平方差</span></th><td>\((a+b)(a-b)=a^2-b^2\)<br><span class="muted">找正中間：51×49＝50²－1²</span></td></tr>
+        <tr><th>🧩 拼圖偵探<br><span class="muted small">反過來認公式</span></th><td>① 找草莓和抹茶（前後是誰的平方）② 中間是 2×草莓邊×抹茶邊？③ 拼起來<br><span class="muted">小心偽裝：16＝4²、196×8＝2×196×4</span></td></tr>
+        <tr><th>🎩 祕密數字<br><span class="muted small">代數變形</span></th><td>\(a^2+b^2=(a+b)^2-2ab\)<br><span class="muted">整片減掉兩塊橘子</span></td></tr>
+        <tr><th>🖼️ 大的減小的<br><span class="muted small">圖形應用、估算</span></th><td>相框 \(7^2-5^2=(7+5)(7-5)\)；\(4.9^2=(5-0.1)^2=25-1+0.01\)</td></tr>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>國中學習網・內容為自編教材，僅供學習使用</footer>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2-1 平方根與近似值｜可可貓的正方形訂單</title>
+<meta name="description" content="國二上數學 2-1 平方根與近似值：從正方形巧克力的格數找邊長，弄懂根號、平方根、夾擠估計與十分逼近法。">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../assets/common.css">
+<link rel="stylesheet" href="../assets/lesson.css">
+<script defer src="../assets/common.js"></script>
+<script defer src="../assets/lesson.js"></script>
+<script defer src="../assets/viz.js"></script>
+<script defer src="2-1.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="home" href="../index.html">← 國二上數學</a>
+    <nav><a href="#map-sec">關卡</a><a href="#sheet">速查表</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="crumb">第 2 章 平方根與畢氏定理</div>
+    <h1>2-1 平方根與近似值</h1>
+    <div class="meta"><span class="tag">可可貓的正方形訂單 🟫</span><span class="tag">老師課程：國二上 2-1</span></div>
+  </div>
+
+  <section id="map-sec">
+    <div class="card shop">
+      <div class="say"><span class="cat" aria-hidden="true">🐱</span>
+        <div class="bubble">客人都只說「我要 <b>幾格</b> 的正方形巧克力」！<br>可可貓要先算出<b>邊長</b>才能切。學會這招，你就懂根號了！<br>每一關都可以直接點進去玩 👇</div></div>
+      <p class="muted small" id="map-status"></p>
+      <div id="map" class="map"></div>
+    </div>
+  </section>
+
+  <section id="play" hidden></section>
+
+  <section class="block" id="sheet">
+    <h2>📄 平方根速查表</h2>
+    <div class="row no-print" style="margin:0 0 6px"><button class="btn primary" type="button" id="print-btn">🖨️ 列印（A4）</button></div>
+    <div class="card sheet">
+      <table>
+        <tr><th>🟫 根號的意思</th><td>\(\sqrt{25}\)：哪個<b>正數</b>自己乘自己是 25 → 5（正方形 25 格的邊長）</td></tr>
+        <tr><th>± 平方根</th><td>25 的平方根 \(=\pm5\)（有兩個）；\(\sqrt{25}\) 只代表正的<br><span class="muted">負數沒有平方根；0 的平方根是 0</span></td></tr>
+        <tr><th>🔍 開根號技巧</th><td>分數：分子分母各開 \(\sqrt{\frac{25}{4}}=\frac52\)；小數位數減半 \(\sqrt{0.09}=0.3\)<br>質因數分解：一對搬出一個 \(\sqrt{441}=3\times7=21\)</td></tr>
+        <tr><th>📏 夾擠、比大小</th><td>\(16<20<25\Rightarrow4<\sqrt{20}<5\)；都變根號再比：\(5=\sqrt{25}<\sqrt{26}\)；負的反過來</td></tr>
+        <tr><th>🔢 有理數、無理數</th><td>開得完（能寫成分數）→ 有理數；開不完、不循環 → 無理數，如 \(\sqrt2\)</td></tr>
+        <tr><th>🎯 十分逼近</th><td>\(1.4^2=1.96<2<1.5^2\)；四捨五入看中間：\(3.15^2&lt;10\Rightarrow\sqrt{10}\approx3.2\)<br>\(\sqrt{300}=10\sqrt3\approx17.32\)；常用 \(\sqrt2\approx1.414\)、\(\sqrt3\approx1.732\)</td></tr>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>國中學習網・內容為自編教材，僅供學習使用</footer>
+</body>
+</html>

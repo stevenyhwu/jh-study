@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3-3 利用十字交乘法作因式分解｜找兩個數</title>
+<meta name="description" content="國二上數學 3-3 十字交乘法：從長方形禮盒看出「乘起來是常數、加起來是中間項」，學會正負號口訣和十字交乘圖。">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../assets/common.css">
+<link rel="stylesheet" href="../assets/lesson.css">
+<script defer src="../assets/common.js"></script>
+<script defer src="../assets/lesson.js"></script>
+<script defer src="../assets/viz.js"></script>
+<script defer src="3-3.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="home" href="../index.html">← 國二上數學</a>
+    <nav><a href="#map-sec">關卡</a><a href="#sheet">速查表</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="crumb">第 3 章 因式分解</div>
+    <h1>3-3 利用十字交乘法作因式分解</h1>
+    <div class="meta"><span class="tag">找兩個數 ✖️</span><span class="tag">老師課程：國二上 3-3</span></div>
+  </div>
+
+  <section id="map-sec">
+    <div class="card shop">
+      <div class="say"><span class="cat" aria-hidden="true">🐱</span>
+        <div class="bubble">\(x^2+5x+6\) 要拼成長方形禮盒，祕訣是找<b>兩個數</b>：<br><b>乘起來</b>是最後的數、<b>加起來</b>是中間的數！找到了，畫個十字就搞定。<br>每一關都可以直接點進去玩 👇</div></div>
+      <p class="muted small" id="map-status"></p>
+      <div id="map" class="map"></div>
+    </div>
+  </section>
+
+  <section id="play" hidden></section>
+
+  <section class="block" id="sheet">
+    <h2>📄 十字交乘速查表</h2>
+    <div class="row no-print" style="margin:0 0 6px"><button class="btn primary" type="button" id="print-btn">🖨️ 列印（A4）</button></div>
+    <div class="card sheet">
+      <table>
+        <tr><th>🔎 找兩個數</th><td>\(x^2+bx+c=(x+m)(x+n)\)：\(m\times n=c\)、\(m+n=b\)<br>\(x^2+7x+12=(x+3)(x+4)\)</td></tr>
+        <tr><th>➕ 正負號</th><td>最後是 ＋ → 同號，跟中間同號；最後是 － → 一正一負，大的跟中間同號</td></tr>
+        <tr><th>✖️ 十字</th><td>左邊乘起來＝\(ax^2\)，右邊乘起來＝常數，交叉相乘加起來＝中間項；<b>橫著讀</b>每一列<br>\(2x^2+7x+3=(2x+1)(x+3)\)；湊不到就換位置、換拆法</td></tr>
+        <tr><th>🏆 提醒</th><td>先提公因式：\(2x^2-10x+12=2(x-2)(x-3)\)；檢查因式：代進去等於 0</td></tr>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>國中學習網・內容為自編教材，僅供學習使用</footer>
+</body>
+</html>

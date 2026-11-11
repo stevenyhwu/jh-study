@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3-1 提公因式作因式分解｜可可貓的打包術</title>
+<meta name="description" content="國二上數學 3-1 提公因式作因式分解：把乘法倒過來，從禮盒面積找長和寬，學會找公因式、整包提出、分組分解。">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../assets/common.css">
+<link rel="stylesheet" href="../assets/lesson.css">
+<script defer src="../assets/common.js"></script>
+<script defer src="../assets/lesson.js"></script>
+<script defer src="../assets/viz.js"></script>
+<script defer src="3-1.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="home" href="../index.html">← 國二上數學</a>
+    <nav><a href="#map-sec">關卡</a><a href="#sheet">速查表</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="crumb">第 3 章 因式分解</div>
+    <h1>3-1 提公因式作因式分解</h1>
+    <div class="meta"><span class="tag">可可貓的打包術 📦</span><span class="tag">老師課程：國二上 3-1</span></div>
+  </div>
+
+  <section id="map-sec">
+    <div class="card shop">
+      <div class="say"><span class="cat" aria-hidden="true">🐱</span>
+        <div class="bubble">因式分解就是<b>乘法倒過來</b>：知道禮盒的面積，找出它的長和寬！<br>第一招：把大家<b>共同的</b>東西提出來。<br>每一關都可以直接點進去玩 👇</div></div>
+      <p class="muted small" id="map-status"></p>
+      <div id="map" class="map"></div>
+    </div>
+  </section>
+
+  <section id="play" hidden></section>
+
+  <section class="block" id="sheet">
+    <h2>📄 提公因式速查表</h2>
+    <div class="row no-print" style="margin:0 0 6px"><button class="btn primary" type="button" id="print-btn">🖨️ 列印（A4）</button></div>
+    <div class="card sheet">
+      <table>
+        <tr><th>🔁 意思</th><td>把多項式寫成相乘：\(3x+6=3(x+2)\)；\(3\)、\(x+2\) 是因式，\(3x+6\) 是倍式</td></tr>
+        <tr><th>🎯 找公因式</th><td>數字找最大公因數、字母找共同且次方最小：\(4x^2-6x=2x(2x-3)\)<br><span class="muted">提光了留 1：\(x^2+x=x(x+1)\)；首項是負的，連負號一起提</span></td></tr>
+        <tr><th>📦 整包提</th><td>\(3(x+1)+x(x+1)=(x+1)(x+3)\)；相反的先變號：\(2-x=-(x-2)\)</td></tr>
+        <tr><th>🧩 分組</th><td>\(x^2+3x+2x+6=x(x+3)+2(x+3)=(x+3)(x+2)\)</td></tr>
+        <tr><th>✅ 檢查</th><td>提完一定要乘回去！</td></tr>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>國中學習網・內容為自編教材，僅供學習使用</footer>
+</body>
+</html>

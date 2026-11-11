@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3-2 利用乘法公式作因式分解｜拼回正方形</title>
+<meta name="description" content="國二上數學 3-2 利用乘法公式作因式分解：把 1-1 的公式倒過來，完全平方式拼回正方形、平方差拼成長方形，並學會判斷用哪一招。">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../assets/common.css">
+<link rel="stylesheet" href="../assets/lesson.css">
+<script defer src="../assets/common.js"></script>
+<script defer src="../assets/lesson.js"></script>
+<script defer src="../assets/viz.js"></script>
+<script defer src="3-2.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="home" href="../index.html">← 國二上數學</a>
+    <nav><a href="#map-sec">關卡</a><a href="#sheet">速查表</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="crumb">第 3 章 因式分解</div>
+    <h1>3-2 利用乘法公式作因式分解</h1>
+    <div class="meta"><span class="tag">拼回正方形 🧩</span><span class="tag">老師課程：國二上 3-2</span></div>
+  </div>
+
+  <section id="map-sec">
+    <div class="card shop">
+      <div class="say"><span class="cat" aria-hidden="true">🐱</span>
+        <div class="bubble">1-1 的巧克力公式，現在要<b>倒過來用</b>！<br>碎掉的巧克力拼回正方形、挖掉一角的拼成長方形，就是因式分解。<br>每一關都可以直接點進去玩 👇</div></div>
+      <p class="muted small" id="map-status"></p>
+      <div id="map" class="map"></div>
+    </div>
+  </section>
+
+  <section id="play" hidden></section>
+
+  <section class="block" id="sheet">
+    <h2>📄 乘法公式因式分解速查表</h2>
+    <div class="row no-print" style="margin:0 0 6px"><button class="btn primary" type="button" id="print-btn">🖨️ 列印（A4）</button></div>
+    <div class="card sheet">
+      <table>
+        <tr><th>🧩 完全平方</th><td>\(a^2\pm2ab+b^2=(a\pm b)^2\)<br>偵探三步驟：頭尾是平方？中間＝2×頭×尾？拼起來</td></tr>
+        <tr><th>🐭 平方差</th><td>\(a^2-b^2=(a+b)(a-b)\)；\(x^2+9\) 是平方和，不能分解</td></tr>
+        <tr><th>🎁 整包代換</th><td>\((x+1)^2-4=(x+3)(x-1)\)；\((x+1)^2+6(x+1)+9=(x+4)^2\)</td></tr>
+        <tr><th>🕵️ 順序</th><td>① 先提公因式 ② 兩項找平方差 ③ 三項找完全平方 ④ 分解到不能再分：\(x^4-16=(x^2+4)(x+2)(x-2)\)</td></tr>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>國中學習網・內容為自編教材，僅供學習使用</footer>
+</body>
+</html>

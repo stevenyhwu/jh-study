@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1-2 多項式的加減｜可可貓的巧克力倉庫</title>
+<meta name="description" content="國二上數學 1-2 多項式的加減：用巧克力大方盒、長條、小顆，弄懂項、係數、次數、合併同類項與去括號。">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../assets/common.css">
+<link rel="stylesheet" href="../assets/lesson.css">
+<script defer src="../assets/common.js"></script>
+<script defer src="../assets/lesson.js"></script>
+<script defer src="../assets/viz.js"></script>
+<script defer src="1-2.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="home" href="../index.html">← 國二上數學</a>
+    <nav><a href="#map-sec">關卡</a><a href="#sheet">速查表</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="crumb">第 1 章 乘法公式與多項式</div>
+    <h1>1-2 多項式的加減</h1>
+    <div class="meta"><span class="tag">可可貓的巧克力倉庫 📦</span><span class="tag">老師課程：國二上 1-2</span></div>
+  </div>
+
+  <section id="map-sec">
+    <div class="card shop">
+      <div class="say"><span class="cat" aria-hidden="true">🐱</span>
+        <div class="bubble">這次要幫可可貓<b>整理倉庫</b>！<br>倉庫裡有三種巧克力：🟫 大方盒 \(x^2\)、🟧 長條 \(x\)、🟩 小顆 \(1\)。學會點貨、合併、退貨，你就會多項式的加減了！<br>每一關都可以直接點進去玩 👇</div></div>
+      <p class="muted small" id="map-status"></p>
+      <div id="map" class="map"></div>
+    </div>
+  </section>
+
+  <section id="play" hidden></section>
+
+  <section class="block" id="sheet">
+    <h2>📄 多項式加減速查表</h2>
+    <div class="row no-print" style="margin:0 0 6px"><button class="btn primary" type="button" id="print-btn">🖨️ 列印（A4）</button></div>
+    <div class="card sheet">
+      <table>
+        <tr><th>🏷️ 名字<br><span class="muted small">項、係數、次數</span></th><td>\(2x^2-3x+1\)：三項；\(x\) 項係數 \(-3\)（連正負號）；常數項 1；最高次方 2 → 二次多項式<br><span class="muted">零次多項式＝不是 0 的常數；零多項式＝0</span></td></tr>
+        <tr><th>📋 排列</th><td>降冪：次數大 → 小，\(3x^2+2x+4\)；升冪：小 → 大</td></tr>
+        <tr><th>🧺 合併同類項</th><td>同一種才能合併，只加係數：\(2x+3x=5x\)，\(2x-5x=-3x\)<br><span class="muted">\(2x^2+3x\) 不能合併！</span></td></tr>
+        <tr><th>📦 加法</th><td>同類項上下對齊，缺項要空一格（或寫 0）</td></tr>
+        <tr><th>↩️ 減法、去括號</th><td>括號前是減號 → 括號裡<b>每一項</b>都變號：\(-(x^2-5x+4)=-x^2+5x-4\)<br><span class="muted">有中括號：從最裡面拆</span></td></tr>
+        <tr><th>🕵️ 偵探</th><td>相等 → 同類項係數相等；反推：□−B＝C → □＝C＋B；看錯題：先找回原式，再照正確的算</td></tr>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>國中學習網・內容為自編教材，僅供學習使用</footer>
+</body>
+</html>

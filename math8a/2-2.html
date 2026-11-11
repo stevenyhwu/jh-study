@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2-2 根式的運算｜可可貓的根號盒子</title>
+<meta name="description" content="國二上數學 2-2 根式的運算：根號相乘相除、化成最簡根式、分母有理化、同類根式合併，配合乘法公式的混合運算。">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../assets/common.css">
+<link rel="stylesheet" href="../assets/lesson.css">
+<script defer src="../assets/common.js"></script>
+<script defer src="../assets/lesson.js"></script>
+<script defer src="../assets/viz.js"></script>
+<script defer src="2-2.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="home" href="../index.html">← 國二上數學</a>
+    <nav><a href="#map-sec">關卡</a><a href="#sheet">速查表</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="crumb">第 2 章 平方根與畢氏定理</div>
+    <h1>2-2 根式的運算</h1>
+    <div class="meta"><span class="tag">可可貓的根號盒子 📦</span><span class="tag">老師課程：國二上 2-2</span></div>
+  </div>
+
+  <section id="map-sec">
+    <div class="card shop">
+      <div class="say"><span class="cat" aria-hidden="true">🐱</span>
+        <div class="bubble">根號就像一個<b>盒子</b>：一對一樣的數才能搬出去一個！<br>學會搬進搬出、合併同類，再難的根號都能變簡單。<br>每一關都可以直接點進去玩 👇</div></div>
+      <p class="muted small" id="map-status"></p>
+      <div id="map" class="map"></div>
+    </div>
+  </section>
+
+  <section id="play" hidden></section>
+
+  <section class="block" id="sheet">
+    <h2>📄 根式運算速查表</h2>
+    <div class="row no-print" style="margin:0 0 6px"><button class="btn primary" type="button" id="print-btn">🖨️ 列印（A4）</button></div>
+    <div class="card sheet">
+      <table>
+        <tr><th>✖️ 相乘</th><td>\(\sqrt a\times\sqrt b=\sqrt{ab}\)；外面乘外面、裡面乘裡面 \(2\sqrt3\times4\sqrt5=8\sqrt{15}\)；\((\sqrt a)^2=a\)</td></tr>
+        <tr><th>📦 最簡根式</th><td>一對搬出一個：\(\sqrt{72}=\sqrt{2\cdot2\cdot2\cdot3\cdot3}=6\sqrt2\)<br>搬進去要平方：\(3\sqrt2=\sqrt{18}\)（可用來比大小）</td></tr>
+        <tr><th>➗ 相除、有理化</th><td>\(\sqrt a\div\sqrt b=\sqrt{\frac ab}\)；\(\frac1{\sqrt2}=\frac{\sqrt2}{2}\)<br>分母 \(\sqrt5+1\) → 同乘 \(\sqrt5-1\)（平方差）</td></tr>
+        <tr><th>➕ 加減</th><td>同類根式才能合併：\(2\sqrt3+5\sqrt3=7\sqrt3\)；先化簡再合併 \(\sqrt{12}+\sqrt{27}=5\sqrt3\)<br><span class="muted">\(\sqrt2+\sqrt3\ne\sqrt5\)！</span></td></tr>
+        <tr><th>🧩 混合運算</th><td>分配律、乘法公式照用：\((\sqrt3+1)(\sqrt3-1)=2\)；\((\sqrt5+2)^2=9+4\sqrt5\)<br>代值題先整理：\(x^2+2x+1=(x+1)^2\)</td></tr>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>國中學習網・內容為自編教材，僅供學習使用</footer>
+</body>
+</html>
