@@ -8,18 +8,19 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="../assets/common.css?v=20261112a">
-<link rel="stylesheet" href="../assets/lesson.css?v=20261112a">
-<script defer src="../assets/common.js?v=20261112a"></script>
-<script defer src="../assets/lesson.js?v=20261112a"></script>
-<script defer src="../assets/viz.js?v=20261112a"></script>
-<script defer src="1-3.js?v=20261112a"></script>
+<link rel="stylesheet" href="../assets/common.css?v=20261112b">
+<link rel="stylesheet" href="../assets/lesson.css?v=20261112b">
+<script defer src="../assets/common.js?v=20261112b"></script>
+<script defer src="../assets/lesson.js?v=20261112b"></script>
+<script defer src="../assets/viz.js?v=20261112b"></script>
+<script defer src="../assets/lab.js?v=20261112b"></script>
+<script defer src="1-3.js?v=20261112b"></script>
 </head>
 <body>
 <header class="topbar">
   <div class="wrap">
     <a class="home" href="../index.html">← 國二上數學</a>
-    <nav><a href="#map-sec">關卡</a><a href="#sheet">速查表</a></nav>
+    <nav><a href="#map-sec">關卡</a><a href="#lab">實驗室</a><a href="#sheet">速查表</a></nav>
   </div>
 </header>
 
@@ -40,6 +41,12 @@
   </section>
 
   <section id="play" hidden></section>
+
+  <section class="block" id="lab">
+    <h2>🔬 實驗室</h2>
+    <p class="muted small">學完關卡以後，自己動手拉拉看、驗證規律！每個實驗室都有幾個小任務。</p>
+    <div id="lab-host" data-labs="box"></div>
+  </section>
 
   <section class="block" id="sheet">
     <h2>📄 多項式乘除速查表</h2>
