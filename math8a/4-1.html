@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4-1 解一元二次方程式｜可可貓的猜數字魔術</title>
+<meta name="description" content="國二上數學 4-1 解一元二次方程式：從猜祕密數字認識方程式的解，利用「乘起來是 0」和因式分解解方程式。">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../assets/common.css?v=20261111e">
+<link rel="stylesheet" href="../assets/lesson.css?v=20261111e">
+<script defer src="../assets/common.js?v=20261111e"></script>
+<script defer src="../assets/lesson.js?v=20261111e"></script>
+<script defer src="../assets/viz.js?v=20261111e"></script>
+<script defer src="4-1.js?v=20261111e"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="home" href="../index.html">← 國二上數學</a>
+    <nav><a href="#map-sec">關卡</a><a href="#sheet">速查表</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="crumb">第 4 章 一元二次方程式</div>
+    <h1>4-1 解一元二次方程式</h1>
+    <div class="meta"><span class="tag">可可貓的猜數字魔術 🎩</span><span class="tag">老師課程：國二上 4-1</span></div>
+  </div>
+
+  <section id="map-sec">
+    <div class="card shop">
+      <div class="say"><span class="cat" aria-hidden="true">🐱</span>
+        <div class="bubble">可可貓想了一個<b>祕密數字</b>，只給你一個線索……<br>學會「乘起來是 0」的祕密武器，再用第三章的因式分解，什麼謎題都猜得出來！<br>每一關都可以直接點進去玩 👇</div></div>
+      <p class="muted small" id="map-status"></p>
+      <div id="map" class="map"></div>
+    </div>
+  </section>
+
+  <section id="play" hidden></section>
+
+  <section class="block" id="sheet">
+    <h2>📄 解一元二次方程式速查表</h2>
+    <div class="row no-print" style="margin:0 0 6px"><button class="btn primary" type="button" id="print-btn">🖨️ 列印（A4）</button></div>
+    <div class="card sheet">
+      <table>
+        <tr><th>🎩 意思</th><td>一個未知數、最高次是 2 的等式，例如 \(x^2-5x+6=0\)（要先整理再判斷）<br>解（根）：代進去會成立的數</td></tr>
+        <tr><th>0️⃣ 乘起來是 0</th><td>\(A\times B=0\Rightarrow A=0\) 或 \(B=0\)：\((x-3)(x+5)=0\Rightarrow x=3\) 或 \(-5\)</td></tr>
+        <tr><th>🧩 因式分解法</th><td>① 移項讓右邊是 0 ② 因式分解 ③ 每個括號 ＝ 0<br><span class="muted">不可兩邊同除以 x（會漏掉 x＝0）；乘起來不是 0 不能拆</span></td></tr>
+        <tr><th>🔁 重根、開根號</th><td>\((x+3)^2=0\Rightarrow x=-3\)（重根）；\((x+1)^2=16\Rightarrow x+1=\pm4\)</td></tr>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>國中學習網・內容為自編教材，僅供學習使用</footer>
+</body>
+</html>

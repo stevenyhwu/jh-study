@@ -70,7 +70,7 @@
 
 /* 巧克力 */
 .choco-wrap { display: flex; justify-content: center; }
-svg.choco { width: 100%; max-width: 440px; height: auto; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+svg.choco { overflow: visible; width: 100%; max-width: 440px; height: auto; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
 svg.choco text { font-family: inherit; }
 .cell { transition: transform .45s cubic-bezier(.3,1.3,.5,1), opacity .35s; }
 .cell-body { stroke: #5b3a26; stroke-width: 1.5; }
@@ -114,4 +114,10 @@ svg.choco text { font-family: inherit; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 4px 0; }
 .chips span { border: 2px solid var(--line); border-radius: 12px; padding: 6px 12px; font-size: 18px; background: var(--card); }
 .chips span.hi { border-color: #e0a95a; background: #fff1d6; color: #5a3d12; }
+/* 統計表 */
+.tbl-wrap { overflow-x: auto; display: flex; justify-content: center; margin: 4px 0; }
+.tbl { border-collapse: collapse; font-size: 16px; }
+.tbl th, .tbl td { border: 1px solid var(--line); padding: 5px 9px; text-align: center; white-space: nowrap; }
+.tbl th { background: var(--bg); }
+.tbl .hi { background: #fff1d6; color: #5a3d12; font-weight: 700; }
 @media print { #map-sec, #play { display: none !important; } }

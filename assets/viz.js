@@ -155,7 +155,7 @@
      ========================================================= */
   function areaBox(host, cols, rows, cells, opts) {
     const o = opts || {};
-    const W = 340, padL = 46, padT = 34;
+    const W = 340, padL = 58, padT = 34;
     const tw = cols.reduce((a, c) => a + c.w, 0), th = rows.reduce((a, r) => a + r.w, 0);
     const scale = Math.min((W - padL - 14) / tw, (o.maxH || 230) / th);
     const H = padT + th * scale + 14;
@@ -387,5 +387,56 @@
     return svg;
   }
 
-  window.Viz = { C, box, el, T, L, raw, Tiles, polyTiles, legend, areaBox, longDiv, numLine, pythag, dotGrid, coord, cross };
+  /* =========================================================
+     統計圖：直方圖／折線圖
+     o: {edges:[0,5,10,...], vals:[...], kind:'bar'|'line'|'cum', ymax, ylab, xlab, hi:索引, unit:'%'}
+     bar：長條畫在組距上；line：點在組中點；cum：點在每組上限（從第一個下限的 0 開始）
+     ========================================================= */
+  function hist(host, o) {
+    const W = 340, H = 240, x0 = 46, x1 = W - 22, y0 = H - 38, y1 = 30;
+    const svg = box(host, W, H);
+    const e = o.edges, n = o.vals.length;
+    const ymax = o.ymax || Math.max(...o.vals);
+    const X = v => x0 + (v - e[0]) / (e[e.length - 1] - e[0]) * (x1 - x0 - 14);
+    const Y = v => y0 - v / ymax * (y0 - y1);
+    const step = o.ystep || Math.ceil(ymax / 5);
+    for (let v = 0; v <= ymax + 1e-9; v += step) {
+      el('line', { x1: x0, y1: Y(v), x2: x1, y2: Y(v), stroke: 'var(--line)', 'stroke-width': 1 }, svg);
+      T(svg, x0 - 8, Y(v), v + (o.unit || ''), { 'text-anchor': 'end', style: 'font-size:12px;font-style:normal' });
+    }
+    el('line', { x1: x0, y1: y0, x2: x1, y2: y0, stroke: 'var(--ink)', 'stroke-width': 2 }, svg).style.stroke = 'var(--ink)';
+    el('line', { x1: x0, y1: y0, x2: x0, y2: y1 - 6, stroke: 'var(--ink)', 'stroke-width': 2 }, svg).style.stroke = 'var(--ink)';
+    e.forEach(v => T(svg, X(v), y0 + 14, v, { style: 'font-size:12px;font-style:normal' }));
+    if (o.xlab) T(svg, (x0 + x1) / 2, H - 6, o.xlab, { style: 'font-size:12px;font-style:normal', fill: 'var(--muted)' });
+    if (o.ylab) T(svg, 8, 10, o.ylab, { 'text-anchor': 'start', style: 'font-size:12px;font-style:normal', fill: 'var(--muted)' });
+    const kind = o.kind || 'bar';
+    if (kind === 'bar') {
+      o.vals.forEach((v, i) => {
+        el('rect', { x: X(e[i]) + 1, y: Y(v), width: X(e[i + 1]) - X(e[i]) - 2, height: y0 - Y(v), fill: i === o.hi ? C.orange : C.choco, stroke: C.edge, 'stroke-width': 1.5 }, svg);
+        if (o.show !== false) T(svg, (X(e[i]) + X(e[i + 1])) / 2, Y(v) - 9, o.labels ? o.labels[i] : v, { style: 'font-size:13px;font-style:normal' });
+      });
+    } else {
+      const pts = kind === 'line' ? o.vals.map((v, i) => [(X(e[i]) + X(e[i + 1])) / 2, Y(v)]) : [[X(e[0]), Y(0)]].concat(o.vals.map((v, i) => [X(e[i + 1]), Y(v)]));
+      el('polyline', { points: pts.map(p => p.join(',')).join(' '), fill: 'none', stroke: C.red, 'stroke-width': 2.5 }, svg);
+      pts.forEach((p, i) => {
+        const vi = kind === 'line' ? i : i - 1;
+        el('circle', { cx: p[0], cy: p[1], r: vi === o.hi ? 7 : 4.5, fill: vi === o.hi ? C.orange : C.red, stroke: '#fff', 'stroke-width': 1.5 }, svg);
+        if (o.show !== false && vi >= 0) T(svg, p[0], p[1] - 12, o.labels ? o.labels[vi] : o.vals[vi] + (o.unit || ''), { style: 'font-size:12px;font-style:normal' });
+      });
+    }
+    return svg;
+  }
+  // 簡單表格：rows 是二維陣列，第一列是表頭；hl:[[r,c]] 要強調的格子
+  function table(host, rows, o) {
+    const opt = o || {};
+    const hl = new Set((opt.hl || []).map(([r, c]) => r + ',' + c));
+    const html = '<div class="tbl-wrap"><table class="tbl">' + rows.map((r, ri) => '<tr>' + r.map((c, ci) => {
+      const tag = ri === 0 || (opt.headCol && ci === 0) ? 'th' : 'td';
+      return `<${tag} class="${hl.has(ri + ',' + ci) ? 'hi' : ''}">${c}</${tag}>`;
+    }).join('') + '</tr>').join('') + '</table></div>';
+    host.appendChild(Lesson.h(html));
+    JH.renderMath(host);
+  }
+
+  window.Viz = { C, box, el, T, L, raw, Tiles, polyTiles, legend, areaBox, longDiv, numLine, pythag, dotGrid, coord, cross, hist, table };
 })();

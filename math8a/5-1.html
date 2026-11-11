@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5-1 統計資料處理｜可可貓的排隊報表</title>
+<meta name="description" content="國二上數學 5-1 統計資料處理：把 20 位客人的排隊時間整理成次數分配表、直方圖、折線圖，學會相對次數、累積次數與累積相對次數。">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../assets/common.css?v=20261111e">
+<link rel="stylesheet" href="../assets/lesson.css?v=20261111e">
+<script defer src="../assets/common.js?v=20261111e"></script>
+<script defer src="../assets/lesson.js?v=20261111e"></script>
+<script defer src="../assets/viz.js?v=20261111e"></script>
+<script defer src="5-1.js?v=20261111e"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="home" href="../index.html">← 國二上數學</a>
+    <nav><a href="#map-sec">關卡</a><a href="#sheet">速查表</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="crumb">第 5 章 統計資料處理</div>
+    <h1>5-1 統計資料處理</h1>
+    <div class="meta"><span class="tag">可可貓的排隊報表 📊</span><span class="tag">老師課程：國二上 5-1</span></div>
+  </div>
+
+  <section id="map-sec">
+    <div class="card shop">
+      <div class="say"><span class="cat" aria-hidden="true">🐱</span>
+        <div class="bubble">店裡越來越多人排隊了！可可貓記錄了 20 位客人等了幾分鐘。<br>幫老闆把亂七八糟的數字<b>整理成報表和圖</b>，一眼就看懂！<br>每一關都可以直接點進去玩 👇</div></div>
+      <p class="muted small" id="map-status"></p>
+      <div id="map" class="map"></div>
+    </div>
+  </section>
+
+  <section id="play" hidden></section>
+
+  <section class="block" id="sheet">
+    <h2>📄 統計速查表</h2>
+    <div class="row no-print" style="margin:0 0 6px"><button class="btn primary" type="button" id="print-btn">🖨️ 列印（A4）</button></div>
+    <div class="card sheet">
+      <table>
+        <tr><th>📋 次數分配表</th><td>分組（組距相同），數每組幾個；「5～10」含 5 不含 10<br>組中點 ＝ (下限＋上限) ÷ 2</td></tr>
+        <tr><th>📊 圖</th><td>直方圖：長條；次數折線圖：點在組中點</td></tr>
+        <tr><th>🥧 相對次數</th><td>該組次數 ÷ 總次數（%），全部加起來 100%；總數不同時比相對次數</td></tr>
+        <tr><th>📈 累積次數</th><td>從第一組一路加上去；最後一組 ＝ 總數<br>累積折線圖：點在<b>上限</b>，從 0 開始；某組次數 ＝ 相鄰兩點相減</td></tr>
+        <tr><th>％ 累積相對次數</th><td>累積次數 ÷ 總數；最後一組 ＝ 100%</td></tr>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>國中學習網・內容為自編教材，僅供學習使用</footer>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4-2 配方法與公式解｜補一角湊成正方形</title>
+<meta name="description" content="國二上數學 4-2 配方法與公式解：把 x²+6x 補一角湊成正方形，學會配方法，再用公式解和判別式解任何一元二次方程式。">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../assets/common.css?v=20261111e">
+<link rel="stylesheet" href="../assets/lesson.css?v=20261111e">
+<script defer src="../assets/common.js?v=20261111e"></script>
+<script defer src="../assets/lesson.js?v=20261111e"></script>
+<script defer src="../assets/viz.js?v=20261111e"></script>
+<script defer src="4-2.js?v=20261111e"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="home" href="../index.html">← 國二上數學</a>
+    <nav><a href="#map-sec">關卡</a><a href="#sheet">速查表</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="crumb">第 4 章 一元二次方程式</div>
+    <h1>4-2 配方法與公式解</h1>
+    <div class="meta"><span class="tag">補一角湊成正方形 🧩</span><span class="tag">老師課程：國二上 4-2</span></div>
+  </div>
+
+  <section id="map-sec">
+    <div class="card shop">
+      <div class="say"><span class="cat" aria-hidden="true">🐱</span>
+        <div class="bubble">大方盒加上幾根長條，總是缺一角拼不成正方形……<br>補上那一角，就是<b>配方法</b>；把它一次做好，就是萬用的<b>公式解</b>！<br>每一關都可以直接點進去玩 👇</div></div>
+      <p class="muted small" id="map-status"></p>
+      <div id="map" class="map"></div>
+    </div>
+  </section>
+
+  <section id="play" hidden></section>
+
+  <section class="block" id="sheet">
+    <h2>📄 配方法與公式解速查表</h2>
+    <div class="row no-print" style="margin:0 0 6px"><button class="btn primary" type="button" id="print-btn">🖨️ 列印（A4）</button></div>
+    <div class="card sheet">
+      <table>
+        <tr><th>🧩 配方</th><td>\(x^2+bx+\left(\frac b2\right)^2=\left(x+\frac b2\right)^2\)：補「x 係數一半的平方」<br>\(x^2+6x+9=(x+3)^2\)</td></tr>
+        <tr><th>⚖️ 配方法</th><td>① 常數移右邊 ② 兩邊加一半的平方 ③ 開根號 ④ 解 x<br>\(x^2-4x-1=0\Rightarrow(x-2)^2=5\Rightarrow x=2\pm\sqrt5\)<br><span class="muted">\(x^2\) 有係數先除掉；平方 ＝ 負數 → 無解</span></td></tr>
+        <tr><th>🔑 公式解</th><td>\(ax^2+bx+c=0\Rightarrow x=\dfrac{-b\pm\sqrt{b^2-4ac}}{2a}\)</td></tr>
+        <tr><th>🔍 判別式</th><td>\(b^2-4ac>0\) 兩解；\(=0\) 重根；\(<0\) 無解</td></tr>
+        <tr><th>🧭 怎麼選</th><td>先試因式分解，分不出來再用公式解；有小數先乘 10</td></tr>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>國中學習網・內容為自編教材，僅供學習使用</footer>
+</body>
+</html>

@@ -1,0 +1,105 @@
+/* ===== 5-1 統計資料處理：可可貓的排隊報表（3 關） =====
+   同一份資料（20 位客人的排隊時間）從頭用到尾：次數分配 → 相對次數 → 累積次數 */
+(function () {
+  'use strict';
+  const R = String.raw;
+  const { hist, table } = Viz;
+  const challenge = s => `<span class="chal">⭐ 挑戰題</span> ${s}`;
+  const formula = (f, tip) => `<div class="formula">${f}</div>${tip ? `<div class="tip">${tip}</div>` : ''}`;
+  // 資料
+  const RAW = [12, 6, 16, 2, 10, 22, 8, 14, 5, 18, 11, 4, 13, 9, 15, 12, 7, 3, 19, 10];
+  const E = [0, 5, 10, 15, 20, 25];
+  const N = [3, 5, 7, 4, 1];
+  const CUM = [3, 8, 15, 19, 20];
+  const REL = [15, 25, 35, 20, 5];
+  const CREL = [15, 40, 75, 95, 100];
+  const G = ['0～5', '5～10', '10～15', '15～20', '20～25'];
+  const chips = (h, list, hi) => h.appendChild(Lesson.h(`<div class="chips">${list.map(v => `<span class="${hi && hi(v) ? 'hi' : ''}">${v}</span>`).join('')}</div>`));
+  const freq = (h, extra, hl) => table(h, [['排隊時間（分）'].concat(extra ? extra[0] : []), ...G.map((g, i) => [g].concat(extra ? extra[i + 1] : []))], { hl, headCol: true });
+  const T1 = () => [['人數']].concat(N.map(n => [n]));
+
+  /* =========================================================
+     第 1 關：整理成次數分配表
+     ========================================================= */
+  const S1 = { id: 's1', badge: '📋', title: '第 1 關　整理報表', steps: [
+    { say: '可可貓記錄了 <b>20 位客人</b>的排隊時間（分鐘），亂七八糟的：',
+      scene: (h) => { chips(h, RAW); },
+      ask: { type: 'choice', q: '想一眼看出「大部分客人等多久」，怎麼辦？', options: [
+        { t: '分成幾組，數每一組有幾個人', ok: true, why: '對！把資料分組、數一數，就是<b>次數分配表</b>。' },
+        { t: '全部加起來', why: '加起來只知道總共，看不出大家大概等多久。' },
+        { t: '只看最大的', why: '只看一個人，看不出大部分的情形。' }] } },
+    { say: R`每 5 分鐘分一組：0～5、5～10、10～15……<br>⚠️ <b>規則</b>：「5～10」包含 5、<b>不包含 10</b>（10 分鐘算到下一組）。`,
+      scene: (h) => { chips(h, RAW, v => v >= 10 && v < 15); },
+      ask: { type: 'num', q: '10～15 分鐘這一組（亮起來的）有幾人？', fields: [{ answer: 7, post: '人', diag: [{ v: 8, msg: '15 不算在這一組喔（包含 10、不含 15）。' }, { v: 5, msg: '10 要算在這一組喔！10、10、11、12、12、13、14。' }] }] },
+      after: '這裡每組寬 5 分鐘，叫做<b>組距</b>。「10～15」的 10 叫<b>下限</b>、15 叫<b>上限</b>。' },
+    { say: '先由小排到大，比較好數：',
+      scene: (h) => { chips(h, RAW.slice().sort((a, b) => a - b)); freq(h, [['人數'], ['?'], ['?'], ['7'], ['?'], ['?']]); },
+      ask: { type: 'num', q: '把表格填完：', fields: [{ pre: '0～5', answer: 3 }, { pre: '　5～10', answer: 5 }, { pre: '　15～20', answer: 4 }, { pre: '　20～25', answer: 1 }], hint: '0～5：2、3、4；5～10：5、6、7、8、9' },
+      after: '檢查：3＋5＋7＋4＋1＝20，剛好是 20 位客人 ✔' },
+    { say: '把表格畫成<b>直方圖</b>，長條越高，人數越多：',
+      scene: (h) => { hist(h, { edges: E, vals: N, kind: 'bar', ylab: '人數', xlab: '排隊時間（分）', ystep: 2, ymax: 8 }); },
+      ask: { type: 'choice', q: '哪一組人最多？', options: [
+        { t: '10～15 分鐘', ok: true, why: '7 人，最高的那條。' },
+        { t: '20～25 分鐘', why: '那組只有 1 人，最矮。' },
+        { t: '5～10 分鐘', why: '5 人，比 10～15 少。' }] } },
+    { say: R`也可以畫成<b>折線圖</b>：在每一組的<b>正中間</b>（組中點）點一個點，再連起來。`,
+      scene: (h) => { hist(h, { edges: E, vals: N, kind: 'line', ylab: '人數', xlab: '排隊時間（分）', ystep: 2, ymax: 8, hi: 2 }); },
+      ask: { type: 'num', q: '10～15 這一組的組中點是多少？', fields: [{ answer: 12.5, diag: [{ v: 12, msg: '正中間是 (10＋15)÷2。' }, { v: 25, msg: '要除以 2 喔：(10＋15)÷2。' }] }] },
+      after: formula('組中點 ＝ (下限 ＋ 上限) ÷ 2') }
+  ] };
+
+  /* =========================================================
+     第 2 關：佔幾 %（相對次數）
+     ========================================================= */
+  const S2 = { id: 's2', badge: '🥧', title: '第 2 關　佔幾 %', steps: [
+    { say: '老闆問：「等 10～15 分鐘的客人，佔<b>全部的幾 %</b>？」',
+      scene: (h) => { freq(h, T1(), [[3, 1]]); },
+      ask: { type: 'num', q: R`\(7\div20=\)？（換成百分率）`, fields: [{ answer: 35, post: '%', diag: [{ v: 0.35, msg: '0.35 要乘 100 變成百分率：35%。' }] }] },
+      after: '這叫做<b>相對次數</b>。' + formula('相對次數 ＝ 該組次數 ÷ 總次數') },
+    { say: '把每一組都算出來：',
+      scene: (h) => { freq(h, [['人數', '相對次數'], [3, '?'], [5, '?'], [7, '35%'], [4, '?'], [1, '?']]); },
+      ask: { type: 'num', fields: [{ pre: '0～5', answer: 15, post: '%' }, { pre: '　5～10', answer: 25, post: '%' }, { pre: '　15～20', answer: 20, post: '%' }, { pre: '　20～25', answer: 5, post: '%' }], hint: '3÷20、5÷20、4÷20、1÷20' } },
+    { say: '把所有的相對次數加起來：',
+      scene: (h) => { freq(h, [['人數', '相對次數'], ...N.map((n, i) => [n, REL[i] + '%'])]); },
+      ask: { type: 'num', q: '15%＋25%＋35%＋20%＋5%＝？', fields: [{ answer: 100, post: '%' }] },
+      after: '👉 相對次數全部加起來一定是 <b>100%</b>（就是全部的人）。' },
+    { say: '為什麼要用 %？隔壁的貓咪店有 50 位客人，其中 15 人等 10～15 分鐘。',
+      scene: (h) => { table(h, [['', '可可貓店', '隔壁店'], ['等 10～15 分', '7 人', '15 人'], ['總人數', '20 人', '50 人']], { headCol: true }); },
+      ask: { type: 'choice', q: '哪一家「等 10～15 分鐘」的比例比較高？', options: [
+        { t: '可可貓店（35%），隔壁只有 30%', ok: true, why: R`隔壁 \(15\div50=30\%\)。人數多不代表比例高，<b>總數不一樣時，要比相對次數</b>。` },
+        { t: '隔壁店，因為 15 人比較多', why: '隔壁總共有 50 人，算算 15÷50 是幾 %？' }] } },
+    { say: '相對次數也能畫成直方圖：',
+      scene: (h) => { hist(h, { edges: E, vals: REL, kind: 'bar', unit: '%', ylab: '相對次數', xlab: '排隊時間（分）', ymax: 40, ystep: 10, hi: 1 }); },
+      ask: { type: 'num', q: '5～10 分鐘佔幾 %？', fields: [{ answer: 25, post: '%' }] } }
+  ] };
+
+  /* =========================================================
+     第 3 關：一路加上去（累積次數、累積相對次數）
+     ========================================================= */
+  const S3 = { id: 's3', badge: '📈', title: '第 3 關　一路加上去', steps: [
+    { say: '老闆又問：「等<b>不到 15 分鐘</b>的有幾人？」<br>就是 0～5、5～10、10～15 三組加起來：',
+      scene: (h) => { freq(h, T1(), [[1, 1], [2, 1], [3, 1]]); },
+      ask: { type: 'num', q: '3＋5＋7＝？', fields: [{ answer: 15, post: '人' }] },
+      after: '像這樣<b>從第一組一路加上去</b>，叫做<b>累積次數</b>。' },
+    { say: '把累積次數填完（每一格＝上一格＋這一組）：',
+      scene: (h) => { freq(h, [['人數', '累積次數'], [3, 3], [5, '?'], [7, 15], [4, '?'], [1, '?']]); },
+      ask: { type: 'num', fields: [{ pre: '5～10', answer: 8 }, { pre: '　15～20', answer: 19 }, { pre: '　20～25', answer: 20 }], hint: '3＋5；15＋4；19＋1' },
+      after: '👉 最後一組的累積次數，一定等於<b>總人數</b>。' },
+    { say: '累積次數也可以畫成折線圖，點要畫在每一組的<b>上限</b>（因為是「不到上限」的人數），從 0 開始：',
+      scene: (h) => { hist(h, { edges: E, vals: CUM, kind: 'cum', ylab: '累積人數', xlab: '排隊時間（分）', ymax: 20, ystep: 5, hi: 3 }); },
+      ask: { type: 'num', q: '等不到 20 分鐘的有幾人？', fields: [{ answer: 19, post: '人' }] } },
+    { say: '從累積圖也能找回某一組的人數：<b>相鄰兩點相減</b>！',
+      scene: (h) => { hist(h, { edges: E, vals: CUM, kind: 'cum', ylab: '累積人數', xlab: '排隊時間（分）', ymax: 20, ystep: 5 }); },
+      ask: { type: 'num', q: '15～20 分鐘這一組有幾人？', fields: [{ answer: 4, post: '人', diag: [{ v: 19, msg: '19 是「不到 20 分鐘」的全部人數，要減掉不到 15 分鐘的 15 人。' }] }], hint: '19 − 15' } },
+    { say: '累積次數換成 %，就是<b>累積相對次數</b>：',
+      scene: (h) => { freq(h, [['累積次數', '累積相對次數'], [3, '15%'], [8, '?'], [15, '?'], [19, '95%'], [20, '100%']]); },
+      ask: { type: 'num', fields: [{ pre: '5～10', answer: 40, post: '%' }, { pre: '　10～15', answer: 75, post: '%' }], hint: '8÷20；15÷20（也可以把相對次數一路加：15%＋25%）' },
+      after: '👉 最後一組的累積相對次數一定是 <b>100%</b>。' },
+    { say: challenge('只給你累積相對次數圖，也能算人數！'),
+      scene: (h) => { hist(h, { edges: E, vals: CREL, kind: 'cum', unit: '%', ylab: '累積相對次數', xlab: '排隊時間（分）', ymax: 100, ystep: 20, labels: CREL.map(v => v + '%') }); },
+      ask: { type: 'num', q: '總共 20 人，等「10 分鐘以上」的有幾人？', fields: [{ answer: 12, post: '人', diag: [{ v: 8, msg: '8 人是「不到 10 分鐘」的，要用 20 減掉。' }] }], hint: '不到 10 分鐘的是 40%，所以 10 分鐘以上是 60%，20×60%。' } }
+  ] };
+
+  const STAGES = [S1, S2, S3];
+  document.addEventListener('DOMContentLoaded', () => Lesson.mount('math8a-5-1', STAGES, { signed: false }));
+})();
