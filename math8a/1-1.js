@@ -440,7 +440,32 @@
   P(S6, 8, h => { const c = cutGrid(h, 9, 2); c.ghost(cl => (cl.r < 2) !== (cl.c < 2)); c.label(2, 2, 9, 9, 'b²'); c.label(0, 2, 2, 9, '吃掉 ab', { size: 12 }); });
   P(S6, 9, h => { const c = Choco(h, { rows: 10, cols: 10 }); c.ghost(cl => cl.r === 0 || cl.c === 9); c.label(1, 0, 10, 9, '剩下的土地'); c.ruler('top', 0, 10, '10 公尺'); });
 
-  const STAGES = [S1, S2, S3, S4, S5, S6];
+  /* =========================================================
+     第 7 關：公式變身術（a−b、ab 互推；(a+b)²、(a−b)² 互推；帶分數）
+     ========================================================= */
+  const S7 = { id: 's7', badge: '🔄', title: '第 7 關　公式變身術', steps: [
+    { say: R`第 6 關用過 \(a^2+b^2=(a+b)^2-2ab\)（整片減掉兩塊橘子）。<br>如果知道的是 <b>a−b</b> 呢？小狗咬過的巧克力：\((a-b)^2=a^2-2ab+b^2\)，把咬掉的兩塊<b>加回來</b>：`,
+      scene: (h) => { schem(h, 'a', 'b', 'minus'); },
+      ask: { type: 'choice', q: R`\(a^2+b^2=\)？`, options: [
+        { t: R`\((a-b)^2+2ab\)`, ok: true, why: R`\((a-b)^2\) 少了兩塊 \(ab\)，加回來就是 \(a^2+b^2\)。` },
+        { t: R`\((a-b)^2-2ab\)`, why: R`\((a-b)^2=a^2+b^2-2ab\)，已經被扣掉了，要<b>加</b>回來。` }] },
+      after: formula(R`\(a^2+b^2=(a+b)^2-2ab=(a-b)^2+2ab\)`) },
+    { say: R`已知 \(a-b=3\)，\(ab=10\)：`,
+      ask: { type: 'num', fields: [{ pre: R`\(a^2+b^2=9+20=\)`, answer: 29 }, { pre: R`　\((a+b)^2=a^2+b^2+2ab=\)`, answer: 49 }], hint: '29＋2×10' },
+      after: '如果 a、b 都是正的，a＋b＝7。（偷偷告訴你：a＝5、b＝2 ✔）' },
+    { say: R`只知道 \((a+b)^2=25\)、\((a-b)^2=9\)，可以變出什麼？<br>\((a+b)^2=a^2+b^2+2ab\)，\((a-b)^2=a^2+b^2-2ab\)`,
+      ask: { type: 'num', q: '把兩個式子相加、相減：', fields: [{ pre: R`相加 ÷2：\(a^2+b^2=\)`, answer: 17 }, { pre: R`　相減 ÷4：\(ab=\)`, answer: 4 }], hint: '(25＋9)÷2；(25−9)÷4' },
+      after: '相加時兩塊橘子抵消，相減時正方形抵消！' },
+    { say: R`<b>帶分數也能用平方差</b>：\(20\frac13\times19\frac23\)<br>正中間是 20：\(=(20+\frac13)(20-\frac13)=20^2-(\frac13)^2\)`,
+      scene: (h) => { schemHole(h, 20, '⅓'); },
+      ask: { type: 'num', q: R`\(400-\frac19=\)？（寫成帶分數）`, fields: [{ answer: 399 }, { pre: '又', answer: 8 }, { pre: '／', answer: 9 }], hint: '400−1/9＝399 又 8/9' } },
+    { say: challenge(R`已知 \(a-b=2\)，\(ab=3\)。把 \(2a^2+3ab+2b^2\) 拆成 \(2(a^2+b^2)+3ab\)：`),
+      ask: { type: 'num', q: R`\(a^2+b^2=4+6=10\)，所以 \(2\times10+3\times3=\)？`, fields: [{ answer: 29 }] } },
+    { say: challenge('心算大挑戰：整片減掉一塊！'),
+      ask: { type: 'num', q: R`\(\dfrac{75^2-25^2}{(75+25)^2}=\dfrac{(75+25)(75-25)}{100^2}=\)？（小數）`, fields: [{ answer: 0.5 }], hint: '100×50÷10000' } }
+  ] };
+
+  const STAGES = [S1, S2, S3, S4, S5, S6, S7];
 
   /* ---------- 地圖 ---------- */
   function drawMap() {

@@ -97,6 +97,30 @@
         { t: '6', why: '把 x＝3 或 x＝−2 代進 x²＋x−a＝0 算算看。' }] } }
   ] };
 
-  const STAGES = [S1, S2, S3];
+  /* =========================================================
+     第 4 關：解方程式的變化題
+     ========================================================= */
+  const S4 = { id: 's4', badge: '🔄', title: '第 4 關　變化題', steps: [
+    { say: R`\((x+3)(x-2)=6\)：右邊不是 0，<b>不能拆</b>！先乘開、移項：`,
+      ask: { type: 'num', q: R`乘開移項：\(x^2+x-6-6=0\)，也就是 \(x^2+x-12=0\)。解出：` + note, groups: [[0], [1]], fields: [{ pre: R`\(x=\)`, answer: 3 }, { pre: '　或　', answer: -4 }], hint: '(x+4)(x−3)＝0' } },
+    { say: R`⚠️ \(2x(x-3)=5(x-3)\)。小明把兩邊同除以 \((x-3)\)，得到 \(2x=5\)，\(x=\frac52\)。`,
+      ask: { type: 'choice', q: '小明漏掉什麼？', options: [
+        { t: R`漏了 \(x=3\)！代 3 進去兩邊都是 0`, ok: true, why: R`除以 \((x-3)\) 時，如果 \(x-3=0\) 就不能除。正確做法：移項提公因式 \((x-3)(2x-5)=0\)。` },
+        { t: '沒有漏', why: R`代 \(x=3\) 試試：左邊 \(2\times3\times0=0\)，右邊 \(5\times0=0\)，也成立喔！` }] },
+      after: '👉 <b>兩邊有同一包，不能約掉！要移到同一邊，再提出來。</b>' },
+    { say: '寫出兩個解：',
+      ask: twoF(R`\((x-3)(2x-5)=0\)`, 3, 1, 5, 2, 'x−3＝0 → x＝3（分母填 1）；2x−5＝0 → x＝5/2') },
+    { say: R`<b>反過來</b>：方程式 \(x^2+mx+n=0\) 的兩個解是 3 和 −5，求 m、n。<br>有這兩個解，方程式就是 \((x-3)(x+5)=0\)！`,
+      ask: { type: 'num', q: R`\((x-3)(x+5)=x^2+mx+n\)` + note.replace('兩個解的順序可以對調', '乘開比較'), fields: [{ pre: R`\(m=\)`, answer: 2 }, { pre: R`　\(n=\)`, answer: -15 }], hint: 'x²＋5x−3x−15' } },
+    { say: R`<b>整包代入</b>：\(k\) 是 \(x^2+x-1=0\) 的一個解，所以 \(k^2+k-1=0\)，也就是 \(k^2+k=1\)。`,
+      ask: { type: 'num', q: R`\(2k^2+2k+5=2(k^2+k)+5=\)？`, fields: [{ answer: 7 }] },
+      after: '不用把 k 算出來，把 k²+k 整包換成 1 就好！' },
+    { say: R`把 \((x-1)\) 當一包 🎁：\((x-1)^2-3(x-1)-10=0\) → 🎁²−3🎁−10＝(🎁−5)(🎁+2)＝0`,
+      ask: { type: 'num', q: '🎁＝5 或 −2，也就是 x−1＝5 或 x−1＝−2：' + note, groups: [[0], [1]], fields: [{ pre: R`\(x=\)`, answer: 6 }, { pre: '　或　', answer: -1 }] } },
+    { say: challenge(R`\(x\)、\(y\) 都不是 0，而且 \(2x^2+xy-y^2=0\)。十字交乘：\((2x-y)(x+y)=0\)。`),
+      ask: { type: 'num', q: R`\(\frac yx\) 可能是？` + note, groups: [[0], [1]], fields: [{ answer: 2 }, { pre: '或', answer: -1 }], hint: '2x−y＝0 → y＝2x；x＋y＝0 → y＝−x' } }
+  ] };
+
+  const STAGES = [S1, S2, S3, S4];
   document.addEventListener('DOMContentLoaded', () => Lesson.mount('math8a-4-1', STAGES, { signed: true }));
 })();

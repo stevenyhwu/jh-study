@@ -165,6 +165,47 @@
       ask: { type: 'num', q: '邊長大約幾公尺？（四捨五入到整數）', fields: [{ answer: 7, post: '公尺', diag: [{ v: 25, msg: '50÷2 不對喔！要找自己乘自己接近 50 的數。' }, { v: 8, msg: '7²＝49 已經很接近 50，7.5²＝56.25 超過 50，所以四捨五入是 7。' }] }], hint: '7²＝49、8²＝64，50 很靠近 49。' } }
   ] };
 
-  const STAGES = [S1, S2, S3, S4];
+  /* =========================================================
+     第 5 關：根號的陷阱（√a²＝|a|、不會是負的數、讓根號變整數）
+     ========================================================= */
+  const S5 = { id: 's5', badge: '⚠️', title: '第 5 關　根號的陷阱', steps: [
+    { say: R`先算算看，<b>先算根號裡面</b>：`,
+      ask: { type: 'num', fields: [{ pre: R`\(\sqrt{3^2}=\sqrt9=\)`, answer: 3 }, { pre: R`　\(\sqrt{(-3)^2}=\sqrt9=\)`, answer: 3, diag: [{ v: -3, msg: '(−3)²＝9，√9 是 3！根號算出來<b>不會是負的</b>。' }] }] },
+      after: R`兩個都是 3！因為 \((-3)^2=9\)，\(\sqrt9\) 只代表正的 3。<br>👉 \(\sqrt{a^2}\) 永遠是<b>正的</b>（或 0），就是 \(a\) 去掉負號：` + formula(R`\(\sqrt{a^2}=|a|\)`, '像「距離」一樣，不會是負的') },
+    { say: '試試看：',
+      ask: { type: 'num', fields: [{ pre: R`\(\sqrt{(-7)^2}=\)`, answer: 7 }, { pre: R`　\(-\sqrt{7^2}=\)`, answer: -7, diag: [{ v: 7, msg: '根號<b>外面</b>有負號，負號留著：−√49＝−7。' }] }] },
+      after: '👉 負號在根號<b>裡面</b>的平方會消失；在根號<b>外面</b>就會留下來。' },
+    { say: R`常考的陷阱：\(\sqrt{(\sqrt3-2)^2}\)。<br>先判斷 \(\sqrt3-2\) 是正還是負：\(\sqrt3\approx1.73\)，比 2 小……`,
+      scene: (h) => { numLine(h, { from: -1, to: 2, ticks: [-1, 0, 1, 2], points: [{ v: Math.sqrt(3) - 2, t: '√3−2' }, { v: Math.sqrt(3), t: '√3', color: '#2f6db5' }] }); },
+      ask: { type: 'choice', q: R`\(\sqrt{(\sqrt3-2)^2}=\)？`, options: [
+        { t: R`\(2-\sqrt3\)`, ok: true, why: R`\(\sqrt3-2\) 是負的（約 −0.27），去掉負號變正的：\(2-\sqrt3\)。` },
+        { t: R`\(\sqrt3-2\)`, why: '它是負數喔！根號算出來不能是負的。' },
+        { t: R`\(\sqrt3+2\)`, why: '去掉負號是把整個數變號：−(√3−2)＝2−√3。' }] } },
+    { say: R`有字母也一樣：如果 \(x<0\)，例如 \(x=-4\)：`,
+      ask: { type: 'choice', q: R`\(x<0\) 時，\(\sqrt{x^2}=\)？`, options: [
+        { t: R`\(-x\)`, ok: true, why: R`\(x=-4\) 時，\(\sqrt{16}=4=-(-4)=-x\)。\(-x\) 才是正的！` },
+        { t: R`\(x\)`, why: 'x 是負的，根號算出來不能是負的。代 x＝−4 試試：√16＝4，不是 −4。' }] } },
+    { say: R`有三種數<b>永遠不會是負的</b>：平方 \((\;)^2\)、根號 \(\sqrt{\;\;}\)、絕對值 \(|\;|\)。<br>如果 \((x-3)^2+\sqrt{y+2}=0\)……`,
+      ask: { type: 'choice', q: '兩個「不會是負的數」加起來等於 0，代表什麼？', options: [
+        { t: '兩個都一定是 0', ok: true, why: '只要有一個大於 0，加起來就會大於 0 了。所以 x−3＝0、y+2＝0。' },
+        { t: '一個正、一個負', why: '它們都不會是負的喔！' }] } },
+    { say: '所以：',
+      ask: { type: 'num', q: R`\((x-3)^2+\sqrt{y+2}=0\)` + '<div class="muted small">（負的按 ±）</div>', fields: [{ pre: R`\(x=\)`, answer: 3 }, { pre: R`　\(y=\)`, answer: -2 }] } },
+    { say: '再一題：',
+      ask: { type: 'num', q: R`\(|a-1|+(b+4)^2=0\)，\(a+b=\)？` + '<div class="muted small">（負的按 ±）</div>', fields: [{ answer: -3 }], hint: 'a−1＝0、b+4＝0 → a＝1、b＝−4' } },
+    { say: R`<b>讓根號變整數</b>：\(\sqrt{12n}\) 是整數，正整數 \(n\) 最小是多少？<br>\(12=2\times2\times3\)，落單的 3 要再補一個 3 配成一對！`,
+      scene: (h) => { chips(h, [['2'], ['2'], '3', '×', 'n＝?']); },
+      ask: { type: 'num', fields: [{ pre: R`\(n=\)`, answer: 3, diag: [{ v: 12, msg: 'n＝12 也可以，但不是最小。只要補落單的 3 就好。' }] }] },
+      after: R`\(\sqrt{36}=6\) ✔` },
+    { say: R`\(180=2\times2\times3\times3\times5\)：`,
+      scene: (h) => { chips(h, [['2'], ['2'], ['3'], ['3'], '5']); },
+      ask: { type: 'num', q: R`\(\sqrt{180n}\) 是整數，最小的正整數 \(n=\)？`, fields: [{ answer: 5 }] } },
+    { say: R`另一種：\(\sqrt{50-n}\) 是整數，\(n\) 是正整數。<br>50−n 要是 0、1、4、9、16、25、36、49 其中一個。`,
+      ask: { type: 'num', q: R`這樣的 \(n\) 有幾個？`, fields: [{ answer: 8, post: '個', diag: [{ v: 7, msg: '50−n＝0 也可以（√0＝0 是整數），那時 n＝50。' }] }], hint: 'n＝50、49、46、41、34、25、14、1' } },
+    { say: challenge(R`\(a^2+b^2-6a+8b+25=0\)。用 4-2 的配方，分成兩包：\((a^2-6a+9)+(b^2+8b+16)=0\)`),
+      ask: { type: 'num', q: R`\((a-3)^2+(b+4)^2=0\)，所以` + '<div class="muted small">（負的按 ±）</div>', fields: [{ pre: R`\(a=\)`, answer: 3 }, { pre: R`　\(b=\)`, answer: -4 }] } }
+  ] };
+
+  const STAGES = [S1, S2, S3, S4, S5];
   document.addEventListener('DOMContentLoaded', () => Lesson.mount('math8a-2-1', STAGES, { signed: true }));
 })();

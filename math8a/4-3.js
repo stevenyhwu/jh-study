@@ -78,6 +78,37 @@
       ask: { type: 'num', q: R`\(5t^2=80\)，幾秒落地？`, fields: [{ answer: 4, post: '秒', diag: [{ v: -4, msg: '時間不能是負的。' }] }] } }
   ] };
 
-  const STAGES = [S1, S2, S3];
+  /* =========================================================
+     第 4 關：更多應用題（年齡、二位數、走道、看錯題）
+     ========================================================= */
+  const pool = (h) => raw(h, 330, 200, `<rect x="30" y="20" width="270" height="160" rx="4" fill="#e9cfa6" stroke="#5b3a26" stroke-width="2"/><rect x="60" y="50" width="210" height="100" fill="#9aa8f5" stroke="#5b3a26" stroke-width="1.5"/><text x="165" y="104" text-anchor="middle" class="region-label" font-size="16">游泳池 20×10</text><text x="44" y="104" class="ruler-t" style="font-size:13px">x</text><text x="160" y="40" class="ruler-t" style="font-size:13px">x</text><text x="165" y="196" text-anchor="middle" class="ruler-t">走道寬都是 x</text>`);
+  const S4 = { id: 's4', badge: '🧩', title: '第 4 關　更多應用題', steps: [
+    { say: '<b>年齡題</b>：小可今年 x 歲，3 年後的年齡，剛好是 3 年前年齡的平方。',
+      ask: two(R`\(x+3=(x-3)^2\)，整理成 \(x^2-7x+6=0\)`, 6, 1, '(x−1)(x−6)＝0') },
+    { say: '小可可能是 1 歲嗎？',
+      ask: keep('小可今年幾歲？', '6 歲', '1 歲或 6 歲', '1 歲的話，3 年前是 −2 歲，不合理！檢查 6 歲：3 年後 9 歲，3 年前 3 歲，3²＝9 ✔', '3 年前是 −2 歲？不可能喔！') },
+    { say: '<b>二位數題</b>：個位數字比十位數字大 3，而且<b>個位數字的平方</b>剛好等於這個二位數。<br>設十位是 x，個位就是 x＋3，這個數＝10x＋(x＋3)。',
+      ask: { type: 'num', q: R`\((x+3)^2=11x+3\)，整理成 \(x^2-5x+6=0\)。這個二位數是？` + '<div class="muted small">（兩個答案，順序可對調）</div>', groups: [[0], [1]], fields: [{ answer: 25 }, { pre: '或', answer: 36 }], hint: 'x＝2 或 3 → 十位 2、個位 5；十位 3、個位 6' },
+      after: '檢查：5²＝25 ✔、6²＝36 ✔，兩個都對！' },
+    { say: '游泳池長 20、寬 10 公尺，四周有一圈等寬的走道，走道面積 64 平方公尺。',
+      scene: pool,
+      ask: { type: 'choice', q: '要怎麼列式？', options: [
+        { t: R`\((20+2x)(10+2x)-20\times10=64\)`, ok: true, why: '外面大長方形減掉游泳池，就是走道。長、寬<b>兩邊</b>都有走道，所以加 2x。' },
+        { t: R`\((20+x)(10+x)-200=64\)`, why: '左右兩邊都有走道，長度要加 2x 喔！' },
+        { t: R`\((20-2x)(10-2x)=64\)`, why: '走道在游泳池<b>外面</b>，是加不是減。' }] } },
+    { say: R`整理後 \(x^2+15x-16=0\)：`,
+      scene: pool,
+      ask: { type: 'num', q: '走道寬幾公尺？', fields: [{ answer: 1, post: '公尺', diag: [{ v: -16, msg: '寬度不能是負的，−16 不合！' }] }], hint: '(x+16)(x−1)＝0' } },
+    { say: R`答案有根號時也要取捨：邊長 10 的正方形草地開一條十字路，路寬 x，剩下的草地 70 平方公尺。<br>\((10-x)^2=70\)，\(10-x=\pm\sqrt{70}\)，\(x=10\mp\sqrt{70}\)`,
+      ask: { type: 'choice', q: R`路寬是？（\(\sqrt{70}\approx8.4\)）`, options: [
+        { t: R`\(10-\sqrt{70}\)（約 1.6 公尺）`, ok: true, why: R`\(10+\sqrt{70}\approx18.4\)，比草地還寬，不合。` },
+        { t: R`\(10+\sqrt{70}\)`, why: '約 18.4 公尺，比邊長 10 還大，路放不下！' }] } },
+    { say: '<b>看錯題</b>：解 x²＋bx＋c＝0。小明看錯 b，解出 2 和 6；小華看錯 c，解出 −1 和 8。<br>小明的 c 是對的：(x−2)(x−6)＝x²−8x＋<b>12</b>；小華的 b 是對的：(x+1)(x−8)＝x²<b>−7x</b>−8。',
+      ask: two('正確的方程式是 x²−7x＋12＝0，解是：', 3, 4, '(x−3)(x−4)＝0') },
+    { say: challenge('班際籃球賽，每兩班都要比一場（單循環），一共比了 36 場。'),
+      ask: { type: 'num', q: R`\(\dfrac{n(n-1)}{2}=36\)，有幾班？`, fields: [{ answer: 9, post: '班' }], hint: 'n(n−1)＝72＝9×8' } }
+  ] };
+
+  const STAGES = [S1, S2, S3, S4];
   document.addEventListener('DOMContentLoaded', () => Lesson.mount('math8a-4-3', STAGES, { signed: true }));
 })();

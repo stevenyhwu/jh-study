@@ -173,6 +173,55 @@
       after: R`👉 邊長 \(a\) 的正方體，對角線是 \(\sqrt3\,a\)。用了兩次畢氏定理！` }
   ] };
 
-  const STAGES = [S1, S2, S3, S4, S5];
+  /* =========================================================
+     第 6 關：接力與立體（多個直角三角形、數線上的 √2、梯子下滑、長方體、螞蟻）
+     ========================================================= */
+  const relay = (h, l2) => raw(h, 320, 230, `<polygon points="40,200 160,200 160,40" fill="#fff7e8" stroke="#5b3a26" stroke-width="2.5"/><polygon points="40,200 160,40 280,130" fill="#f6a54b" fill-opacity=".35" stroke="#5b3a26" stroke-width="2.5"/><rect x="148" y="188" width="12" height="12" fill="none" stroke="#5b3a26"/><polygon points="160,40 169.6,47.2 162.4,56.8 152.8,49.6" fill="none" stroke="#5b3a26"/><text x="100" y="218" text-anchor="middle" class="ruler-t">3</text><text x="174" y="124" class="ruler-t">4</text><text x="86" y="112" class="ruler-t" fill="#c0561f">${l2 || '?'}</text><text x="232" y="78" class="ruler-t">12</text><text x="226" y="178" class="ruler-t" fill="#d6452f">AD＝?</text><text x="30" y="214" class="ruler-t">A</text><text x="160" y="32" class="ruler-t">C</text><text x="288" y="134" class="ruler-t">D</text>`);
+  const rootLine = (h) => raw(h, 330, 200, `<line x1="20" y1="170" x2="315" y2="170" stroke="var(--ink)" stroke-width="2"/><g class="ruler-t" style="font-style:normal;font-size:13px"><text x="40" y="190" text-anchor="middle">0</text><text x="120" y="190" text-anchor="middle">1</text><text x="200" y="190" text-anchor="middle">2</text><text x="280" y="190" text-anchor="middle">3</text></g><line x1="40" y1="164" x2="40" y2="176" stroke="var(--muted)"/><line x1="120" y1="164" x2="120" y2="176" stroke="var(--muted)"/><line x1="200" y1="164" x2="200" y2="176" stroke="var(--muted)"/><line x1="280" y1="164" x2="280" y2="176" stroke="var(--muted)"/><polygon points="40,170 120,170 120,90" fill="#f6a54b" fill-opacity=".35" stroke="#5b3a26" stroke-width="2"/><rect x="110" y="160" width="10" height="10" fill="none" stroke="#5b3a26"/><path d="M120,90 A113,113 0 0 1 153,170" fill="none" stroke="#d6452f" stroke-width="2" stroke-dasharray="5 4"/><circle cx="153" cy="170" r="6" fill="#d6452f"/><text x="153" y="152" text-anchor="middle" class="ruler-t" fill="#d6452f">?</text><text x="130" y="132" class="ruler-t">1</text><text x="70" y="122" class="ruler-t">√2</text><text x="40" y="60" class="ruler-t" style="font-style:normal;font-size:13px">用圓規以 0 為中心，把斜邊轉下來</text>`);
+  const ladder = (h) => raw(h, 320, 230, `<rect x="40" y="10" width="14" height="200" fill="#e9cfa6" stroke="#5b3a26"/><line x1="20" y1="210" x2="310" y2="210" stroke="#5b3a26" stroke-width="2"/><line x1="54" y1="26" x2="104" y2="210" stroke="#8a5a3c" stroke-width="6" stroke-linecap="round"/><line x1="54" y1="140" x2="174" y2="210" stroke="#8a5a3c" stroke-width="6" stroke-linecap="round" opacity=".45" stroke-dasharray="10 6"/><text x="80" y="226" text-anchor="middle" class="ruler-t">5</text><text x="18" y="90" class="ruler-t" style="font-size:13px">原本</text><text x="96" y="112" class="ruler-t">13</text><text x="150" y="168" class="ruler-t" style="font-style:normal;font-size:13px">滑下來以後</text><text x="104" y="226" class="ruler-t" fill="#d6452f">→ 移動？</text>`);
+  const boxSvg = (h) => raw(h, 320, 230, `<polygon points="70,60 150,60 150,210 70,210" fill="#e9cfa6" fill-opacity=".5" stroke="#5b3a26" stroke-width="2"/><polygon points="70,60 120,30 200,30 150,60" fill="#e9cfa6" fill-opacity=".8" stroke="#5b3a26" stroke-width="2"/><polygon points="150,60 200,30 200,180 150,210" fill="#c9a77a" fill-opacity=".6" stroke="#5b3a26" stroke-width="2"/><line x1="70" y1="210" x2="200" y2="180" stroke="#f6a54b" stroke-width="3" stroke-dasharray="6 4"/><line x1="70" y1="210" x2="200" y2="30" stroke="#d6452f" stroke-width="3"/><text x="110" y="226" class="ruler-t">4</text><text x="180" y="210" class="ruler-t">3</text><text x="210" y="110" class="ruler-t">12</text><text x="210" y="190" class="ruler-t" fill="#c0561f" style="font-size:13px">底面對角線</text>`);
+  const antSvg = (h) => raw(h, 330, 200, `<polygon points="30,80 90,80 90,170 30,170" fill="#e9cfa6" fill-opacity=".5" stroke="#5b3a26" stroke-width="2"/><polygon points="30,80 60,55 120,55 90,80" fill="#e9cfa6" fill-opacity=".8" stroke="#5b3a26" stroke-width="2"/><polygon points="90,80 120,55 120,145 90,170" fill="#c9a77a" fill-opacity=".6" stroke="#5b3a26" stroke-width="2"/><text x="20" y="186" class="ruler-t">A</text><text x="122" y="50" class="ruler-t">B</text><text x="54" y="190" class="ruler-t">2</text><text x="146" y="112" font-size="26">➜</text><rect x="190" y="40" width="60" height="120" fill="#e9cfa6" fill-opacity=".5" stroke="#5b3a26" stroke-width="2"/><line x1="190" y1="100" x2="250" y2="100" stroke="#5b3a26" stroke-dasharray="4 3"/><line x1="190" y1="160" x2="250" y2="40" stroke="#d6452f" stroke-width="3"/><text x="180" y="176" class="ruler-t">A</text><text x="254" y="38" class="ruler-t">B</text><text x="220" y="178" class="ruler-t">2</text><text x="258" y="104" class="ruler-t">2＋2</text><text x="190" y="28" class="ruler-t" style="font-style:normal;font-size:13px">攤平兩個面</text>`);
+  const S6 = { id: 's6', badge: '🧗', title: '第 6 關　接力與立體', steps: [
+    { say: '兩個直角三角形連在一起：三角形 ABC 的斜邊 AC，剛好是三角形 ACD 的一股。<b>接力</b>算下去！',
+      scene: (h) => { relay(h); },
+      ask: { type: 'num', q: '① 先算第一個的斜邊 AC：', fields: [{ pre: 'AC＝', answer: 5 }] } },
+    { say: '② 再用 AC＝5 當第二個三角形的股：',
+      scene: (h) => { relay(h, '5'); },
+      ask: { type: 'num', q: 'AD＝？', fields: [{ answer: 13, diag: [{ v: 17, msg: '5＋12 不對喔！要用畢氏定理：√(5²＋12²)。' }] }] },
+      after: '👉 <b>接力題：先找出兩個三角形「共用的邊」，算出它，再算下一個。</b>' },
+    { say: R`在數線上找 \(\sqrt2\) 的位置：畫一個兩股都是 1 的直角三角形，斜邊就是 \(\sqrt2\)；再用圓規把斜邊「轉」到數線上。`,
+      scene: (h) => { rootLine(h); },
+      ask: { type: 'choice', q: '紅點大約在哪裡？', options: [
+        { t: '1.41 左右（1 和 2 之間）', ok: true, why: R`\(\sqrt2\approx1.414\)，2-1 算過的！` },
+        { t: '剛好 2', why: R`斜邊比 1 長、但比 1＋1＝2 短。\(\sqrt2\approx1.414\)。` },
+        { t: '0.5', why: '斜邊是最長的邊，一定比股（1）長。' }] },
+      after: R`同樣的方法，兩股 2 和 1 的斜邊是 \(\sqrt5\)，就能在數線上畫出 \(\sqrt5\)。` },
+    { say: '梯子長 13 公尺，靠在牆上，梯腳離牆 5 公尺。',
+      scene: (h) => { ladder(h); },
+      ask: { type: 'num', q: '梯子頂端離地多高？', fields: [{ answer: 12, post: '公尺' }], hint: '√(13²−5²)' } },
+    { say: '梯子頂端往下滑了 7 公尺，現在頂端高 12−7＝5 公尺。梯子長度不變，還是 13。',
+      scene: (h) => { ladder(h); },
+      ask: { type: 'num', fields: [{ pre: '現在梯腳離牆', answer: 12, post: '公尺' }, { pre: '　梯腳移動了', answer: 7, post: '公尺' }], hint: '√(13²−5²)＝12；12−5' },
+      after: '頂端滑 7，底端也剛好移動 7（只是剛好，不是每次都一樣）。' },
+    { say: '長方體盒子長 4、寬 3、高 12，最長能放進多長的細棒？（從底部一角到頂部對角）',
+      scene: (h) => { boxSvg(h); },
+      ask: { type: 'num', fields: [{ pre: '底面對角線＝', answer: 5 }, { pre: '　細棒最長＝', answer: 13 }], hint: '底面：√(4²＋3²)＝5；再和高 12：√(5²＋12²)' },
+      after: '👉 <b>立體的斜線：先算底面對角線，再和高組成直角三角形</b>（用兩次畢氏定理）。' },
+    { say: '螞蟻在邊長 2 的正方體<b>表面</b>爬，從 A 到 B 最短要爬多遠？（不能穿過盒子！）',
+      scene: (h) => { antSvg(h); },
+      ask: { type: 'choice', q: '把盒子的兩個面攤平，會變成什麼？', options: [
+        { t: '長 4、寬 2 的長方形，直直連 A 到 B', ok: true, why: '攤平以後，兩點之間直線最短！' },
+        { t: '還是正方體，要沿著邊走', why: '沿著邊走是 2＋2＋2＝6，不是最短。攤平後走斜線比較短。' }] } },
+    { say: '攤平後的長方形長 4、寬 2：',
+      scene: (h) => { antSvg(h); },
+      ask: rad(R`最短距離 \(=\sqrt{4^2+2^2}=\sqrt{20}=\)？`, 2, 5, '20＝2×2×5') },
+    { say: challenge('坐標平面上 A(2, 4)，B 點在 x 軸上，而且 AB＝5。'),
+      scene: (h) => { coord(h, { xr: [-2, 6], yr: [-1, 5], pts: [{ p: [2, 4], t: 'A(2,4)' }, { p: [-1, 0], t: '?', dy: 14 }, { p: [5, 0], t: '?', dy: 14 }], segs: [{ a: [-1, 0], b: [2, 4], legs: true }, { a: [5, 0], b: [2, 4] }] }); },
+      ask: { type: 'num', q: 'B 點的 x 坐標可能是？' + '<div class="muted small">（兩個答案，順序可對調；負的按 ±）</div>', groups: [[0], [1]], fields: [{ answer: -1 }, { pre: '或', answer: 5 }], hint: '直差是 4、斜邊 5 → 橫差 3。往左 3 或往右 3。' } },
+    { say: challenge('直角三角形周長 12、斜邊 5。兩股是 x、y：x＋y＝7、x²＋y²＝25。'),
+      ask: { type: 'num', q: R`用 1-1 的公式：\((x+y)^2=x^2+y^2+2xy\)，所以 \(2xy=49-25\)。三角形面積 \(\frac{xy}{2}=\)？`, fields: [{ answer: 6 }], hint: '2xy＝24 → xy＝12 → 面積 12÷2' } }
+  ] };
+
+  const STAGES = [S1, S2, S3, S4, S5, S6];
   document.addEventListener('DOMContentLoaded', () => Lesson.mount('math8a-2-3', STAGES, { signed: true }));
 })();

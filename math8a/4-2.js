@@ -94,6 +94,36 @@
         { t: '用猜的', why: '猜的會漏掉解，也不能猜到 2±√5 這種答案。' }] } }
   ] };
 
-  const STAGES = [S1, S2, S3];
+  /* =========================================================
+     第 4 關：配方與判別式的變化題
+     ========================================================= */
+  const S4 = { id: 's4', badge: '🎛️', title: '第 4 關　變化題', steps: [
+    { say: R`括號裡有係數：\((2x-1)^2=5\)。<br>① 開根號：\(2x-1=\pm\sqrt5\) ② 移項：\(2x=1\pm\sqrt5\) ③ 再除以 2`,
+      ask: { type: 'num', q: R`\(x=\)` + '<div class="muted small">（填成「(□ ± √□) ÷ □」）</div>', fields: [{ pre: '(', answer: 1 }, { pre: '± √', answer: 5, post: ')' }, { pre: '÷', answer: 2 }] },
+      after: R`\(x=\dfrac{1\pm\sqrt5}{2}\)。<b>開完根號別忘了還要移項、除係數！</b>` },
+    { say: '更簡單的：',
+      ask: { type: 'choice', q: R`\(4x^2=7\)，\(x=\)？`, options: [
+        { t: R`\(\pm\dfrac{\sqrt7}{2}\)`, ok: true, why: R`\(x^2=\frac74\)，\(x=\pm\sqrt{\frac74}=\pm\frac{\sqrt7}{2}\)。` },
+        { t: R`\(\pm\dfrac74\)`, why: R`那是 \(x^2\)，還要開根號喔。` },
+        { t: R`\(\dfrac{\sqrt7}{2}\)`, why: '別忘了負的那一個！' }] } },
+    { say: R`數字很大也不怕，用配方：\(x^2-2x-224=0\) → \(x^2-2x+1=225\) → \((x-1)^2=225\)`,
+      ask: two(R`\(x-1=\pm15\)，所以`, 16, -14) },
+    { say: R`<b>判別式求範圍</b>：\(x^2+4x+k=0\) 有<b>兩個不同的解</b>。<br>判別式 \(b^2-4ac=16-4k\) 要<b>大於 0</b>。`,
+      ask: { type: 'choice', q: 'k 的範圍是？', options: [
+        { t: R`\(k<4\)`, ok: true, why: R`\(16-4k>0\) → \(16>4k\) → \(k<4\)。` },
+        { t: R`\(k>4\)`, why: 'k 越大，16−4k 越小，會變成負的。代 k＝5：16−20＜0，沒有解。' },
+        { t: R`\(k=4\)`, why: 'k＝4 時判別式＝0，是重根（只有一個解）。' }] } },
+    { say: R`\(x^2-6x+k=0\) <b>有解</b>（判別式 ≥ 0），\(k\) 最大的整數是？`,
+      ask: { type: 'num', fields: [{ pre: R`\(k=\)`, answer: 9, diag: [{ v: 8, msg: 'k＝9 時判別式＝0（重根），也算有解喔！' }] }], hint: '36−4k≥0 → k≤9' } },
+    { say: R`\(x^2+kx+16\) 是完全平方式，\(k\) 是多少？`,
+      ask: { type: 'choice', options: [
+        { t: R`\(8\) 或 \(-8\)`, ok: true, why: R`\((x+4)^2=x^2+8x+16\)，\((x-4)^2=x^2-8x+16\)，兩個都可以！` },
+        { t: '只有 8', why: R`\((x-4)^2\) 也是完全平方，中間是 −8x。` },
+        { t: '16', why: '中間是 2×x×4＝8x。' }] } },
+    { say: challenge(R`\(x^2-2x+(m-1)=0\) 有重根。`),
+      ask: { type: 'num', q: R`判別式 \(4-4(m-1)=0\)，\(m=\)？`, fields: [{ answer: 2 }] } }
+  ] };
+
+  const STAGES = [S1, S2, S3, S4];
   document.addEventListener('DOMContentLoaded', () => Lesson.mount('math8a-4-2', STAGES, { signed: true }));
 })();
