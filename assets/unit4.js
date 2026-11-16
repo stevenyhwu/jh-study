@@ -159,6 +159,17 @@
     return { set(v) { inp.value = v; out.innerHTML = fmt(v); }, el: row };
   }
 
+  /* ---------- 動畫：每 40ms 呼叫 draw(秒)；畫面看不到時暫停 ---------- */
+  function anim(sv, draw) {
+    let t0 = performance.now();
+    const id = setInterval(() => {
+      if (!sv.isConnected) { clearInterval(id); return; }
+      if (!sv.getClientRects().length) return;
+      draw((performance.now() - t0) / 1000);
+    }, 40);
+    return { restart() { t0 = performance.now(); } };
+  }
+
   /* ---------- 「猜」：qs = [{pic(host) → 物件, q, options:[{t, ok}], reveal, after(物件)}]，不算分 ---------- */
   function guess(p, api, qs) {
     p.appendChild(h('<p class="muted">先猜猜看，猜錯也沒關係，這一步不算分。</p>'));
@@ -279,5 +290,5 @@
     return box;
   }
 
-  window.Unit4 = { mount, choice, numq, Store, h, svg, chips, slider, guess, tasks, card, exam, sort };
+  window.Unit4 = { mount, choice, numq, Store, h, svg, chips, slider, anim, guess, tasks, card, exam, sort };
 })();
