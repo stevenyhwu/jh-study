@@ -10,7 +10,7 @@
     [19, 'K', '鉀', 4, 1, 'a'], [20, 'Ca', '鈣', 4, 2, 'e']];
   const COL = { a: '#ffb3a7', e: '#ffd8a8', m: '#d0d7e2', n: '#c8e6c9', x: '#b3e5fc', g: '#e1bee7' };
   const KIND = { a: '鹼金屬：很活潑，遇水劇烈反應、放出氫氣', e: '鹼土金屬：活潑，但比鹼金屬溫和', m: '金屬', n: '非金屬', x: '鹵素：很活潑的非金屬，會和金屬結合成鹽', g: '惰性氣體（鈍氣）：非常穩定，幾乎不和別人反應' };
-  const colOf = g => g <= 2 ? g - 1 : g - 10;   // 1,2,13～18 → 0～7
+  const colOf = g => g <= 2 ? g - 1 : g - 11;   // 1,2,13～18 → 0～7
 
   function tableSim(host, on) {
     host.appendChild(h('<p class="sim-h">週期表（前 20 個元素）：點一個元素看看</p>'));
