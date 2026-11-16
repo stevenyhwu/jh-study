@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>國二上理化｜國中學習網</title>
 <meta name="description" content="國二上理化（翰林版）互動課程：每一節用模擬實驗先玩再懂，最後做會考題。免登入。">
-<link rel="stylesheet" href="../assets/common.css?v=20261116j">
-<link rel="stylesheet" href="../assets/unit4.css?v=20261116j">
+<link rel="stylesheet" href="../assets/common.css?v=20261116l">
+<link rel="stylesheet" href="../assets/unit4.css?v=20261116l">
 </head>
 <body>
 <header class="topbar">
@@ -44,7 +44,7 @@
   ];
   function get(k) { try { return JSON.parse(localStorage.getItem('jh.' + k)) || {}; } catch (e) { return {}; } }
   const sum = { play: 0, know: 0, exam: 0, real: 0 };
-  const REAL = new Set(['4-1', '4-2', '4-3', '4-4', '4-5', '5-1', '5-2', '5-3', '5-4', '6-1', '6-2', '6-3', '6-4', '6-5']);
+  const REAL = { has: () => true };   // 每一節都有實戰
   const host = document.getElementById('chapters');
   CH.forEach(([icon, title, units]) => {
     let rows = '';

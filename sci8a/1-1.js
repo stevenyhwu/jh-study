@@ -191,12 +191,48 @@
     });
   }
 
+  /* ---------------- 5 實戰 ---------------- */
+  const tool = k => {
+    const g = {
+      drop: '<path d="M22 8 h10 v34 l-5 18 l-5 -18 Z" fill="var(--water)" stroke="currentColor"/><ellipse cx="27" cy="7" rx="8" ry="6" fill="#d64545" stroke="currentColor"/>',
+      tube: '<path d="M20 6 V52 Q27 62 34 52 V6" fill="var(--water)" stroke="currentColor"/>',
+      flask: '<path d="M22 6 h10 v16 l14 30 H8 l14 -30 Z" fill="var(--water)" stroke="currentColor"/>',
+      beaker: '<path d="M6 10 V56 H48 V10" fill="var(--water)" stroke="currentColor"/><path d="M6 10 l-3 -3" stroke="currentColor"/>'
+    }[k];
+    return `<svg viewBox="0 0 54 64" width="46" height="54" style="vertical-align:middle">${g}</svg>`;
+  };
+  function real(p, api) {
+    U.real(p, api, [
+      { stars: 1, src: '107 年會考第 1 題',
+        pic: c => U.svg(c, '0 0 360 220', cyl(28.4, null).s + `<line x1="92" y1="${Y(30)}" x2="60" y2="${Y(30)}" stroke="var(--good)" stroke-width="2"/><text x="56" y="${Y(30) + 4}" text-anchor="end" class="t12b" style="fill:var(--good)">要到 30.0</text>`, '量筒中的溶液接近 30 mL', 'sim'),
+        q: '小瑩想以量筒量取 30.0 mL 的溶液，如圖為量筒中目前已量取的溶液體積。小瑩使用下列哪一種器材裝取溶液後，再加入量筒內，最能避免體積超出 30.0 mL？',
+        options: [{ t: tool('drop') + ' 滴管', ok: true, why: '滴管一次只加一滴，只差一點點時最不會超過。' }, { t: tool('tube') + ' 試管', why: '試管倒出來一次就是一大口。' }, { t: tool('flask') + ' 錐形瓶', why: '錐形瓶很難只倒一點點。' }, { t: tool('beaker') + ' 燒杯', why: '燒杯一倒就是一大口，容易超過。' }],
+        steps: [{ q: '現在離 30.0 mL 還差多少？', options: [{ t: '只差一點點（不到 2 mL）', ok: true, why: '已經接近刻度了。' }, { t: '還差很多', why: '看圖，水面已經快到 30 了。' }] },
+          { q: '只差一點點時，要用哪種器材才能「一點一點」加？', options: [{ t: '滴管', ok: true, why: '一滴一滴加。' }, { t: '燒杯', why: '燒杯一倒就是一大口。' }] }],
+        explain: '<p>量取液體：先用燒杯倒到接近刻度，最後用<b>滴管</b>一滴一滴加到刻度，眼睛平視凹面最低點。</p>' },
+      { stars: 2, src: '銜接題',
+        pic: c => U.svg(c, '0 0 360 220', cyl(26, 80).s, '眼睛從上方往下看量筒', 'sim'),
+        q: '小明像圖中這樣，眼睛<b>高於</b>液面去讀量筒的刻度，讀到 27.5 mL。關於這個讀數，下列何者正確？',
+        options: [{ t: '讀數偏大，真正的體積比 27.5 mL 少', ok: true, why: '俯視讀數偏大。' }, { t: '讀數偏小，真正的體積比 27.5 mL 多', why: '那是仰視（眼睛太低）的情形。' }, { t: '讀數正確', why: '只有平視才正確。' }, { t: '要看量筒的大小才知道', why: '和量筒大小無關，看眼睛的位置。' }],
+        steps: [{ q: '眼睛高於液面，叫做……', options: [{ t: '俯視', ok: true, why: '從上往下看。' }, { t: '仰視', why: '仰視是從下往上看。' }] },
+          { q: '俯視時，視線碰到刻度的點會比真正的液面高還是低？', options: [{ t: '高，所以讀數偏大', ok: true, why: '看圖上的紅點。' }, { t: '低，所以讀數偏小', why: '看圖上的紅點，在液面上方。' }] }],
+        explain: '<p>讀量筒要<b>平視凹面最低點</b>。俯視 → 讀數偏大；仰視 → 讀數偏小。</p>' },
+      { stars: 2, src: '105 年會考第 53 題（選項圖改成文字）',
+        q: '小萍要配製稀硫酸。步驟一的兩個燒杯內，一杯裝有密度 1.8 g/cm³、重量百分濃度 98% 的濃硫酸 100 mL，另一杯裝有蒸餾水，開始前兩杯溫度均為 25 °C。步驟一：手持其中一杯，倒入另一杯中；步驟二：以溫度計測量混合後的溫度。若要符合實驗安全與合理的實驗結果，步驟一<b>手持燒杯中裝的液體</b>以及步驟二<b>測量到的溫度</b>，下列何者合理？',
+        options: [{ t: '手持濃硫酸；溫度低於 25 °C', why: '稀釋濃硫酸會放出大量的熱，溫度會上升。' }, { t: '手持濃硫酸；溫度高於 25 °C', ok: true, why: '「酸入水」：把濃硫酸倒入水中；稀釋放熱，溫度上升。' }, { t: '手持蒸餾水；溫度高於 25 °C', why: '把水倒進濃硫酸，會劇烈放熱噴濺，很危險。' }, { t: '手持蒸餾水；溫度低於 25 °C', why: '倒法危險，而且溫度是上升。' }],
+        steps: [{ q: '稀釋濃硫酸時，要把什麼倒進什麼？', options: [{ t: '把濃硫酸慢慢倒進水裡', ok: true, why: '口訣：酸入水。' }, { t: '把水倒進濃硫酸裡', why: '水倒進濃硫酸會瞬間沸騰噴濺。' }] },
+          { q: '濃硫酸稀釋時，會吸熱還是放熱？', options: [{ t: '放熱，溫度上升', ok: true, why: '所以要慢慢加、邊加邊攪拌。' }, { t: '吸熱，溫度下降', why: '濃硫酸稀釋會放出大量的熱。' }] }],
+        explain: '<p>稀釋濃硫酸：<b>濃硫酸慢慢倒入水中</b>（酸入水），會<b>放熱</b>使溫度上升。反過來把水倒入濃硫酸，會劇烈沸騰噴濺。</p>' }
+    ]);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     U.mount(document.getElementById('unit'), { unit: 'sci8a-1-1', home: 'index.html', steps: [
       { id: 'guess', label: '猜', title: '先猜猜看：實驗室裡該怎麼做？', render: guess },
       { id: 'play', label: '玩', title: '動手玩：量筒與安全', render: play },
       { id: 'know', label: '懂', title: '收成 4 句話', render: know },
-      { id: 'exam', label: '考', title: '會考真的這樣考', render: exam }
+      { id: 'exam', label: '考', title: '會考真的這樣考', render: exam },
+      { id: 'real', label: '實戰', title: '會考實戰：照原題做做看', render: real }
     ] });
   });
 })();

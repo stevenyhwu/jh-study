@@ -228,12 +228,52 @@
     });
   }
 
+  /* ---------------- 5 實戰 ---------------- */
+  const tbl = html => c => c.appendChild(h(`<table class="sim-table" style="max-width:440px">${html}</table>`));
+  function xPic(c) {
+    const cy = (x, lab, balls, top) => `<rect x="${x}" y="${top}" width="40" height="${130 - top}" fill="var(--water)"/>${balls}<path d="M${x} 20 V130 H${x + 40} V20" fill="none" stroke="var(--stroke)" stroke-width="1.5"/>
+      <line x1="${x}" y1="${top}" x2="${x + 40}" y2="${top}" stroke="var(--water-line)" stroke-width="2"/><text x="${x + 20}" y="${top - 5}" text-anchor="middle" class="t12b">${lab}</text>`;
+    const pb = (x, y) => `<circle cx="${x}" cy="${y}" r="10" fill="#f3a3a3" stroke="var(--stroke)"/>`, mb = (x, y) => `<circle cx="${x}" cy="${y}" r="7" fill="#7a8699" stroke="var(--stroke)"/>`;
+    U.svg(c, '0 0 360 160', cy(10, 'X₁', '', 80) + cy(100, 'X₂', pb(120, 76), 70) + cy(190, 'X₃', pb(210, 92) + `<line x1="210" y1="102" x2="210" y2="110"/>` + mb(210, 118), 50) + cy(280, 'X₄', mb(300, 120), 66) +
+      '<text x="30" y="150" text-anchor="middle" class="t12">一</text><text x="120" y="150" text-anchor="middle" class="t12">二</text><text x="210" y="150" text-anchor="middle" class="t12">三</text><text x="300" y="150" text-anchor="middle" class="t12">四</text>', '四個步驟的量筒讀數 X1 到 X4').style.maxWidth = '380px';
+  }
+  function real(p, api) {
+    U.real(p, api, [
+      { stars: 2, src: '110 年會考第 1 題',
+        pic: tbl('<thead><tr><th></th><th>注意事項</th><th>對應原因</th></tr></thead><tbody><tr><td>甲</td><td>測量物品前，應做好歸零動作再測量</td><td>可減少測量質量時的誤差</td></tr><tr><td>乙</td><td>拿取砝碼時不可用手拿取，應用砝碼夾拿取</td><td>可減少砝碼生鏽的機會</td></tr></tbody>'),
+        q: '表為阿梅整理的甲、乙二項使用上皿天平時的注意事項及其對應原因，關於其對應原因是否合理，下列敘述何者正確？',
+        options: [{ t: '兩者皆合理', ok: true, why: '先歸零才不會有誤差；用砝碼夾避免手汗讓砝碼生鏽、質量改變。' }, { t: '兩者皆不合理', why: '兩項都是正確的使用方法和原因。' }, { t: '甲合理，乙不合理', why: '手上的汗和油真的會讓砝碼生鏽。' }, { t: '甲不合理，乙合理', why: '沒歸零的話，每次秤都會多或少一點，是誤差。' }],
+        steps: [{ q: '天平沒有先歸零就秤，會怎樣？', options: [{ t: '秤出來的質量有誤差', ok: true, why: '所以甲的原因合理。' }, { t: '沒有影響', why: '一開始就偏一邊，結果一定不準。' }] },
+          { q: '用手拿砝碼，手汗會讓砝碼怎樣？', options: [{ t: '生鏽、質量改變', ok: true, why: '所以乙的原因也合理。' }, { t: '變乾淨', why: '手上有汗和油。' }] }],
+        explain: '<p>上皿天平：使用前<b>歸零</b>（減少誤差）；用<b>砝碼夾</b>拿砝碼（避免生鏽改變質量）。兩項都合理。</p>' },
+      { stars: 2, src: '107 年會考第 21 題',
+        pic: tbl('<thead><tr><th>組別</th><th>擺錘質量（公克）</th><th>擺長（公分）</th><th>擺角（度）</th><th>擺動 10 次的時間（秒）</th></tr></thead><tbody><tr><td>甲</td><td>50</td><td>100.0</td><td>5.0</td><td>20.1</td></tr><tr><td>乙</td><td>50</td><td>25.0</td><td>5.0</td><td>9.9</td></tr><tr><td>丙</td><td>100</td><td>🐛 蛀掉了</td><td>5.0</td><td>20.0</td></tr></tbody>'),
+        q: '小花在實驗室中找到一份舊實驗紀錄簿，紀錄簿中有一頁單擺實驗的紀錄表，此表因蟲蛀而使部分資料無法判讀，如表所示。若製作此表時的實驗步驟正確且結果合理，則由可辨識的資料來判斷，下列何者最可能為組別丙的擺長長度？',
+        options: [{ t: '25.0 公分', why: '25.0 公分的乙組擺 10 次只要 9.9 秒。' }, { t: '50.0 公分', why: '擺長 50 公分的時間會介於 9.9 和 20.1 之間。' }, { t: '100.0 公分', ok: true, why: '丙的時間（20.0 秒）和甲（20.1 秒）幾乎一樣，擺長也應該一樣。' }, { t: '200.0 公分', why: '擺長更長，時間會比 20 秒多很多。' }],
+        steps: [{ q: '單擺擺動的快慢，由什麼決定？', options: [{ t: '只看擺長', ok: true, why: '擺錘質量、擺角（小角度）都不影響。' }, { t: '擺錘質量', why: '丙的質量比較大，但不影響週期。' }] },
+          { q: '丙的時間和哪一組幾乎一樣？', options: [{ t: '甲（20.1 秒）', ok: true, why: '所以擺長和甲一樣是 100.0 公分。' }, { t: '乙（9.9 秒）', why: '乙只有 9.9 秒。' }] }],
+        explain: '<p>單擺的週期只和<b>擺長</b>有關，和擺錘質量、擺角（小角度）無關。丙的時間 ≈ 甲，所以擺長 ＝ <b>100.0 公分</b>。</p>' },
+      { stars: 3, src: '108 年會考第 42 題', pic: xPic,
+        q: `小玉利用排水法測量一個塑膠球的體積，在過程中她發現塑膠球會浮在水面上，所以將實驗步驟做了一些調整。她進行的所有步驟如下：<br>
+          一、取適當大小的量筒，在量筒中裝入水，記錄水面位置刻度 X₁ mL。<br>二、將塑膠球放入量筒中，待水面靜止後，記錄水面位置刻度 X₂ mL。<br>
+          三、以細繩的兩端分別綁住塑膠球及金屬球，將兩者放入量筒中，待兩者完全沉入水面下，且水面靜止後，記錄水面位置刻度 X₃ mL。<br>
+          四、解開綁住塑膠球的細繩，將塑膠球取出量筒，細繩及金屬球放入量筒中，待其完全沉入水面下，且水面靜止後，記錄水面位置刻度 X₄ mL。<br>
+          已知在實驗步驟二、三、四中，未放入塑膠球或金屬球時，量筒內水面位置刻度均為 X₁ mL，則塑膠球的體積應為多少？`,
+        options: [{ t: '(X₃ － X₄) cm³', ok: true, why: '步驟三是「水＋塑膠球＋金屬球＋繩」，步驟四是「水＋金屬球＋繩」，兩者相差的就是整顆塑膠球。' }, { t: '(X₄ － X₂) cm³', why: '步驟二塑膠球浮著，只有一部分在水裡。' },
+          { t: '(X₃ － X₄ － X₁) cm³', why: '相減時水已經消掉了，不用再減 X₁。' }, { t: '(X₄ － X₂ － X₁) cm³', why: '步驟二的塑膠球沒有完全沉下去，不能用。' }],
+        steps: [{ q: '步驟二的讀數 X₂ 可以用來算塑膠球的體積嗎？', options: [{ t: '不行，塑膠球浮著，只有一部分泡在水裡', ok: true, why: '排水法要讓物體完全沉入。' }, { t: '可以', why: '浮著的球只有一部分排開水。' }] },
+          { q: '步驟三裝了「水＋塑膠球＋金屬球＋繩」，步驟四是「水＋金屬球＋繩」。兩個相減剩下什麼？', options: [{ t: '塑膠球的體積', ok: true, why: '其他東西都一樣，一減就消掉了。' }, { t: '金屬球的體積', why: '兩個步驟都有金屬球，會消掉。' }] }],
+        explain: '<p>浮在水上的東西，要綁重物讓它沉下去。X₃（水＋塑膠球＋金屬球）－ X₄（水＋金屬球）＝ <b>塑膠球的體積</b>。</p>' }
+    ]);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     U.mount(document.getElementById('unit'), { unit: 'sci8a-1-2', home: 'index.html', steps: [
       { id: 'guess', label: '猜', title: '先猜猜看：量得準嗎？', render: guess },
       { id: 'play', label: '玩', title: '動手玩：尺、天平、單擺', render: play },
       { id: 'know', label: '懂', title: '收成 4 句話', render: know },
-      { id: 'exam', label: '考', title: '會考真的這樣考', render: exam }
+      { id: 'exam', label: '考', title: '會考真的這樣考', render: exam },
+      { id: 'real', label: '實戰', title: '會考實戰：照原題做做看', render: real }
     ] });
   });
 })();

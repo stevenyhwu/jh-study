@@ -188,12 +188,51 @@
     });
   }
 
+  /* ---------------- 5 實戰 ---------------- */
+  function flowPic(c) {
+    const box = (x, y, t) => `<rect x="${x}" y="${y}" width="74" height="30" rx="6" fill="var(--card)" stroke="var(--stroke)"/><text x="${x + 37}" y="${y + 20}" text-anchor="middle" class="t14b">${t}</text>`;
+    U.svg(c, '0 0 340 150', box(10, 60, '◆▲○') + box(150, 20, '◆▲') + box(150, 100, '○') + box(266, 4, '◆') + box(266, 52, '▲') +
+      `<path d="M84 72 L148 38 M84 78 L148 112" stroke="var(--stroke)" stroke-width="1.5"/><text x="104" y="98" class="t12b">步驟一</text>
+       <path d="M224 30 L264 20 M224 40 L264 66" stroke="var(--stroke)" stroke-width="1.5"/><text x="226" y="88" class="t12b">步驟二</text><text x="10" y="140" class="t12 mut">◆▲○ 代表甲、乙、丙（未依順序）</text>`, '分離甲乙丙的兩個步驟流程圖').style.maxWidth = '360px';
+    c.appendChild(h('<table class="sim-table" style="max-width:360px"><thead><tr><th></th><th>甲</th><th>乙</th><th>丙</th></tr></thead><tbody><tr><td>對水的溶解情形</td><td>可溶</td><td>可溶</td><td>難溶</td></tr><tr><td>沸點</td><td>1465 °C</td><td>238 °C</td><td>340 °C</td></tr></tbody></table>'));
+  }
+  function real(p, api) {
+    U.real(p, api, [
+      { stars: 2, src: '模擬題（會考常見題型）',
+        q: '一包混合物裡有食鹽、細沙和鐵粉。下列哪一個步驟順序，最能把三種物質分開？',
+        options: [{ t: '用磁鐵吸出鐵粉 → 加水攪拌後過濾 → 把濾液加熱蒸乾', ok: true, why: '鐵粉會被磁鐵吸；沙不溶留在濾紙；鹽溶在水裡，蒸乾得到。' }, { t: '加水攪拌後過濾 → 把濾液加熱蒸乾 → 用磁鐵從蒸乾的鹽裡吸出鐵粉', why: '鐵粉不溶於水，過濾時就和沙一起留在濾紙上了，濾液裡沒有鐵粉，蒸乾後也吸不到。' },
+          { t: '直接加熱 → 過濾', why: '加熱乾的混合物不會讓它們分開。' }, { t: '直接過濾 → 用磁鐵', why: '沒加水，鹽和沙都會卡在濾紙上。' }],
+        steps: [{ q: '哪一個物質會被磁鐵吸起來？', options: [{ t: '鐵粉', ok: true, why: '鐵會被磁鐵吸引。' }, { t: '食鹽', why: '食鹽不會被磁鐵吸。' }] },
+          { q: '鹽和沙要怎麼分開？', options: [{ t: '加水溶解鹽 → 過濾留下沙 → 蒸乾濾液得到鹽', ok: true, why: '利用「溶不溶於水」不同。' }, { t: '直接過濾', why: '要先加水讓鹽溶掉。' }] }],
+        explain: '<p>分離混合物要找<b>性質的差異</b>：鐵會被磁鐵吸 → 磁鐵；鹽溶於水、沙不溶 → 加水過濾；鹽溶在濾液 → 蒸發結晶。</p>' },
+      { stars: 2, src: '模擬題（會考常見題型）',
+        pic: c => U.svg(c, '40 0 280 220', `<rect x="80" y="20" width="50" height="180" fill="#fafafa" stroke="var(--stroke)"/><ellipse cx="105" cy="62" rx="14" ry="7" fill="${PIG.y.c}"/><ellipse cx="105" cy="100" rx="14" ry="7" fill="${PIG.r.c}"/><ellipse cx="105" cy="140" rx="14" ry="7" fill="${PIG.b.c}"/><text x="105" y="216" text-anchor="middle" class="t14b">待測墨水</text>
+          <rect x="210" y="20" width="50" height="180" fill="#fafafa" stroke="var(--stroke)"/><ellipse cx="235" cy="62" rx="14" ry="7" fill="${PIG.y.c}"/><ellipse cx="235" cy="140" rx="14" ry="7" fill="${PIG.b.c}"/><text x="235" y="216" text-anchor="middle" class="t14b">A 牌墨水</text>`, '待測墨水分出黃紅藍，A 牌分出黃藍').style.maxWidth = '300px',
+        q: '用濾紙層析比較兩種墨水，結果如圖（水由下往上爬）。下列推論何者最合理？',
+        options: [{ t: '待測墨水含有 A 牌墨水沒有的紅色色素', ok: true, why: '待測墨水多了一段紅色。' }, { t: '兩種墨水的成分完全相同', why: '待測墨水多了紅色。' }, { t: 'A 牌墨水是純物質', why: 'A 牌分出兩種色素，是混合物。' }, { t: '藍色色素在濾紙上爬得最快', why: '藍色在最下面，爬得最慢。' }],
+        steps: [{ q: '濾紙上分出幾段，代表什麼？', options: [{ t: '至少有幾種色素', ok: true, why: '每一段是一種色素。' }, { t: '墨水有幾滴', why: '和滴幾滴無關。' }] },
+          { q: '待測墨水和 A 牌比，多了哪一段？', options: [{ t: '紅色', ok: true, why: '中間那段紅色只有待測墨水有。' }, { t: '黃色', why: '兩邊都有黃色。' }] }],
+        explain: '<p>層析分出幾段＝至少幾種色素；位置越高＝爬得越快。待測墨水有黃、紅、藍，A 牌只有黃、藍 → 待測墨水<b>多了紅色色素</b>。兩者都是混合物。</p>' },
+      { stars: 3, src: '112 年會考第 41 題（流程圖依原題重畫）', pic: flowPic,
+        q: '有甲、乙、丙三種固體純物質，三者對水的溶解情形及沸點如表所示。有一份參雜甲、乙、丙的混合物，可經由兩步驟（加熱、加水過濾）而分離出甲、乙、丙，如圖所示。依據上述資訊，下列推論何者最合理？',
+        options: [{ t: '◆可能是甲，步驟一是加水過濾', ok: true, why: '步驟一先加水過濾，難溶的丙（○）被分出來；甲、乙在濾液中，再加熱讓沸點低的乙先跑掉，留下甲。◆、▲可能是甲或乙。' },
+          { t: '◆可能是丙，步驟一是加水過濾', why: '丙難溶於水，加水過濾第一步就被分出來，是 ○。' },
+          { t: '○可能是甲，步驟二需加熱至 300 °C，才可使乙、丙分離', why: '步驟一分出來的單獨一個（○）應該是難溶的丙，不是甲。' },
+          { t: '○可能是丙，步驟二需加熱至 1500 °C，才可使甲、乙分離', why: '○ 是丙沒錯，但只要加熱超過乙的沸點 238 °C 讓乙跑掉就好，不需要 1500 °C。' }],
+        steps: [{ q: '甲、乙、丙中，哪一個「難溶於水」？', options: [{ t: '丙', ok: true, why: '加水過濾時，丙會留在濾紙上被分出來。' }, { t: '甲', why: '看表：甲可溶。' }] },
+          { q: '步驟一分出了單獨的 ○ 和一堆 ◆▲。步驟一應該是？○ 是誰？', options: [{ t: '加水過濾；○ 是丙', ok: true, why: '先把難溶的丙濾出來。' }, { t: '加熱；○ 是乙', why: '三種中只有丙「難溶於水」，所以能被「加水過濾」單獨分出來的是丙。' }] },
+          { q: '步驟二要把甲和乙分開，加熱時誰會先變成氣體？', options: [{ t: '乙（沸點 238 °C 比較低）', ok: true, why: '留下甲，所以 ◆、▲ 可能是甲或乙。' }, { t: '甲', why: '甲的沸點 1465 °C 很高。' }] }],
+        explain: '<p>步驟一<b>加水過濾</b>：難溶的丙（○）留在濾紙上；甲、乙溶在濾液中（◆▲）。步驟二<b>加熱</b>：乙（238 °C）先汽化離開，留下甲。所以 ◆ 可能是甲。</p>' }
+    ], '第 3 題是真正的會考題；這一節會考題比較少，第 1、2 題是照會考題型出的模擬題。卡住就按「🪜 拆解」。');
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     U.mount(document.getElementById('unit'), { unit: 'sci8a-2-3', home: 'index.html', steps: [
       { id: 'guess', label: '猜', title: '先猜猜看：混在一起怎麼辦？', render: guess },
       { id: 'play', label: '玩', title: '動手玩：分離與層析', render: play },
       { id: 'know', label: '懂', title: '收成 4 句話', render: know },
-      { id: 'exam', label: '考', title: '這一節這樣考', render: exam }
+      { id: 'exam', label: '考', title: '這一節這樣考', render: exam },
+      { id: 'real', label: '實戰', title: '會考實戰：照原題做做看', render: real }
     ] });
   });
 })();

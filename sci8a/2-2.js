@@ -160,12 +160,66 @@
     });
   }
 
+  /* ---------------- 5 實戰 ---------------- */
+  const tbl = html => c => c.appendChild(h(`<table class="sim-table" style="max-width:400px">${html}</table>`));
+  function acetatePic(c) {
+    const cup = (x, solid, pile, t1, t2) => `<rect x="${x}" y="50" width="80" height="60" fill="var(--water)"/><path d="M${x} 30 V110 H${x + 80} V30" fill="none" stroke="var(--stroke)" stroke-width="1.5"/>` +
+      (pile ? [0, 1, 2, 3].map(i => `<rect x="${x + 8 + i * 9}" y="101" width="7" height="7" fill="#fff" stroke="var(--stroke)" stroke-width=".7"/>`).join('') : '') +
+      `<text x="${x + 40}" y="20" text-anchor="middle" class="t12b">${t1}</text><text x="${x + 40}" y="128" text-anchor="middle" class="t12">${t2}</text>`;
+    U.svg(c, '0 0 320 135', cup(40, 3, false, '10 g 水 ＋ 3 g', '全部溶解') + cup(200, 6, true, '10 g 水 ＋ 6 g', '杯底有沒溶的') + '<text x="160" y="80" text-anchor="middle" class="t12 mut">20 °C</text>', '10 公克水加 3 公克全溶，加 6 公克有剩').style.maxWidth = '340px';
+  }
+  function curvePic(c) {
+    const X = t => 40 + t * 3, Yv = g => 150 - g * 1.1;
+    const A = [[0, 13], [20, 32], [40, 100], [60, 120]], B = [[0, 40], [20, 50], [40, 62], [60, 75]];
+    U.svg(c, '0 0 320 175', `<line x1="40" y1="10" x2="40" y2="150" class="g-axis"/><line x1="40" y1="150" x2="230" y2="150" class="g-axis"/>
+      ${[0, 20, 40, 60].map(t => `<text x="${X(t)}" y="164" text-anchor="middle" class="g-num">${t}</text>`).join('')}${[0, 50, 100].map(g => `<text x="34" y="${Yv(g) + 4}" text-anchor="end" class="g-num">${g}</text>`).join('')}
+      <polyline points="${A.map(([t, g]) => X(t) + ',' + Yv(g)).join(' ')}" fill="none" stroke="var(--accent)" stroke-width="2.5"/><polyline points="${B.map(([t, g]) => X(t) + ',' + Yv(g)).join(' ')}" fill="none" stroke="#d9824a" stroke-width="2.5"/>
+      <line x1="${X(40)}" y1="10" x2="${X(40)}" y2="150" stroke="var(--muted)" stroke-dasharray="3 3"/><text x="${X(60) + 4}" y="${Yv(120)}" class="t12b" style="fill:var(--accent)">甲</text><text x="${X(60) + 4}" y="${Yv(75)}" class="t12b" style="fill:#d9824a">乙</text>
+      <text x="230" y="174" text-anchor="end" class="g-lab">溫度（°C）</text><text x="44" y="12" class="g-lab">溶解度（g／100 g 水）</text>
+      <text x="250" y="60" class="t12b">X 杯：10 g 水</text><text x="250" y="76" class="t12">＋ 12 g 甲</text><text x="250" y="110" class="t12b">Y 杯：10 g 水</text><text x="250" y="126" class="t12">＋ 5 g 乙</text>`, '甲乙兩物質的溶解度曲線與兩杯溶液').style.maxWidth = '380px';
+  }
+  function real(p, api) {
+    U.real(p, api, [
+      { stars: 2, src: '104 年會考第 46 題（圖依原題重畫）', pic: acetatePic,
+        q: '小怡在 20 °C 時，分別在兩杯 10 g 的水中加入 3 g 和 6 g 的醋酸鈉，結果如圖（加 3 g 全部溶解，加 6 g 杯底有未溶解的醋酸鈉）。若溶解過程中溶液溫度均維持 20 °C，根據實驗結果可知，在 20 °C 時<b>飽和</b>的醋酸鈉水溶液，其重量百分濃度會在下列哪一個範圍內？',
+        options: [{ t: '23.0% ～ 37.5%', ok: true, why: '3÷(10＋3)≈23.1% 還沒飽和；6÷(10＋6)＝37.5% 已經超過能溶的量。飽和濃度在兩者之間。' }, { t: '37.5% ～ 47.5%', why: '加 6 g 時已經溶不完，所以飽和濃度一定比 37.5% 小。' },
+          { t: '47.5% ～ 60.0%', why: '太高了，加 6 g 就已經溶不完。' }, { t: '60.0% ～ 90.0%', why: '太高了。' }],
+        steps: [{ num: true, q: '10 g 水加 3 g 全部溶解，濃度是 3 ÷ (10＋3) × 100% ≈ ?（取到整數）', post: '%', range: [23, 23.1], answer: 23, why: '約 23%，這時還沒飽和。' },
+          { num: true, q: '如果 6 g 全部溶解，濃度會是 6 ÷ (10＋6) × 100% ＝ ?', post: '%', answer: 37.5, why: '可是 6 g 溶不完，所以真正的飽和濃度比 37.5% 小。' },
+          { q: '所以飽和溶液的濃度在哪個範圍？', options: [{ t: '23% 到 37.5% 之間', ok: true, why: '比全溶的 3 g 濃，比溶不完的 6 g 稀。' }, { t: '比 37.5% 大', why: '6 g 溶不完，達不到 37.5%。' }] }],
+        explain: '<p>3 g 全溶 → 飽和濃度 ＞ 3/13 ≈ 23.1%；6 g 溶不完 → 飽和濃度 ＜ 6/16 ＝ 37.5%。所以在 <b>23.0%～37.5%</b>。</p>' },
+      { stars: 2, src: '109 年會考第 15 題（曲線依解析重畫）', pic: curvePic,
+        q: '圖是甲、乙兩種物質的溶解度與溫度之關係圖。曉明依據此資料進行溶解度實驗，在各裝有 10 g 水的 X、Y 兩杯中，分別加入 12 g 甲、5 g 乙，過程中水未蒸發減少，且溶液的溫度維持 40 °C。下列何者最可能是曉明觀察到的結果？',
+        options: [{ t: '兩杯都有沉澱', why: 'Y 杯：10 g 水在 40 °C 能溶約 6 g 乙，5 g 溶得完。' }, { t: '兩杯都無沉澱', why: 'X 杯：10 g 水在 40 °C 只能溶約 10 g 甲，12 g 溶不完。' }, { t: 'X 杯有沉澱，Y 杯無沉澱', ok: true, why: 'X：12 g ＞ 10 g（溶不完）；Y：5 g ＜ 6 g（溶得完）。' }, { t: 'X 杯無沉澱，Y 杯有沉澱', why: '剛好反了。' }],
+        steps: [{ q: '40 °C 時，100 g 水能溶多少甲？那 10 g 水呢？', options: [{ t: '100 g 水溶 100 g；10 g 水溶 10 g', ok: true, why: '水變十分之一，能溶的也變十分之一。' }, { t: '10 g 水也能溶 100 g', why: '水少了，能溶的也少。' }] },
+          { q: 'X 杯放了 12 g 甲，會怎樣？', options: [{ t: '溶不完，有沉澱', ok: true, why: '12 ＞ 10。' }, { t: '全部溶解', why: '10 g 水最多溶 10 g 甲。' }] },
+          { q: '40 °C 時 10 g 水能溶約 6 g 乙，Y 杯放 5 g，會怎樣？', options: [{ t: '全部溶解，沒有沉澱', ok: true, why: '5 ＜ 6。' }, { t: '有沉澱', why: '5 g 比上限 6 g 少。' }] }],
+        explain: '<p>溶解度是「每 100 g 水」能溶的量，10 g 水要除以 10。40 °C：甲 10 g 水溶約 10 g ＜ 12 g → <b>X 有沉澱</b>；乙約 6 g ＞ 5 g → <b>Y 無沉澱</b>。</p>' },
+      { stars: 3, src: '103 年會考第 46 題',
+        pic: tbl('<thead><tr><th>燒杯</th><th>食鹽（g）</th><th>水（g）</th></tr></thead><tbody><tr><td>甲</td><td>24</td><td>60</td></tr><tr><td>乙</td><td>36</td><td>80</td></tr></tbody>'),
+        q: '已知室溫時，食鹽的溶解度為 36 g／100 g 水。小梅在室溫下分別配製甲、乙兩杯食鹽水溶液，各杯內加入的食鹽與水之質量如表所示。小梅將兩杯食鹽水溶液過濾後混合成一杯，若過程中水的蒸發量不計，此杯混合溶液的重量百分濃度約為多少？',
+        options: [{ t: '26.5%', ok: true, why: '兩杯都飽和，過濾後都是飽和溶液，混合後還是飽和：36 ÷ 136 ≈ 26.5%。' }, { t: '30.0%', why: '這是把食鹽全部算進去 60 ÷ 200，但有些沒溶、被濾掉了。' }, { t: '36.0%', why: '36 是「每 100 g 水」，分母要用整杯溶液 136。' }, { t: '42.9%', why: '這是 60 ÷ 140（食鹽÷水），分母錯而且沒溶的也算進去了。' }],
+        steps: [{ q: '甲杯：60 g 水最多能溶多少食鹽？放了 24 g，溶得完嗎？', options: [{ t: '最多 21.6 g，溶不完（飽和）', ok: true, why: '36 × 0.6 ＝ 21.6 ＜ 24。' }, { t: '能溶 36 g，溶得完', why: '36 g 是 100 g 水的量，60 g 水只能溶 21.6 g。' }] },
+          { q: '乙杯：80 g 水最多溶 28.8 g，放了 36 g。兩杯過濾後都是什麼溶液？', options: [{ t: '都是飽和溶液', ok: true, why: '飽和溶液混在一起，還是飽和。' }, { t: '都是未飽和', why: '兩杯都溶不完。' }] },
+          { num: true, q: '飽和食鹽水的濃度 ＝ 36 ÷ (100＋36) × 100% ≈ ?（取到小數一位）', post: '%', range: [26.4, 26.5], answer: 26.5, why: '約 26.5%。' }],
+        explain: '<p>兩杯都超過溶解度 → 過濾後都是<b>飽和溶液</b>，混合後仍飽和。濃度 ＝ 36 ÷ (100＋36) ≈ <b>26.5%</b>。</p>' },
+      { stars: 3, src: '106 年會考第 45 題',
+        q: '在某一溫度下，有一杯重量百分濃度 40% 的檸檬酸水溶液 150 g，再加入檸檬酸 65 g 攪拌過濾，將濾紙烘乾並秤重後，發現有 5 g 檸檬酸未溶解。若過程中溶液溫度均未改變，則在此溫度時檸檬酸的溶解度最接近下列何者？',
+        options: [{ t: '45 g／100 g 水', why: '算算看：水 90 g、溶了 120 g 檸檬酸。' }, { t: '80 g／100 g 水', why: '算算看：水 90 g、溶了 120 g 檸檬酸。' }, { t: '91 g／100 g 水', why: '要把原本溶液裡的 60 g 也算進去。' }, { t: '133 g／100 g 水', ok: true, why: '90 g 水溶了 120 g，換成 100 g 水：120 ÷ 90 × 100 ≈ 133。' }],
+        steps: [{ num: true, q: '150 g 的 40% 溶液裡，原本有多少檸檬酸？', post: 'g', answer: 60, why: '150 × 40% ＝ 60 g，水是 150 － 60 ＝ 90 g。' },
+          { num: true, q: '再加 65 g，有 5 g 沒溶。現在總共溶了多少檸檬酸？', post: 'g', answer: 120, why: '60 ＋ 65 － 5 ＝ 120 g，這時飽和了。' },
+          { q: '90 g 水溶 120 g。換成 100 g 水能溶多少？', options: [{ t: '約 133 g', ok: true, why: '120 ÷ 90 × 100 ≈ 133。' }, { t: '120 g', why: '要換算成「100 g 水」。' }] }],
+        explain: '<p>原有檸檬酸 150×40%＝60 g，水 90 g。飽和時溶了 60＋65－5＝120 g。溶解度 ＝ 120 ÷ 90 × 100 ≈ <b>133 g／100 g 水</b>。</p>' }
+    ]);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     U.mount(document.getElementById('unit'), { unit: 'sci8a-2-2', home: 'index.html', steps: [
       { id: 'guess', label: '猜', title: '先猜猜看：糖水的祕密', render: guess },
       { id: 'play', label: '玩', title: '動手玩：調濃度、找上限', render: play },
       { id: 'know', label: '懂', title: '收成 4 句話', render: know },
-      { id: 'exam', label: '考', title: '會考真的這樣考', render: exam }
+      { id: 'exam', label: '考', title: '會考真的這樣考', render: exam },
+      { id: 'real', label: '實戰', title: '會考實戰：照原題做做看', render: real }
     ] });
   });
 })();

@@ -267,6 +267,56 @@
     });
   }
 
+  /* ---------------- 5 實戰 ---------------- */
+  function real(p, api) {
+    const U = Unit4;
+    const tbl = html => c => c.appendChild(h(`<table class="sim-table" style="max-width:440px">${html}</table>`));
+    const toolsPic = c => U.svg(c, '0 0 360 130', `<path d="M20 80 h70 M55 80 V50 M25 50 h60" stroke="var(--stroke)" stroke-width="3" fill="none"/><rect x="20" y="40" width="20" height="8" fill="var(--card)" stroke="var(--stroke)"/><rect x="70" y="40" width="20" height="8" fill="var(--card)" stroke="var(--stroke)"/><rect x="30" y="80" width="50" height="10" fill="var(--line)" stroke="var(--stroke)"/>
+      <rect x="110" y="40" width="70" height="50" fill="var(--water)" stroke="var(--stroke)"/><path d="M180 50 h20 v40" stroke="var(--stroke)" fill="none"/><path d="M190 90 h20 v-20 h-20Z" fill="var(--card)" stroke="var(--stroke)"/>
+      <rect x="235" y="10" width="20" height="80" fill="var(--water)" stroke="var(--stroke)"/><rect x="225" y="90" width="40" height="6" fill="var(--line)"/>
+      <rect x="285" y="60" width="70" height="12" fill="#f6c453" stroke="var(--stroke)" transform="rotate(-20 320 66)"/>
+      <text x="55" y="112" text-anchor="middle" class="t14b">甲 天平</text><text x="155" y="112" text-anchor="middle" class="t14b">乙 溢水裝置</text><text x="245" y="112" text-anchor="middle" class="t14b">丙 量筒</text><text x="320" y="112" text-anchor="middle" class="t14b">丁 直尺</text>`, '天平、溢水裝置、量筒、直尺').style.maxWidth = '380px';
+    const tubesPic = c => U.svg(c, '0 0 300 150', [[30, 5, 5, '甲'], [130, 7, 3, '乙'], [230, 3, 7, '丙']].map(([x, y, xx, t]) => {
+      const k = 11, b = 130, hx = xx * k, hy = y * k;
+      return `<rect x="${x}" y="${b - hx}" width="34" height="${hx}" fill="#7a8699" opacity=".7"/><rect x="${x}" y="${b - hx - hy}" width="34" height="${hy}" fill="#c8e6c9"/><path d="M${x} 10 V${b} Q${x + 17} ${b + 12} ${x + 34} ${b} V10" fill="none" stroke="var(--stroke)" stroke-width="1.5"/>
+        <text x="${x + 17}" y="${b - hx / 2 + 4}" text-anchor="middle" class="t12b">X</text><text x="${x + 17}" y="${b - hx - hy / 2 + 4}" text-anchor="middle" class="t12b">Y</text>
+        <text x="${x + 40}" y="${b - hx / 2 + 4}" class="t12">${xx} mL</text><text x="${x + 40}" y="${b - hx - hy / 2 + 4}" class="t12">${y} mL</text><text x="${x + 17}" y="148" text-anchor="middle" class="t14b">${t}</text>`;
+    }).join(''), '三支試管中 X、Y 兩種液體的體積').style.maxWidth = '340px';
+    U.real(p, api, [
+      { stars: 1, src: '114 年會考第 2 題', pic: toolsPic,
+        q: '小陞想以圖中的裝置或器材，測量一顆形狀不規則小石頭的密度，他應選擇哪兩項來測量？',
+        options: [{ t: '甲與丁', why: '直尺量不出不規則石頭的體積。' }, { t: '甲與丙', ok: true, why: '天平量質量，量筒用排水法量體積。' }, { t: '乙與丁', why: '這兩樣都量不到質量。' }, { t: '乙與丙', why: '少了量質量的天平。' }],
+        steps: [{ q: '密度要知道哪兩個量？', options: [{ t: '質量和體積', ok: true, why: '密度 ＝ 質量 ÷ 體積。' }, { t: '長度和時間', why: '密度和長度、時間無關。' }] },
+          { q: '形狀不規則的石頭，體積要怎麼量？', options: [{ t: '放進裝水的量筒，看水面上升多少（排水法）', ok: true, why: '所以要用丙。' }, { t: '用直尺量長寬高', why: '形狀不規則，量不出來。' }] }],
+        explain: '<p>密度＝質量÷體積：<b>天平（甲）</b>量質量，<b>量筒（丙）</b>用排水法量不規則物體的體積。</p>' },
+      { stars: 2, src: '111 年會考第 38 題',
+        pic: c => U.svg(c, '0 0 320 100', `<circle cx="60" cy="50" r="40" fill="${M.cu.color}" stroke="var(--stroke)" stroke-width="1.5"/><circle cx="60" cy="50" r="24" fill="var(--card)" stroke="var(--stroke)"/><text x="60" y="54" text-anchor="middle" class="t12 mut">真空</text>
+          <text x="118" y="44" class="t12b">內部真空的密閉空心銅球</text><text x="118" y="64" class="t12">（切開來看的樣子）</text>`, '空心銅球剖面').style.maxWidth = '340px',
+        q: '圖為一個內部為真空的密閉空心金屬球，其金屬成分為純銅。小詩將此金屬球放入水裡，球會完全沒入水中，測得排開水的體積為 V，再用天平量測其質量為 M，她發現利用密度 D ＝ M／V 計算出的 D 值與課本上記載的純銅密度 8.96 g/cm³ 明顯不同。若小詩的測量與計算過程皆無錯誤，則下列何者最合理？',
+        options: [{ t: 'D ＜ 8.96 g/cm³，因為 M 為金屬成分的質量，但 V 大於金屬成分的體積', ok: true, why: 'V 把真空的部分也算進去了，體積算多了，D 就變小。' }, { t: 'D ＜ 8.96 g/cm³，因為 V 為金屬成分的體積，但 M 小於金屬成分的質量', why: '天平量到的就是銅的質量（真空沒有質量），M 沒有少。' },
+          { t: 'D ＞ 8.96 g/cm³，因為 M 為金屬成分的質量，但 V 小於金屬成分的體積', why: '排水量到整顆球，V 只會比銅的體積大。' }, { t: 'D ＞ 8.96 g/cm³，因為 V 為金屬成分的體積，但 M 大於金屬成分的質量', why: 'M 就是銅的質量，不會更大。' }],
+        steps: [{ q: '排水法量到的 V，是什麼的體積？', options: [{ t: '整顆球（銅＋中間真空的部分）', ok: true, why: '球排開的水，等於整顆球的大小。' }, { t: '只有銅的部分', why: '空心的部分也會把水排開。' }] },
+          { q: '天平量到的 M，是什麼的質量？', options: [{ t: '銅的質量（真空沒有質量）', ok: true, why: 'M 沒有算錯。' }, { t: '銅加上空氣', why: '題目說內部是真空。' }] },
+          { q: 'M 正確、V 比銅的體積大，算出來的 D 會……', options: [{ t: '比 8.96 小', ok: true, why: '分母變大，商變小。' }, { t: '比 8.96 大', why: '除以一個比較大的數，結果會變小。' }] }],
+        explain: '<p>M ＝ 銅的質量（正確），V ＝ 銅 ＋ 空心的體積（比銅大）。D ＝ M ÷ V，分母變大 → <b>D ＜ 8.96</b>。</p>' },
+      { stars: 3, src: '114 年會考第 29 題', pic: tubesPic,
+        q: '甲、乙、丙三個相同的試管中，分別裝有密度不同的 X、Y 兩種液體，兩種液體不發生化學反應且互不相溶，所占體積及靜止平衡時的狀態如圖。若裝有液體的甲、乙、丙三試管，其總質量分別為 m甲、m乙、m丙，則下列關係何者正確？',
+        options: [{ t: 'm甲 ＝ m乙 ＝ m丙', why: '總體積一樣，但 X、Y 密度不同，比例不同總質量就不同。' }, { t: 'm甲 ＞ m丙 ＞ m乙', why: '丙的 X 最多，X 比較重。' }, { t: 'm乙 ＞ m甲 ＞ m丙', why: '乙的 X 最少，應該最輕。' }, { t: 'm丙 ＞ m甲 ＞ m乙', ok: true, why: 'X 沉在下面，密度較大；X 越多總質量越大：丙（7 mL）＞ 甲（5 mL）＞ 乙（3 mL）。' }],
+        steps: [{ q: '兩種不相溶的液體，誰會沉在下面？', options: [{ t: '密度大的', ok: true, why: '所以 X 的密度比 Y 大。' }, { t: '體積大的', why: '和體積無關，看密度。' }] },
+          { q: '總體積都是 10 mL。X 越多，總質量會……', options: [{ t: '越大', ok: true, why: '同樣 1 mL，X 比 Y 重。' }, { t: '越小', why: 'X 比較重。' }] },
+          { q: '哪一支 X 最多？哪一支最少？', options: [{ t: '丙最多（7 mL），乙最少（3 mL）', ok: true, why: '所以 m丙 ＞ m甲 ＞ m乙。' }, { t: '乙最多', why: '乙的 X 只有 3 mL。' }] }],
+        explain: '<p>X 在下層 → D<sub>X</sub> ＞ D<sub>Y</sub>。質量＝密度×體積，總體積相同時 X 越多越重：<b>m丙 ＞ m甲 ＞ m乙</b>。</p>' },
+      { stars: 3, src: '105 年會考第 34 題',
+        pic: tbl('<thead><tr><th>組別</th><th>左端秤盤（正立方體）</th><th>右端秤盤（砝碼）</th></tr></thead><tbody><tr><td>1</td><td>甲、乙</td><td>200 g×1、50 g×1、20 g×1、10 g×1</td></tr><tr><td>2</td><td>乙、丙</td><td>500 g×1、100 g×1、50 g×1</td></tr><tr><td>3</td><td>甲、乙、丙</td><td>500 g×1、200 g×2、20 g×1</td></tr></tbody>'),
+        q: '有甲、乙、丙三個大小不同、材質相同的均勻實心正立方體，取一已歸零的天平分別進行如表中的三組測量，每組天平測量均達到靜止水平平衡。已知乙的邊長為 1 cm，由上述資訊判斷甲、丙的邊長分別為多少？',
+        options: [{ t: '甲：2 cm，丙：5 cm', why: '算算看質量比：甲 270、乙 10、丙 640。' }, { t: '甲：3 cm，丙：4 cm', ok: true, why: '質量比 27 : 1 : 64 ＝ 體積比，邊長比 3 : 1 : 4。' }, { t: '甲：8 cm，丙：125 cm', why: '體積比要開立方才是邊長比。' }, { t: '甲：27 cm，丙：64 cm', why: '27 和 64 是體積比，不是邊長。' }],
+        steps: [{ num: true, q: '組 1：甲＋乙 ＝ 280 g；組 3：甲＋乙＋丙 ＝ 920 g。丙是幾公克？', post: 'g', answer: 640, why: '920 － 280 ＝ 640 g。' },
+          { num: true, q: '組 2：乙＋丙 ＝ 650 g。乙是幾公克？', post: 'g', answer: 10, why: '650 － 640 ＝ 10 g，所以甲 ＝ 280 － 10 ＝ 270 g。' },
+          { q: '材質相同（密度相同），質量比就是體積比 ＝ 270 : 10 : 640 ＝ 27 : 1 : 64。乙邊長 1 cm，甲和丙的邊長是？', options: [{ t: '甲 3 cm，丙 4 cm', ok: true, why: '3×3×3 ＝ 27，4×4×4 ＝ 64。' }, { t: '甲 27 cm，丙 64 cm', why: '27 和 64 是體積，邊長要找「哪個數乘三次」。' }] }],
+        explain: '<p>由三組算出：丙 640 g、乙 10 g、甲 270 g。同材質 → 質量比＝體積比＝27 : 1 : 64 → 邊長比 3 : 1 : 4 → <b>甲 3 cm、丙 4 cm</b>。</p>' }
+    ]);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     Unit4.mount(document.getElementById('unit'), {
       unit: 'sci8a-1-3', home: 'index.html',
@@ -274,7 +324,8 @@
         { id: 'guess', label: '猜', title: '先猜猜看：誰會沉下去？', render: guess },
         { id: 'play', label: '玩', title: '動手玩：密度實驗台', render: play },
         { id: 'know', label: '懂', title: '收成 4 句話', render: know },
-        { id: 'exam', label: '考', title: '會考真的這樣考', render: exam }
+        { id: 'exam', label: '考', title: '會考真的這樣考', render: exam },
+      { id: 'real', label: '實戰', title: '會考實戰：照原題做做看', render: real }
       ]
     });
   });

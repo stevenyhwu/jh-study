@@ -168,12 +168,48 @@
     });
   }
 
+  /* ---------------- 5 實戰 ---------------- */
+  function routePic(c) {
+    U.svg(c, '0 0 340 110', `<line x1="30" y1="70" x2="310" y2="70" stroke="var(--stroke)" stroke-width="2"/>
+      ${[[310, '1', '🚚'], [240, '2', '🏠'], [30, '3', '🏠']].map(([x, n, e]) => `<circle cx="${x}" cy="70" r="5" fill="var(--stroke)"/><text x="${x}" y="50" text-anchor="middle" font-size="20">${e}</text><text x="${x}" y="92" text-anchor="middle" class="t14b">第 ${n} 站</text>`).join('')}
+      <text x="275" y="64" text-anchor="middle" class="t12b">170 m</text><text x="135" y="64" text-anchor="middle" class="t12b">340 m</text>
+      <text x="240" y="108" text-anchor="middle" class="t12">小強</text><text x="30" y="108" text-anchor="middle" class="t12">小樂</text>`, '垃圾車路線：第 1 站到第 2 站 170 公尺，第 2 站到第 3 站 340 公尺').style.maxWidth = '360px';
+  }
+  function talkPic(c) {
+    c.appendChild(h(`<div class="sim-read" style="line-height:1.7"><b>妮妮：</b>拿兩支振動頻率都是 360 Hz 的音叉，敲擊其中一支，另一支也會跟著振動，所以只有振動頻率相同的音叉才會發生共振。<br>
+      <b>小櫻：</b>這樣的說法我無法認同，說不定兩支振動頻率不相同的音叉，敲擊其中一支，另一支也會跟著振動啊！</div>`));
+  }
+  function real(p, api) {
+    U.real(p, api, [
+      { stars: 2, src: '103 年會考第 28 題', pic: routePic,
+        q: '垃圾車收垃圾地點的順序及各站間距離如圖所示。垃圾車每停一站便會開始播放音樂提醒附近的居民來倒垃圾，垃圾車在第 1 站停下來播放音樂並收垃圾，若忽略風及溫度對聲速的影響，則此時在第 2 站的小強與第 3 站的小樂聽到音樂傳來的<b>時間差</b>為下列何者？（當時聲速為 340 m／s）',
+        options: [{ t: '0', why: '小樂比小強遠，聲音要多跑一段。' }, { t: '1.0 s', ok: true, why: '小樂比小強多 340 m，聲音多跑 340 ÷ 340 ＝ 1 秒。' }, { t: '1.5 s', why: '170 m 那段兩人都要經過，不影響時間差。' }, { t: '2.0 s', why: '算的是「差」，不是小樂聽到的時間。' }],
+        steps: [{ q: '音樂從第 1 站傳出。小樂比小強多跑了多少公尺？', options: [{ t: '340 m', ok: true, why: '第 2 站到第 3 站那段。' }, { t: '510 m', why: '510 m 是小樂到第 1 站的總距離；兩人共同的 170 m 要扣掉。' }] },
+          { num: true, q: '聲音跑 340 m 要幾秒？', post: '秒', answer: 1, why: '340 ÷ 340 ＝ 1 秒。' }],
+        explain: '<p>小強距離 170 m，小樂距離 170＋340＝510 m。時間差 ＝ 多出來的 340 m ÷ 340 m/s ＝ <b>1.0 s</b>。</p>' },
+      { stars: 2, src: '110 年會考第 8 題', pic: talkPic,
+        q: '妮妮向小櫻演示共振現象實驗，兩人的對話如上。面對小櫻的質疑，妮妮增加下列哪一個實驗來說服小櫻最合適？',
+        options: [{ t: '減輕敲擊音叉的力量，觀察敲擊後是否會共振', why: '改的是響度，沒有回答「頻率不同會不會共振」。' }, { t: '將其中一支音叉更換成頻率為 500 Hz 的音叉，觀察敲擊後是否會共振', ok: true, why: '只改「頻率」這一個條件，讓兩支頻率不同，就能檢驗小櫻的說法。' },
+          { t: '將兩支音叉更換成頻率同為 500 Hz 的兩支音叉，觀察敲擊後是否會共振', why: '兩支還是頻率相同，回答不了小櫻的疑問。' }, { t: '將其中一支音叉更換成頻率為 360 Hz 但大小不同的音叉，觀察敲擊後是否會共振', why: '頻率還是相同（360 Hz），沒有測到「頻率不同」的情況。' }],
+        steps: [{ q: '小櫻懷疑的是什麼情況？', options: [{ t: '兩支音叉頻率不同時，會不會共振', ok: true, why: '所以要做一個「頻率不同」的實驗。' }, { t: '敲得大力一點會不會共振', why: '小櫻說的是頻率不同。' }] },
+          { q: '要檢驗它，應該只改變哪一個條件？', options: [{ t: '讓兩支音叉的頻率不同', ok: true, why: '其他條件都不變，只改頻率。' }, { t: '音叉的大小', why: '大小改了但頻率相同，沒用。' }] }],
+        explain: '<p>設計實驗要<b>只改變一個變因</b>。小櫻懷疑「頻率不同也會共振」，所以把其中一支換成<b>不同頻率</b>（500 Hz）來測試。</p>' },
+      { stars: 3, src: '模擬題（會考常見題型）',
+        q: '空氣中的聲速 ≈ 331 ＋ 0.6 × 氣溫（m/s）。同一個人站在離山壁 340 m 的地方大喊，在<b>冬天 0 °C</b> 和<b>夏天 30 °C</b> 各聽一次回聲。下列敘述何者正確？',
+        options: [{ t: '夏天比較快聽到回聲，因為氣溫高聲速較快', ok: true, why: '30 °C 時聲速 349 m/s，比 0 °C 的 331 m/s 快。' }, { t: '冬天比較快聽到回聲，因為冷空氣比較密', why: '氣溫越高，空氣中的聲速越快。' }, { t: '兩次一樣快，因為距離一樣', why: '距離一樣，但聲速不一樣。' }, { t: '冬天聽不到回聲', why: '冬天也有空氣可以傳聲音。' }],
+        steps: [{ num: true, q: '30 °C 時聲速 ＝ 331 ＋ 0.6 × 30 ＝ ?', post: 'm/s', answer: 349, why: '比 0 °C 的 331 m/s 快。' },
+          { q: '距離一樣，聲速越快，回聲回來得……', options: [{ t: '越快', ok: true, why: '時間 ＝ 距離 ÷ 速度。' }, { t: '越慢', why: '跑得快，就早到。' }] }],
+        explain: '<p>空氣中聲速隨氣溫升高而變快：0 °C 約 331 m/s，30 °C 約 349 m/s。距離相同時，<b>夏天的回聲比較快回來</b>。</p>' }
+    ], '第 1、2 題是真正的會考題（圖是重畫的），第 3 題是照會考題型出的模擬題。卡住就按「🪜 拆解」。');
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     U.mount(document.getElementById('unit'), { unit: 'sci8a-3-2', home: 'index.html', steps: [
       { id: 'guess', label: '猜', title: '先猜猜看：聲音從哪裡來？', render: guess },
       { id: 'play', label: '玩', title: '動手玩：抽掉空氣、聲速賽跑', render: play },
       { id: 'know', label: '懂', title: '收成 5 句話', render: know },
-      { id: 'exam', label: '考', title: '會考真的這樣考', render: exam }
+      { id: 'exam', label: '考', title: '會考真的這樣考', render: exam },
+      { id: 'real', label: '實戰', title: '會考實戰：照原題做做看', render: real }
     ] });
   });
 })();

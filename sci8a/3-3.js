@@ -186,12 +186,51 @@
     });
   }
 
+  /* ---------------- 5 實戰 ---------------- */
+  // 白噪音選項圖：響度（分貝）對頻率（Hz）；hiDb 是否超過 70 分貝、wide 是否延伸超過 20000 Hz
+  const wn = (hiDb, wide) => {
+    const X = f => 22 + f / 30000 * 110, Yd = d => 52 - d / 100 * 44, y = Yd(hiDb ? 85 : 45), x1 = X(wide ? 30000 : 20000);
+    return `<svg viewBox="0 0 150 72" width="150" height="72" style="vertical-align:middle;display:block"><line x1="22" y1="6" x2="22" y2="52" stroke="currentColor"/><line x1="22" y1="52" x2="140" y2="52" stroke="currentColor"/>
+      <line x1="${X(20000)}" y1="50" x2="${X(20000)}" y2="54" stroke="currentColor"/><text x="${X(20000)}" y="63" text-anchor="middle" font-size="8" fill="currentColor">20000</text><text x="140" y="71" text-anchor="end" font-size="8" fill="currentColor">頻率（Hz）</text>
+      <line x1="20" y1="${Yd(70)}" x2="24" y2="${Yd(70)}" stroke="currentColor"/><text x="18" y="${Yd(70) + 3}" text-anchor="end" font-size="8" fill="currentColor">70</text><text x="2" y="6" font-size="8" fill="currentColor">分貝</text>
+      <line x1="${X(20)}" y1="${y}" x2="${x1}" y2="${y}" stroke="#d64545" stroke-width="2.5"/></svg>`;
+  };
+  function real(p, api) {
+    U.real(p, api, [
+      { stars: 1, src: '105 年會考第 24 題',
+        q: '現今智慧型手機可下載許多不同的 App（應用程式），其中一些可用來量測週遭聲波的音量，當音量愈大時，App 顯示的數值也愈大，則此數值的大小主要與聲波的何種性質有關？',
+        options: [{ t: '波長', why: '波長和頻率有關，決定音調。' }, { t: '波速', why: '同樣在空氣中，聲速都一樣。' }, { t: '振幅', ok: true, why: '音量（響度）由振幅決定，單位是分貝。' }, { t: '頻率', why: '頻率決定音調高低，不是大小聲。' }],
+        steps: [{ q: '「音量」就是聲音的什麼？', options: [{ t: '響度（大小聲）', ok: true, why: '對。' }, { t: '音調（高低）', why: '音量是大小聲。' }] },
+          { q: '響度由聲波的什麼決定？', options: [{ t: '振幅', ok: true, why: '振幅越大越大聲。' }, { t: '頻率', why: '頻率決定音調。' }] }],
+        explain: '<p>聲音三要素：<b>響度 ↔ 振幅</b>（分貝）、音調 ↔ 頻率、音色 ↔ 波形。音量 App 量的是響度。</p>' },
+      { stars: 2, src: '109 年會考第 10 題',
+        q: '樂譜上常用 <i>f</i>、<i>p</i> 等力度記號來表示樂曲在此處的音量（響度）大小應該如何變化，此類力度記號與聲波的下列何種特性最相關？',
+        options: [{ t: '波長', why: '波長影響的是音調。' }, { t: '波速', why: '聲速由介質決定，和力度無關。' }, { t: '頻率', why: '頻率決定音調高低。' }, { t: '振幅', ok: true, why: '響度由振幅決定。' }],
+        steps: [{ q: 'f（強）、p（弱）告訴演奏者要多大聲。這是聲音的哪一個要素？', options: [{ t: '響度', ok: true, why: '大小聲＝響度。' }, { t: '音色', why: '音色是「像什麼樂器」。' }] }],
+        explain: '<p>力度記號表示響度大小，<b>響度由振幅決定</b>。</p>' },
+      { stars: 2, src: '114 年會考第 1 題',
+        q: '孕婦產檢時常使用超聲波（超音波）來檢查腹中胎兒的生長情形，當醫生使用超聲波進行檢查時，孕婦對超聲波的聽覺感受，下列說明何者最合理？',
+        options: [{ t: '孕婦會聽見低沉的轟隆聲', why: '超聲波頻率非常高，不是低沉的聲音。' }, { t: '孕婦會聽見尖銳刺耳的聲音', why: '頻率高到超過人耳範圍，根本聽不見。' }, { t: '因頻率過高，故孕婦聽不見超聲波', ok: true, why: '超聲波頻率高於 20000 Hz，超過人耳能聽的範圍。' }, { t: '因波速過快，故孕婦聽不見超聲波', why: '聽不聽得到看頻率，不是波速。' }],
+        steps: [{ q: '人耳大約聽得到多少頻率的聲音？', options: [{ t: '20 ～ 20000 Hz', ok: true, why: '超出範圍就聽不見。' }, { t: '所有頻率', why: '人耳有範圍限制。' }] },
+          { q: '「超」聲波的頻率比 20000 Hz……', options: [{ t: '高', ok: true, why: '所以人聽不到。' }, { t: '低', why: '比 20 Hz 低的是「次聲波」。' }] }],
+        explain: '<p>人耳能聽的頻率約 <b>20～20000 Hz</b>。超聲波頻率高於 20000 Hz，所以聽不見；聽不見的原因是<b>頻率</b>，不是波速。</p>' },
+      { stars: 3, src: '112 年會考（選項圖依解析重建）',
+        q: '「白噪音」為一種人類可聽見的聲波，此聲波在各頻率的響度大致相同。在自然界中，類似的聲音包括雨聲、海浪聲等，而家中電風扇所製造出的聲音也與白噪音相似。科學家研究發現，嬰兒處在有此種白噪音的環境下，會比較容易入睡。根據上述，下列響度與頻率的關係圖，何者最適合用來表示此種幫助入睡的白噪音？',
+        options: [{ t: wn(false, false), ok: true, why: '人聽得到的頻率範圍內（20000 Hz 以下）響度都一樣，而且不超過 70 分貝，不會太吵。' }, { t: wn(true, false), why: '響度超過 70 分貝太吵了，不適合幫助入睡。' }, { t: wn(false, true), why: '延伸到 20000 Hz 以上，那部分人聽不到，不符合「人類可聽見」。' }, { t: wn(true, true), why: '響度太大，而且頻率超出人耳範圍。' }],
+        steps: [{ q: '「各頻率的響度大致相同」，圖上的線應該是什麼形狀？', options: [{ t: '水平的直線', ok: true, why: '四張都是水平線，要看別的條件。' }, { t: '斜線', why: '響度相同就是一樣高。' }] },
+          { q: '「人類可聽見」代表頻率範圍要在哪裡？', options: [{ t: '20000 Hz 以下', ok: true, why: '超過的部分人聽不見。' }, { t: '可以超過 20000 Hz', why: '超過 20000 Hz 是超聲波，人聽不見。' }] },
+          { q: '要「幫助入睡」，響度應該……', options: [{ t: '不要太大（不超過 70 分貝）', ok: true, why: '太大聲會吵醒寶寶。' }, { t: '越大越好', why: '太吵怎麼睡得著。' }] }],
+        explain: '<p>三個條件：各頻率響度相同（水平線）、在人耳範圍內（≤ 20000 Hz）、音量不能太大（不超過 70 分貝）。只有 (A) 全部符合。</p>' }
+    ]);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     U.mount(document.getElementById('unit'), { unit: 'sci8a-3-3', home: 'index.html', steps: [
       { id: 'guess', label: '猜', title: '先猜猜看：聽得出是誰嗎？', render: guess },
       { id: 'play', label: '玩', title: '動手玩：聲音產生器與聲納', render: play },
       { id: 'know', label: '懂', title: '收成 4 句話', render: know },
-      { id: 'exam', label: '考', title: '會考真的這樣考', render: exam }
+      { id: 'exam', label: '考', title: '會考真的這樣考', render: exam },
+      { id: 'real', label: '實戰', title: '會考實戰：照原題做做看', render: real }
     ] });
   });
 })();

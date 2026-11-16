@@ -209,12 +209,59 @@
     });
   }
 
+  /* ---------------- 5 實戰 ---------------- */
+  function airPic(c) {
+    U.svg(c, '0 0 320 150', pie() + '<text x="190" y="42" class="t12b">氮氣 78.1%</text><text x="190" y="72" class="t12b">氧氣 20.9%</text><text x="190" y="102" class="t12b">氬氣 0.9%</text><text x="190" y="124" class="t12b">其他 0.1%</text>', '乾燥空氣的組成').style.maxWidth = '340px';
+  }
+  function cyclePic(c) {
+    U.svg(c, '0 0 340 110', `<text x="40" y="40" text-anchor="middle" class="t14b">X（甲）</text><text x="170" y="40" text-anchor="middle" class="t14b">X（乙）</text><text x="300" y="40" text-anchor="middle" class="t14b">X（丙）</text>
+      <path d="M78 34 H128" stroke="var(--stroke)" stroke-width="1.5" marker-end="url(#a21)"/><text x="103" y="26" text-anchor="middle" class="t12">升溫</text>
+      <path d="M208 34 H258" stroke="var(--stroke)" stroke-width="1.5" marker-end="url(#a21)"/><text x="233" y="26" text-anchor="middle" class="t12">降溫</text>
+      <path d="M300 48 V80 H40 V52" fill="none" stroke="var(--stroke)" stroke-width="1.5" marker-end="url(#a21)"/><text x="170" y="98" text-anchor="middle" class="t12">升溫</text>
+      <defs><marker id="a21" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8Z" fill="var(--stroke)"/></marker></defs>`, '純物質 X 的三種狀態變化').style.maxWidth = '360px';
+  }
+  function tubesPic(c) {
+    const tube = (x, name, rise) => `<rect x="${x}" y="30" width="26" height="110" rx="12" fill="var(--card)" stroke="var(--stroke)" stroke-width="1.5"/><rect x="${x + 1}" y="${140 - rise}" width="24" height="${rise}" fill="var(--water)"/><text x="${x + 13}" y="22" text-anchor="middle" class="t14b">${name}</text>`;
+    U.svg(c, '0 0 320 170', `<rect x="20" y="118" width="280" height="40" fill="var(--water)"/><path d="M20 100 V158 H300 V100" fill="none" stroke="var(--stroke)" stroke-width="1.5"/>` + tube(60, '甲', 90) + tube(147, '乙', 45) + tube(234, '丙', 4), '三支倒插試管').style.maxWidth = '320px';
+    c.appendChild(h('<table class="sim-table" style="max-width:380px"><thead><tr><th>學生</th><th>溶解度（mL／100 mL 水）</th><th>使用排水集氣法</th></tr></thead><tbody><tr><td>阿文</td><td>甲＞乙＞丙</td><td>甲最適用</td></tr><tr><td>阿明</td><td>甲＞乙＞丙</td><td>丙最適用</td></tr><tr><td>小薰</td><td>甲＜乙＜丙</td><td>甲最適用</td></tr><tr><td>小玉</td><td>甲＜乙＜丙</td><td>丙最適用</td></tr></tbody></table>'));
+  }
+  function real(p, api) {
+    U.real(p, api, [
+      { stars: 1, src: '108 年會考第 10 題', pic: airPic,
+        q: '圖為地球地表附近乾燥空氣的組成百分率圖，此圖中，所有能與<b>點燃的線香</b>發生化學反應的氣體百分率之總和，約為多少？',
+        options: [{ t: '20.9%', ok: true, why: '能讓線香繼續燃燒（助燃）的只有氧氣，約 20.9%。' }, { t: '21.8%', why: '21.8% 是氧＋氬，但氬是惰性氣體，不和線香反應。' }, { t: '78.1%', why: '那是氮氣，不可燃也不助燃。' }, { t: '79.0%', why: '那是氮＋氬，兩者都不和線香反應。' }],
+        steps: [{ q: '點燃的線香要燒得起來，需要哪一種氣體？', options: [{ t: '氧氣（助燃）', ok: true, why: '燃燒需要氧氣。' }, { t: '氮氣', why: '氮氣不助燃。' }] },
+          { q: '空氣中氧氣大約占多少？', options: [{ t: '20.9%', ok: true, why: '看圖。' }, { t: '78.1%', why: '那是氮氣。' }] }],
+        explain: '<p>燃燒是和<b>氧氣</b>的化學反應。氮氣不可燃也不助燃，氬氣是惰性氣體。所以只有氧氣約 <b>20.9%</b>。</p>' },
+      { stars: 2, src: '111 年會考第 9 題',
+        q: '製作蛋糕時，常會在白色的鮮奶油中加入些許色素混合，使其顏色變化增加美觀，而鮮奶油仍維持原本的性質。做好的蛋糕需妥善冷藏，以防止鮮奶油腐壞變質。關於上述鮮奶油「變色」和鮮奶油「變質」兩者的說明，下列何者最合理？',
+        options: [{ t: '兩者都是化學變化', why: '加色素只是混在一起，鮮奶油的性質沒變。' }, { t: '兩者都不是化學變化', why: '腐壞變質產生了新的物質（味道、氣味都變了）。' }, { t: '只有後者是化學變化', ok: true, why: '變色是混合（物理變化）；變質產生新物質（化學變化）。' }, { t: '只有前者是化學變化', why: '剛好反了。' }],
+        steps: [{ q: '加色素後，題目說鮮奶油「仍維持原本的性質」。有產生新物質嗎？', options: [{ t: '沒有，是物理變化', ok: true, why: '只是混在一起。' }, { t: '有', why: '題目說性質沒變。' }] },
+          { q: '鮮奶油腐壞變質呢？', options: [{ t: '產生新物質，是化學變化', ok: true, why: '和牛奶放到酸掉一樣。' }, { t: '只是顏色改變，是物理變化', why: '腐壞會變味、變臭，是新物質。' }] }],
+        explain: '<p>判斷依據：<b>有沒有產生新物質</b>。加色素只是混合（物理變化）；腐壞產生新物質（化學變化）。</p>' },
+      { stars: 2, src: '105 年會考第 11 題', pic: cyclePic,
+        q: '在固定壓力改變溫度的實驗中，測得純物質 X 的甲、乙、丙三種不同狀態，如圖所示。甲、乙、丙分別為物質三態中的哪一種？',
+        options: [{ t: '甲：固態，乙：液態，丙：氣態', why: '那從丙（氣態）升溫會變回甲（固態）嗎？升溫不會讓氣體變固體。' }, { t: '甲：固態，乙：氣態，丙：液態', why: '丙（液態）升溫應該變成氣態，不會變回固態。' },
+          { t: '甲：液態，乙：固態，丙：氣態', why: '甲（液態）升溫不會變成固態。' }, { t: '甲：液態，乙：氣態，丙：固態', ok: true, why: '液態升溫→氣態；氣態降溫→固態；固態升溫→液態，全部說得通。' }],
+        steps: [{ q: '物質「升溫」時，狀態通常怎麼變？', options: [{ t: '固→液→氣（粒子越動越快）', ok: true, why: '升溫往「氣」的方向走。' }, { t: '氣→液→固', why: '那是降溫。' }] },
+          { q: '丙「升溫」變成甲，甲「升溫」變成乙。所以三個中誰最「冷」的狀態？', options: [{ t: '丙（固態）', ok: true, why: '丙 → 甲 → 乙 都是升溫，所以丙固、甲液、乙氣。' }, { t: '乙', why: '乙要「降溫」才變成丙，乙是最熱的。' }] }],
+        explain: '<p>升溫：固 → 液 → 氣。丙升溫變甲、甲升溫變乙 → <b>丙固態、甲液態、乙氣態</b>；乙降溫直接變丙（氣→固，凝華）也合理。</p>' },
+      { stars: 3, src: '107 年會考第 23 題', pic: tubesPic,
+        q: '實驗課時，阿文一組四人取分別充滿 1 大氣壓甲、乙、丙氣體的三支試管，倒插入盛有 100 mL 水的相同燒杯中，拔開橡皮塞，經一段時間後觀察試管的情況，如圖所示。若不考慮水的蒸發，則表內四人對於甲、乙、丙三種氣體在水中溶解度的比較，與收集氣體方法的判斷，何者正確？',
+        options: [{ t: '阿文', why: '溶解度比較對了；但甲最容易溶於水，不適合排水集氣。' }, { t: '阿明', ok: true, why: '水進去越多代表氣體溶得越多：甲＞乙＞丙；丙幾乎不溶，最適合排水集氣。' }, { t: '小薰', why: '溶解度順序反了。' }, { t: '小玉', why: '後半對，但溶解度順序反了。' }],
+        steps: [{ q: '試管裡的水上升得越高，代表什麼？', options: [{ t: '氣體溶到水裡越多（溶解度大）', ok: true, why: '氣體變少，水就被壓進來。' }, { t: '氣體越重', why: '和輕重無關，是氣體溶掉了。' }] },
+          { q: '排水集氣法適合收集哪一種氣體？', options: [{ t: '難溶於水的', ok: true, why: '不然氣體會溶到水裡，收集不到。' }, { t: '易溶於水的', why: '易溶的氣體會溶掉。' }] }],
+        explain: '<p>上升高度：甲＞乙＞丙 → 溶解度 <b>甲＞乙＞丙</b>。排水集氣要用<b>難溶於水</b>的氣體 → 丙最適用。選阿明。</p>' }
+    ]);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     U.mount(document.getElementById('unit'), { unit: 'sci8a-2-1', home: 'index.html', steps: [
       { id: 'guess', label: '猜', title: '先猜猜看：還是同一種東西嗎？', render: guess },
       { id: 'play', label: '玩', title: '動手玩：粒子、變化、氣體', render: play },
       { id: 'know', label: '懂', title: '收成 5 句話', render: know },
-      { id: 'exam', label: '考', title: '會考真的這樣考', render: exam }
+      { id: 'exam', label: '考', title: '會考真的這樣考', render: exam },
+      { id: 'real', label: '實戰', title: '會考實戰：照原題做做看', render: real }
     ] });
   });
 })();

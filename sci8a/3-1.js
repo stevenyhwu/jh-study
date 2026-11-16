@@ -159,12 +159,49 @@
     });
   }
 
+  /* ---------------- 5 實戰 ---------------- */
+  function pondPic(c) {
+    U.svg(c, '0 0 340 120', `<rect x="0" y="0" width="340" height="120" rx="8" fill="var(--water)"/>
+      ${[1, 2, 3].map(r => `<circle cx="140" cy="60" r="${r * 30}" fill="none" stroke="var(--water-line)" stroke-dasharray="4 4"/>`).join('')}
+      <circle cx="140" cy="60" r="4" fill="var(--stroke)"/><text x="140" y="80" text-anchor="middle" class="t14b">O</text>
+      <text x="110" y="56" text-anchor="middle" font-size="18">🍂</text><text x="110" y="80" text-anchor="middle" class="t14b">P</text>
+      <text x="200" y="56" text-anchor="middle" font-size="18">🍂</text><text x="200" y="80" text-anchor="middle" class="t14b">Q</text>
+      <line x1="110" y1="96" x2="140" y2="96" stroke="var(--stroke)"/><text x="125" y="110" text-anchor="middle" class="t12">1 m</text>
+      <line x1="140" y1="96" x2="200" y2="96" stroke="var(--stroke)"/><text x="170" y="110" text-anchor="middle" class="t12">2 m</text>`, '許願池上的 O、P、Q 三點和水波').style.maxWidth = '360px';
+  }
+  function real(p, api) {
+    U.real(p, api, [
+      { stars: 2, src: '111 年會考第 34 題',
+        pic: c => c.appendChild(h('<div style="overflow-x:auto"><table class="sim-table"><thead><tr><th>時間（10⁻² s）</th><th>0</th><th>0.5</th><th>1.0</th><th>1.5</th><th>2.0</th><th>2.5</th><th>3.0</th><th>3.5</th><th>4.0</th><th>4.5</th></tr></thead><tbody><tr><td>P 點的鉛直高度（cm）</td><td>5.0</td><td>2.5</td><td>－2.5</td><td>－5.0</td><td>－2.5</td><td>2.5</td><td>5.0</td><td>2.5</td><td>－2.5</td><td>－5.0</td></tr></tbody></table></div>')),
+        q: '一條輕繩的一端固定於水平桌面的桌緣上，拉直此繩使其呈水平後，再以固定頻率鉛直上下振動，產生相同頻率的繩波。繩波上一點 P 與桌面水平線的鉛直高度與時間的關係如表所示，依據此表推論下列何者最可能是此繩波的週期？',
+        options: [{ t: '1.0 × 10⁻² s', why: '1.0 時 P 在 －2.5，還沒回到原來的 5.0。' }, { t: '1.5 × 10⁻² s', why: '1.5 時 P 在最低點 －5.0，只走了半趟。' }, { t: '2.0 × 10⁻² s', why: '2.0 時 P 在 －2.5，還在往上走。' }, { t: '3.0 × 10⁻² s', ok: true, why: 'P 從 5.0 出發，到 3.0×10⁻² s 又回到 5.0，剛好振動一次。' }],
+        steps: [{ q: '週期是什麼？', options: [{ t: '振動一次（回到原來位置、原來方向）所需的時間', ok: true, why: '要「回到原點」才算一次。' }, { t: '走到最低點的時間', why: '到最低點只是半次。' }] },
+          { q: 'P 在時間 0 時高度是 5.0 cm。下一次回到 5.0 cm 是在什麼時候？', options: [{ t: '3.0 × 10⁻² s', ok: true, why: '看表格：3.0 那一格是 5.0。' }, { t: '1.5 × 10⁻² s', why: '1.5 時是 －5.0，是最低點。' }] }],
+        explain: '<p>週期＝振動一次的時間。P 從 5.0 cm（最高點）→ 最低點 －5.0 → 回到 5.0，共花 <b>3.0×10⁻² s</b>。</p>' },
+      { stars: 3, src: '106 年會考第 35 題', pic: pondPic,
+        q: '平靜無風的下午，在許願池上 O 點丟入一枚硬幣，使水面上產生一個圓形水波，已知圓形水波的半徑每秒增加 1 m。若丟入硬幣前，在水面上距離 O 點 1 m 及 2 m 的 P、Q 兩點，分別有一片落葉，且 O、P、Q 在同一直線上，如圖所示，則硬幣丟入水中 3 秒後，兩片落葉的距離約為多少？',
+        options: [{ t: '3 m', ok: true, why: '落葉只會在原地上下晃，不會跟著水波跑，距離還是 1＋2＝3 m。' }, { t: '5 m', why: '落葉不會被水波帶走。' }, { t: '6 m', why: '水波 3 秒跑 3 m，但跑走的是波，不是落葉。' }, { t: '9 m', why: '落葉不會被水波帶走。' }],
+        steps: [{ q: '水波傳過去時，水面上的落葉會怎樣？', options: [{ t: '在原地上下晃，不會跟著跑', ok: true, why: '波傳的是能量，介質（水）和上面的落葉留在原地。' }, { t: '跟著水波往外漂', why: '想想 3-1 的紅點：只上下動。' }] },
+          { q: '那 3 秒後，P 和 Q 的距離是？', options: [{ t: '和原來一樣，1＋2＝3 m', ok: true, why: 'P、Q 在 O 的兩側。' }, { t: '2－1＝1 m', why: '看圖：P 和 Q 在 O 的兩邊，要相加。' }] }],
+        explain: '<p>波傳遞的是<b>能量</b>，介質只在原地振動。落葉不會被水波帶走，P、Q 仍相距 1＋2＝<b>3 m</b>。「半徑每秒增加 1 m」是故意放的干擾資訊。</p>' },
+      { stars: 3, src: '107 年會考第 32 題',
+        pic: c => c.appendChild(h('<table class="sim-table" style="max-width:320px"><thead><tr><th>動物</th><th>聽覺頻率範圍（Hz）</th></tr></thead><tbody><tr><td>大象</td><td>16 ～ 12000</td></tr><tr><td>兔子</td><td>360 ～ 42000</td></tr></tbody></table>')),
+        q: '表為兩種動物所能聽見聲音的頻率範圍。在空氣溫度為 15 °C、聲波波速為 34000 cm/s 的環境下，若發出波長為 1000 cm、且音量足夠大的聲波，則參閱表中的資訊，下列有關此兩種動物是否能聽到此聲波的敘述何者最合理？',
+        options: [{ t: '兩種動物都聽得到此聲波', why: '算出頻率是 34 Hz，兔子最低只聽到 360 Hz。' }, { t: '兩種動物都聽不到此聲波', why: '34 Hz 在大象 16～12000 Hz 的範圍內。' }, { t: '此聲波大象聽得到，而兔子聽不到', ok: true, why: 'f ＝ v ÷ λ ＝ 34000 ÷ 1000 ＝ 34 Hz。' }, { t: '此聲波兔子聽得到，而大象聽不到', why: '34 Hz 是很低的聲音，兔子聽不到。' }],
+        steps: [{ q: '已知波速和波長，要怎麼求頻率？', options: [{ t: '頻率 ＝ 波速 ÷ 波長', ok: true, why: '由 v ＝ f × λ 移項。' }, { t: '頻率 ＝ 波速 × 波長', why: 'v ＝ f × λ，所以 f ＝ v ÷ λ。' }] },
+          { num: true, q: '34000 ÷ 1000 ＝ ?', post: 'Hz', answer: 34, why: '34 Hz。' },
+          { q: '34 Hz 在誰的範圍內？', options: [{ t: '只在大象的範圍（16～12000）', ok: true, why: '兔子要 360 Hz 以上。' }, { t: '兩種都在', why: '兔子最低 360 Hz。' }] }],
+        explain: '<p>f ＝ v ÷ λ ＝ 34000 cm/s ÷ 1000 cm ＝ <b>34 Hz</b>。大象（16～12000）聽得到；兔子（360～42000）聽不到。注意單位都用 cm 才能直接相除。</p>' }
+    ]);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     U.mount(document.getElementById('unit'), { unit: 'sci8a-3-1', home: 'index.html', steps: [
       { id: 'guess', label: '猜', title: '先猜猜看：波帶走了什麼？', render: guess },
       { id: 'play', label: '玩', title: '動手玩：抖一條繩子', render: play },
       { id: 'know', label: '懂', title: '收成 4 句話', render: know },
-      { id: 'exam', label: '考', title: '會考真的這樣考', render: exam }
+      { id: 'exam', label: '考', title: '會考真的這樣考', render: exam },
+      { id: 'real', label: '實戰', title: '會考實戰：照原題做做看', render: real }
     ] });
   });
 })();
