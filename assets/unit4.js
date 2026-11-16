@@ -159,6 +159,22 @@
     return { set(v) { inp.value = v; out.innerHTML = fmt(v); }, el: row };
   }
 
+  /* ---------- 「玩」的多個模擬：一張卡裡放 n 個分頁，一次顯示一個 ---------- */
+  function panes(p, n) {
+    const card = h('<div class="card"></div>'); p.appendChild(card);
+    const list = [];
+    for (let i = 0; i < n; i++) { const d = h('<div></div>'); d.hidden = i > 0; card.appendChild(d); list.push(d); }
+    return { list, show(i) { list.forEach((d, j) => { d.hidden = j !== i; }); }, end(slot) { card.appendChild(slot); } };
+  }
+  /* ---------- 一節的四步：fns = {guess, play, know, exam}，titles = [猜, 玩, 懂, 考] ---------- */
+  function run(unit, titles, fns) {
+    document.addEventListener('DOMContentLoaded', () => mount(document.getElementById('unit'), { unit: 'sci8a-' + unit, home: 'index.html', steps: [
+      { id: 'guess', label: '猜', title: titles[0], render: fns.guess },
+      { id: 'play', label: '玩', title: titles[1], render: fns.play },
+      { id: 'know', label: '懂', title: titles[2], render: fns.know },
+      { id: 'exam', label: '考', title: titles[3] || '會考真的這樣考', render: fns.exam }] }));
+  }
+
   /* ---------- 動畫：每 40ms 呼叫 draw(秒)；畫面看不到時暫停 ---------- */
   function anim(sv, draw) {
     let t0 = performance.now();
@@ -290,5 +306,5 @@
     return box;
   }
 
-  window.Unit4 = { mount, choice, numq, Store, h, svg, chips, slider, anim, guess, tasks, card, exam, sort };
+  window.Unit4 = { mount, choice, numq, Store, h, svg, chips, slider, anim, panes, run, guess, tasks, card, exam, sort };
 })();
