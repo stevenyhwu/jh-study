@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>國二上理化｜國中學習網</title>
+<meta name="description" content="國二上理化（翰林版）互動課程：每一節用模擬實驗先玩再懂，最後做會考題。免登入。">
+<link rel="stylesheet" href="../assets/common.css?v=20261116d">
+<link rel="stylesheet" href="../assets/unit4.css?v=20261116d">
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap"><a class="home" href="../index.html">📚 國中學習網</a></div>
+</header>
+<main class="wrap">
+  <div class="hero">
+    <h1>🧪 國二上・理化</h1>
+    <div class="meta">翰林版｜每一節大約 10 分鐘：先猜 → 動手玩實驗 → 收成幾句話 → 做會考題</div>
+  </div>
+
+  <section class="block">
+    <div class="sci-sum">
+      <div class="box"><b id="s-play">0</b><span>節 玩過實驗</span></div>
+      <div class="box"><b id="s-know">0</b><span>節 懂了</span></div>
+      <div class="box"><b id="s-exam">0</b><span>節 會考過關</span></div>
+    </div>
+    <p class="legend">每一節有三個燈：<b>玩</b>（做完實驗任務）、<b>懂</b>（算對小檢查）、<b>考</b>（會考題全對）。</p>
+  </section>
+
+  <section class="block" id="chapters"></section>
+  <p class="muted small">學習紀錄只存在這台裝置的瀏覽器裡，不需要登入。第 1、2 章已開放，其他小節製作中。</p>
+</main>
+<footer>國中學習網・內容為自編教材，僅供學習使用</footer>
+<script>
+(function () {
+  const CH = [
+    ['⚖️', '第 1 章　基本測量', [['1-1', '實驗室的基本操作', '1-1.html'], ['1-2', '長度、質量、時間與體積的測量', '1-2.html'], ['1-3', '密度', '1-3.html']]],
+    ['💧', '第 2 章　物質的世界', [['2-1', '認識物質', '2-1.html'], ['2-2', '溶液與濃度', '2-2.html'], ['2-3', '混合物的分離', '2-3.html']]],
+    ['🔊', '第 3 章　波動與聲音', [['3-1', '波的傳播'], ['3-2', '聲音的形成'], ['3-3', '多變的聲音、聲波的傳播與應用']]],
+    ['🔦', '第 4 章　光、影像與顏色', [['4-1', '光的傳播'], ['4-2', '光的反射與面鏡成像'], ['4-3', '光的折射'], ['4-4', '透鏡成像'], ['4-5', '色散與顏色']]],
+    ['🌡️', '第 5 章　溫度與熱', [['5-1', '溫度與溫度計'], ['5-2', '熱量、比熱'], ['5-3', '熱對物質的影響'], ['5-4', '熱的傳播方式']]],
+    ['⚛️', '第 6 章　物質的基本結構', [['6-1', '元素與化合物'], ['6-2', '生活中常見的元素'], ['6-3', '物質結構與原子'], ['6-4', '週期表'], ['6-5', '分子與化學式']]]
+  ];
+  function get(k) { try { return JSON.parse(localStorage.getItem('jh.' + k)) || {}; } catch (e) { return {}; } }
+  const sum = { play: 0, know: 0, exam: 0 };
+  const host = document.getElementById('chapters');
+  CH.forEach(([icon, title, units]) => {
+    let rows = '';
+    units.forEach(([num, name, href]) => {
+      if (href) {
+        const st = get('sci.sci8a-' + num);
+        ['play', 'know', 'exam'].forEach(k => { if (st[k]) sum[k]++; });
+        const L = (k, t) => `<span class="${st[k] ? 'on' : ''}">${t}</span>`;
+        rows += `<li><a href="${href}"><span class="num">${num}</span>${name}<span class="lights">${L('play', '玩')}${L('know', '懂')}${L('exam', '考')}</span></a></li>`;
+      } else {
+        rows += `<li><span class="off"><span class="num">${num}</span>${name}<span class="soon">製作中</span></span></li>`;
+      }
+    });
+    host.insertAdjacentHTML('beforeend', `<div class="card"><h3>${icon} ${title}</h3><ul class="unit-list">${rows}</ul></div>`);
+  });
+  Object.keys(sum).forEach(k => { document.getElementById('s-' + k).textContent = sum[k]; });
+})();
+</script>
+</body>
+</html>
