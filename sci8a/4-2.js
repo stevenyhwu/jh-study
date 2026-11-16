@@ -136,5 +136,69 @@
     });
   }
 
-  U.run('4-2', ['先猜猜看：鏡子裡的世界', '動手玩：反射與面鏡', '收成 4 句話'], { guess, play, know, exam });
+  /* ---------------- 5 實戰 ---------------- */
+  function boardPic(c) {
+    let s = MIRROR_V(200);
+    for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) {
+      s += `<rect x="${110 + j * 30}" y="${30 + i * 30}" width="30" height="30" fill="var(--bg)" stroke="var(--stroke)"/>`;
+      s += `<rect x="${206 + j * 30}" y="${30 + i * 30}" width="30" height="30" fill="var(--bg)" stroke="var(--muted)" stroke-dasharray="3 3"/>`;
+    }
+    s += `<circle cx="110" cy="90" r="11" fill="var(--card)" stroke="var(--stroke)"/><text x="110" y="95" text-anchor="middle" class="t12b">馬</text><text x="96" y="114" class="t12b">甲</text>
+      <circle cx="170" cy="60" r="11" fill="var(--card)" stroke="var(--stroke)"/><text x="170" y="65" text-anchor="middle" class="t12b">馬</text><text x="164" y="84" class="t12b">乙</text>
+      <path d="M120 85 L160 66" stroke="var(--bad)" stroke-width="2" marker-end="url(#m42)"/><defs><marker id="m42" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8Z" fill="var(--bad)"/></marker></defs>`;
+    [['P', 236, 60], ['Q', 296, 60], ['R', 236, 90], ['S', 296, 90]].forEach(([t, x, y]) => { s += `<circle cx="${x}" cy="${y}" r="3.5" fill="var(--stroke)"/><text x="${x + 6}" y="${y - 5}" class="t12b">${t}</text>`; });
+    s += '<text x="155" y="140" text-anchor="middle" class="t12">棋盤</text><text x="251" y="140" text-anchor="middle" class="t12">鏡中的像</text>';
+    U.svg(c, '60 10 280 140', s, '平面鏡與九格棋盤').style.maxWidth = '380px';
+  }
+  function reflPic(c) {
+    const H = [160, 150], n = [0.264, -0.964], t = [0.964, 0.264];
+    const P = (k, v) => [H[0] + k * v[0], H[1] + k * v[1]];
+    const E1 = [H[0] - 90 * t[0] + 25 * n[0], H[1] - 90 * t[1] + 25 * n[1]], E2 = [H[0] + 90 * t[0] + 25 * n[0], H[1] + 90 * t[1] + 25 * n[1]], C = P(-25, n);
+    const line = (ang, lab) => { const v = [Math.sin(ang * Math.PI / 180), -Math.cos(ang * Math.PI / 180)], e = P(120, v); return `<line x1="${H[0]}" y1="${H[1]}" x2="${e[0]}" y2="${e[1]}" stroke="var(--muted)" stroke-dasharray="5 4"/><text x="${e[0] + 4}" y="${e[1]}" class="t12b">${lab}</text>`; };
+    U.svg(c, '0 0 320 190', `<path d="M${E1} Q${C} ${E2}" fill="none" stroke="#5aa0d8" stroke-width="5"/>
+      ${line(15.3, 'L₁')}${line(0, 'L₂')}${line(42, 'L₃')}${line(-22, 'L₄')}
+      <line x1="60" y1="20" x2="${H[0]}" y2="${H[1]}" stroke="var(--bad)" stroke-width="2.5"/><line x1="${H[0]}" y1="${H[1]}" x2="262" y2="109" stroke="var(--bad)" stroke-width="2.5"/>
+      <rect x="262" y="96" width="40" height="26" rx="4" fill="var(--card)" stroke="var(--stroke)"/><text x="282" y="140" text-anchor="middle" class="t12b">接收器</text>
+      <text x="44" y="16" class="t12b">☀ 入射光</text><text x="${H[0] - 4}" y="${H[1] + 22}" class="t12b">O</text><text x="70" y="182" class="t12">反射器</text>`, '反射器、入射光與四條虛線').style.maxWidth = '360px';
+  }
+  function cardPic(c) {
+    const x = d => 40 + 120 * Math.tan(d * Math.PI / 180);
+    U.svg(c, '0 0 340 180', `<line x1="40" y1="10" x2="40" y2="152" stroke="#5aa0d8" stroke-width="5"/><line x1="40" y1="152" x2="330" y2="152" stroke="var(--stroke)" stroke-width="2"/>
+      <rect x="40" y="146" width="${x(30) - 40}" height="6" fill="#e53935"/><rect x="${x(30)}" y="146" width="${x(45) - x(30)}" height="6" fill="#fff" stroke="var(--stroke)" stroke-width=".8"/><rect x="${x(45)}" y="146" width="${x(60) - x(45)}" height="6" fill="#43a047"/>
+      ${[30, 45, 60].map(d => `<line x1="40" y1="32" x2="${x(d)}" y2="152" stroke="var(--stroke)"/>`).join('')}
+      <text x="44" y="28" class="t14b">P</text><text x="48" y="60" class="t12">30°</text><text x="54" y="78" class="t12">45°</text><text x="60" y="96" class="t12">60°</text>
+      <text x="${(40 + x(30)) / 2}" y="170" text-anchor="middle" class="t12b">紅</text><text x="${(x(30) + x(45)) / 2}" y="170" text-anchor="middle" class="t12b">白</text><text x="${(x(45) + x(60)) / 2}" y="170" text-anchor="middle" class="t12b">綠</text>
+      <text x="300" y="170" class="t12">桌面</text><text x="14" y="90" class="t12" writing-mode="tb">平面鏡</text>`, '平面鏡上的 P 點與桌上的三張圖卡').style.maxWidth = '380px';
+  }
+  function real(p, api) {
+    U.real(p, api, [
+      { stars: 1, src: '銜接題',
+        q: '小美站在平面鏡前 2 m 處，接著往鏡子走近 0.5 m。這時小美和她鏡中的像相距多少公尺？',
+        options: [{ t: '1.5 m', why: '1.5 m 是小美到「鏡子」的距離。' }, { t: '3 m', ok: true, why: '小美離鏡子 1.5 m，像也在鏡後 1.5 m，相距 3 m。' }, { t: '3.5 m', why: '要先算走近後的距離：2－0.5＝1.5。' }, { t: '4 m', why: '4 m 是還沒走近時的距離。' }],
+        steps: [{ q: '走近以後，小美離鏡子多遠？', options: [{ t: '1.5 m', ok: true, why: '2－0.5＝1.5。' }, { t: '2.5 m', why: '是「走近」，要減。' }] },
+          { q: '像離鏡子多遠？', options: [{ t: '也是 1.5 m', ok: true, why: '物距＝像距。' }, { t: '3 m', why: '像到鏡子的距離和小美到鏡子一樣。' }] }],
+        explain: '<p>平面鏡：<b>物距＝像距</b>。人和像的距離＝物距×2＝1.5×2＝3 m。</p>' },
+      { stars: 2, src: '103 年會考第 3 題', pic: boardPic,
+        q: '如圖所示，在一面鉛直立著的平面鏡左方水平放置一個九格的棋盤，平面鏡右方表示鏡中所成的像。將一顆棋子「馬」由圖中甲處移至乙處，則平面鏡中所顯示的棋子「馬」，其移動的路徑為下列何者？',
+        options: [{ t: 'P → S', why: '起點和終點反了。' }, { t: 'Q → R', why: '甲在棋盤最外側、下面那條線上，它的像也要在最外側、同一條線上。' }, { t: 'S → P', ok: true, why: '甲的像是 S，乙的像是 P。' }, { t: 'R → Q', why: '像和物體要和鏡子距離一樣、高度一樣。' }],
+        steps: [{ q: '甲離鏡子 3 格，在下面那條橫線上。甲在鏡中的像是哪一點？', options: ['P', 'Q', 'R', 'S'].map(t => ({ t, ok: t === 'S', why: t === 'S' ? '鏡後 3 格、同一條橫線。' : '像要和甲一樣離鏡子 3 格、在同一條橫線上。' })) },
+          { q: '乙離鏡子 1 格，在上面那條橫線上。乙在鏡中的像是哪一點？', options: ['P', 'Q', 'R', 'S'].map(t => ({ t, ok: t === 'P', why: t === 'P' ? '鏡後 1 格、同一條橫線。' : '像要和乙一樣離鏡子 1 格、在同一條橫線上。' })) }],
+        explain: '<p>平面鏡成像：像和物體對稱於鏡面，<b>距離鏡子一樣遠、高度一樣</b>。甲 → S，乙 → P，所以路徑是 S → P。</p>' },
+      { stars: 2, src: '改寫自 108 年會考第 47 題', pic: reflPic,
+        q: '太陽能發電廠用反射器把太陽光反射到接收器上，如圖。圖中的入射光線經反射器上的 O 點反射後，照射在接收器上，則此時 O 點的法線應為圖中的哪一條虛線？',
+        options: [{ t: 'L₁', ok: true, why: 'L₁ 剛好在入射光和反射光正中間（入射角＝反射角），而且垂直反射面。' }, { t: 'L₂', why: 'L₂ 是鉛直線，但法線要垂直「反射面」，不一定是鉛直的。' }, { t: 'L₃', why: 'L₃ 離反射光比較近，兩邊的角不相等。' }, { t: 'L₄', why: 'L₄ 在入射光外面，入射光和反射光必須在法線兩側。' }],
+        steps: [{ q: '法線和反射面是什麼關係？', options: [{ t: '垂直', ok: true, why: '法線就是垂直反射面的那條線。' }, { t: '平行', why: '法線是「垂直」鏡面的線。' }] },
+          { q: '依反射定律，入射角＝反射角。所以法線一定在入射光和反射光的……', options: [{ t: '正中間', ok: true, why: '兩邊的角一樣大，法線就在正中間。' }, { t: '外面', why: '入射光和反射光要分別在法線的兩側。' }] }],
+        explain: '<p>反射定律：入射角＝反射角，入射光和反射光在<b>法線兩側</b>。所以法線是入射光和反射光夾角的<b>平分線</b>，而且垂直反射面 → L₁。</p>' },
+      { stars: 3, src: '104 年會考第 39 題', pic: cardPic,
+        q: '桌面上由左至右擺放著紅色、白色、綠色三張相鄰的圖卡，左端放置一平面鏡與桌面垂直，圖卡間相鄰位置與平面鏡上 P 點的角度關係，如圖所示。今將<b>藍色光線</b>以入射角 X 度入射在平面鏡 P 點，看見光線反射後落在圖卡上形成<b>藍色光點</b>，依上述條件推論，下列何者最可能為 X 的數值？',
+        options: [{ t: '35', why: '反射角 35° 時，反射光和鏡面夾 55°，會落在綠卡上，綠卡會吸收藍光。' }, { t: '40', why: '反射光和鏡面夾 50°，還是落在綠卡上。' }, { t: '50', ok: true, why: '反射光和鏡面夾 40°，落在白卡上，白卡反射藍光 → 藍色光點。' }, { t: '75', why: '反射光和鏡面夾 15°，落在紅卡上，紅卡吸收藍光 → 黑點。' }],
+        steps: [{ q: '藍光落在哪一張圖卡上，才會看到「藍色光點」？', options: [{ t: '白色圖卡', ok: true, why: '白色反射所有色光，藍光照上去就是藍色。（紅卡、綠卡會吸收藍光，看起來是黑點）' }, { t: '紅色圖卡', why: '紅卡只反射紅光，藍光會被吸收。' }, { t: '綠色圖卡', why: '綠卡只反射綠光，藍光會被吸收。' }] },
+          { q: '落在白卡上，反射光和「鏡面」的夾角在幾度之間？', options: [{ t: '30°～45°', ok: true, why: '看圖：白卡在 30° 線和 45° 線之間。' }, { t: '45°～60°', why: '那是綠卡的範圍。' }, { t: '0°～30°', why: '那是紅卡的範圍。' }] },
+          { q: '法線和鏡面垂直（90°）。反射角是和「法線」的夾角，所以反射角在幾度之間？', options: [{ t: '45°～60°', ok: true, why: '90－45＝45，90－30＝60。' }, { t: '30°～45°', why: '這是和鏡面的夾角，要用 90° 去減。' }] }],
+        explain: '<p>① 藍光只有落在<b>白卡</b>才會呈藍色。② 白卡對應反射光和鏡面夾 30°～45°。③ 反射角＝90°－(30°～45°)＝45°～60°。④ 入射角＝反射角，所以 45° ＜ X ＜ 60°，選 <b>50</b>。</p>' }
+    ]);
+  }
+
+  U.run('4-2', ['先猜猜看：鏡子裡的世界', '動手玩：反射與面鏡', '收成 4 句話'], { guess, play, know, exam, real });
 })();

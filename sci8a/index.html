@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>國二上理化｜國中學習網</title>
 <meta name="description" content="國二上理化（翰林版）互動課程：每一節用模擬實驗先玩再懂，最後做會考題。免登入。">
-<link rel="stylesheet" href="../assets/common.css?v=20261116h">
-<link rel="stylesheet" href="../assets/unit4.css?v=20261116h">
+<link rel="stylesheet" href="../assets/common.css?v=20261116i">
+<link rel="stylesheet" href="../assets/unit4.css?v=20261116i">
 </head>
 <body>
 <header class="topbar">
@@ -23,8 +23,9 @@
       <div class="box"><b id="s-play">0</b><span>節 玩過實驗</span></div>
       <div class="box"><b id="s-know">0</b><span>節 懂了</span></div>
       <div class="box"><b id="s-exam">0</b><span>節 會考過關</span></div>
+      <div class="box"><b id="s-real">0</b><span>節 實戰過關</span></div>
     </div>
-    <p class="legend">每一節有三個燈：<b>玩</b>（做完實驗任務）、<b>懂</b>（算對小檢查）、<b>考</b>（會考題全對）。</p>
+    <p class="legend">每一節有三個燈：<b>玩</b>（做完實驗任務）、<b>懂</b>（算對小檢查）、<b>考</b>（會考題全對）；有實戰的小節還有<b>戰</b>（會考原題全對）。</p>
   </section>
 
   <section class="block" id="chapters"></section>
@@ -42,16 +43,17 @@
     ['⚛️', '第 6 章　物質的基本結構', [['6-1', '元素與化合物', '6-1.html'], ['6-2', '生活中常見的元素', '6-2.html'], ['6-3', '物質結構與原子', '6-3.html'], ['6-4', '週期表', '6-4.html'], ['6-5', '分子與化學式', '6-5.html']]]
   ];
   function get(k) { try { return JSON.parse(localStorage.getItem('jh.' + k)) || {}; } catch (e) { return {}; } }
-  const sum = { play: 0, know: 0, exam: 0 };
+  const sum = { play: 0, know: 0, exam: 0, real: 0 };
+  const REAL = new Set(['4-1', '4-2', '4-3', '4-4', '4-5']);
   const host = document.getElementById('chapters');
   CH.forEach(([icon, title, units]) => {
     let rows = '';
     units.forEach(([num, name, href]) => {
       if (href) {
         const st = get('sci.sci8a-' + num);
-        ['play', 'know', 'exam'].forEach(k => { if (st[k]) sum[k]++; });
+        ['play', 'know', 'exam', 'real'].forEach(k => { if (st[k]) sum[k]++; });
         const L = (k, t) => `<span class="${st[k] ? 'on' : ''}">${t}</span>`;
-        rows += `<li><a href="${href}"><span class="num">${num}</span>${name}<span class="lights">${L('play', '玩')}${L('know', '懂')}${L('exam', '考')}</span></a></li>`;
+        rows += `<li><a href="${href}"><span class="num">${num}</span>${name}<span class="lights">${L('play', '玩')}${L('know', '懂')}${L('exam', '考')}${REAL.has(num) ? L('real', '戰') : ''}</span></a></li>`;
       } else {
         rows += `<li><span class="off"><span class="num">${num}</span>${name}<span class="soon">製作中</span></span></li>`;
       }

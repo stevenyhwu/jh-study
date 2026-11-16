@@ -15,6 +15,7 @@
     let state = Store.get(key, {});
     host.innerHTML = '';
     const bar = h('<div class="u4-steps" role="tablist" aria-label="學習步驟"></div>');
+    bar.style.setProperty('--n', cfg.steps.length);
     const panels = h('<div></div>');
     const foot = h('<div class="u4-foot"></div>');
     host.append(bar, panels, foot);
@@ -172,7 +173,59 @@
       { id: 'guess', label: '猜', title: titles[0], render: fns.guess },
       { id: 'play', label: '玩', title: titles[1], render: fns.play },
       { id: 'know', label: '懂', title: titles[2], render: fns.know },
-      { id: 'exam', label: '考', title: titles[3] || '會考真的這樣考', render: fns.exam }] }));
+      { id: 'exam', label: '考', title: titles[3] || '會考真的這樣考', render: fns.exam }]
+      .concat(fns.real ? [{ id: 'real', label: '實戰', title: titles[4] || '會考實戰：照原題做做看', render: fns.real }] : []) }));
+  }
+
+  /* ---------- 「實戰」：會考原題 + 🪜 拆解 + 詳解 ----------
+     q = {stars, src, pic(host), q, options:[{t, ok, why}], steps:[{q, options | num…, pic?: false}], explain} */
+  function drill(host, q, onSolved) {
+    const L = 'ABCD';
+    const box = h(`<div class="card u4-drill"><div class="u4-dhead"><span class="u4-stars">${'★'.repeat(q.stars)}${'☆'.repeat(3 - q.stars)}</span><span class="u4-src">${q.src}</span></div></div>`);
+    host.appendChild(box);
+    if (q.pic) q.pic(box);
+    box.appendChild(h(`<div class="q-prompt">${q.q}</div>`));
+    const list = h('<div class="choices"></div>'), fb = h('<div class="feedback" aria-live="polite"></div>');
+    let solved = false;
+    q.options.forEach((op, i) => {
+      const b = h(`<button type="button" class="choice"><b>(${L[i]})</b> ${op.t}</button>`);
+      b.addEventListener('click', () => {
+        if (solved) return;
+        if (op.ok) {
+          solved = true; b.classList.add('ok');
+          fb.className = 'feedback show good';
+          fb.innerHTML = `<b>✔ 答對了！</b><div class="u4-explain"><b>📝 詳解</b>${q.explain || ''}<ul>${q.options.map((o, j) => `<li><b>(${L[j]})</b> ${o.ok ? '✔ ' : '✘ '}${o.why || ''}</li>`).join('')}</ul></div>`;
+          if (onSolved) onSolved();
+        } else {
+          b.classList.add('ng'); b.disabled = true;
+          fb.className = 'feedback show badf';
+          fb.innerHTML = `<b>再想一下：</b>${op.why || ''}<div class="small muted">可以再選一次，或按下面的「🪜 拆解」一步一步來。</div>`;
+        }
+      });
+      list.appendChild(b);
+    });
+    box.append(list, fb);
+    if (q.steps && q.steps.length) {
+      const brk = h('<div class="u4-break" hidden></div>');
+      const btn = h('<div class="row"><button type="button" class="btn">🪜 拆解：一步一步帶我做</button></div>');
+      btn.firstChild.addEventListener('click', () => { btn.remove(); brk.hidden = false; step(0); });
+      box.append(btn, brk);
+      function step(i) {
+        if (i >= q.steps.length) { brk.appendChild(h('<div class="u4-found">👆 拆解完了！回到上面的原題，選出答案。</div>')); return; }
+        const s = q.steps[i], wrap = h(`<div class="u4-bstep"><div class="u4-bno">第 ${i + 1} 步 / ${q.steps.length}</div></div>`);
+        brk.appendChild(wrap);
+        if (s.pic !== false && q.pic) q.pic(wrap);
+        const o = Object.assign({}, s, { onDone() { step(i + 1); } });
+        (s.num ? numq : choice)(wrap, o);
+        wrap.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    }
+    return box;
+  }
+  function real(p, api, qs, intro) {
+    p.appendChild(h(`<p class="muted">${intro || '這些是真正的會考題（圖是重畫的），照考卷的樣子做。由簡單排到難，卡住就按「🪜 拆解」。'}</p>`));
+    let left = qs.length;
+    qs.forEach(q => drill(p, q, () => { if (--left === 0) api.done(); }));
   }
 
   /* ---------- 動畫：每 40ms 呼叫 draw(秒)；畫面看不到時暫停 ---------- */
@@ -306,5 +359,5 @@
     return box;
   }
 
-  window.Unit4 = { mount, choice, numq, Store, h, svg, chips, slider, anim, panes, run, guess, tasks, card, exam, sort };
+  window.Unit4 = { mount, choice, numq, Store, h, svg, chips, slider, anim, panes, run, drill, real, guess, tasks, card, exam, sort };
 })();

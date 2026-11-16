@@ -8,7 +8,7 @@
 /* 步驟列 */
 .u4-steps {
   position: sticky; top: 52px; z-index: 10; background: var(--bg);
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 8px 0;
+  display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 6px; padding: 8px 0;
 }
 .u4-step {
   appearance: none; font: inherit; cursor: pointer; color: var(--muted);
@@ -113,3 +113,16 @@ svg .mut { fill: var(--muted) !important; }
 .sim-table { width: 100%; border-collapse: collapse; font-size: 15px; font-variant-numeric: tabular-nums; margin-top: 8px; }
 .sim-table th, .sim-table td { border: 1px solid var(--line); padding: 5px 6px; text-align: center; }
 .sim-table th { background: var(--bg); font-size: 13px; }
+
+/* ===== 實戰 ===== */
+.u4-drill { border-left: 5px solid #d64545; }
+.u4-dhead { display: flex; gap: 10px; align-items: center; margin-bottom: 6px; }
+.u4-stars { color: #e0a100; font-size: 18px; letter-spacing: 1px; }
+.u4-drill .u4-src { font-size: 14px; }
+.u4-explain { margin-top: 8px; background: var(--card); border-radius: 8px; padding: 8px 12px; font-weight: 400; }
+.u4-explain ul { margin: 6px 0 0; padding-left: 1.2em; }
+.u4-explain li { margin: 3px 0; }
+.u4-break { border-top: 2px dashed var(--line); margin-top: 12px; padding-top: 6px; }
+.u4-bstep { background: var(--bg); border-radius: 12px; padding: 8px 12px; margin: 10px 0; }
+.u4-bno { font-size: 13px; font-weight: 700; color: var(--accent); }
+.u4-steps .u4-step .l { white-space: nowrap; }
