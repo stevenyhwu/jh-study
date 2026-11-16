@@ -109,5 +109,58 @@
     });
   }
 
-  U.run('5-3', ['先猜猜看：熱量跑去哪了？', '動手玩：加熱冰塊、熱脹冷縮', '收成 4 句話'], { guess, play, know, exam });
+  /* ---------------- 5 實戰 ---------------- */
+  const tbl = html => c => c.appendChild(h(`<table class="sim-table" style="max-width:400px">${html}</table>`));
+  function t1Pic(c) {
+    U.svg(c, '0 0 320 170', `<line x1="40" y1="10" x2="40" y2="150" class="g-axis"/><line x1="40" y1="150" x2="310" y2="150" class="g-axis"/>
+      <path d="M40 140 L100 100 L190 100 L280 30" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <line x1="40" y1="100" x2="100" y2="100" stroke="var(--muted)" stroke-dasharray="3 3"/><line x1="100" y1="100" x2="100" y2="150" stroke="var(--muted)" stroke-dasharray="3 3"/><line x1="190" y1="100" x2="190" y2="150" stroke="var(--muted)" stroke-dasharray="3 3"/>
+      <text x="34" y="104" text-anchor="end" class="t12b">T₁</text><text x="100" y="164" text-anchor="middle" class="t12b">t₁</text><text x="190" y="164" text-anchor="middle" class="t12b">t₂</text>
+      <text x="310" y="164" text-anchor="end" class="g-lab">時間</text><text x="44" y="14" class="g-lab">溫度（°C）</text>`, '冰塊加熱的溫度—時間圖，T1 處有一段水平').style.maxWidth = '340px';
+  }
+  function flaskPic(c) {
+    U.svg(c, '0 0 320 175', `<defs><clipPath id="fk53"><circle cx="160" cy="76" r="50"/><rect x="149" y="118" width="22" height="34"/></clipPath></defs>
+      <rect x="100" y="84" width="120" height="70" fill="var(--water)" clip-path="url(#fk53)"/>
+      <circle cx="160" cy="76" r="50" fill="none" stroke="var(--stroke)" stroke-width="2"/><path d="M149 122 V152 M171 122 V152" stroke="var(--stroke)" stroke-width="2"/>
+      <rect x="146" y="152" width="28" height="12" rx="2" fill="#8a5a2b"/><rect x="120" y="6" width="80" height="18" rx="6" fill="#cfe8ff" stroke="var(--stroke)"/>
+      ${[0, 1, 2, 3, 4].map(i => `<circle cx="${140 + i * 10}" cy="${132 - i * 9}" r="3" fill="none" stroke="var(--stroke)"/>`).join('')}
+      <text x="208" y="19" class="t12b">冰塊</text><text x="226" y="60" class="t12">空氣和水蒸氣</text><text x="226" y="110" class="t12">水（冒出氣泡）</text><text x="186" y="168" class="t12">瓶塞（燒瓶倒置）</text>`, '倒置的燒瓶，上方放冰塊，水中冒出氣泡').style.maxWidth = '320px';
+  }
+  function real(p, api) {
+    U.real(p, api, [
+      { stars: 2, src: '106 年會考第 15 題',
+        pic: tbl('<thead><tr><th>物質</th><th>熔點（°C）</th><th>沸點（°C）</th></tr></thead><tbody><tr><td>鐵</td><td>1535</td><td>2750</td></tr><tr><td>氮</td><td>－210</td><td>－196</td></tr><tr><td>水</td><td>0</td><td>100</td></tr><tr><td>鋁</td><td>660</td><td>2467</td></tr></tbody>'),
+        q: '表為四種物質在一大氣壓下的熔點及沸點。在一大氣壓下，下列何者的溫度<b>最高</b>？',
+        options: [{ t: '液態的鐵', ok: true, why: '液態的鐵溫度在 1535～2750 °C 之間，一定最高。' }, { t: '液態的氮', why: '液態的氮在 －210～－196 °C，非常冷。' }, { t: '固態的水', why: '固態的水（冰）在 0 °C 以下。' }, { t: '固態的鋁', why: '固態的鋁在 660 °C 以下，比液態的鐵（至少 1535 °C）低。' }],
+        steps: [{ q: '物質是「液態」時，溫度在哪個範圍？', options: [{ t: '熔點和沸點之間', ok: true, why: '高於熔點才會熔化，低於沸點才不會沸騰。' }, { t: '熔點以下', why: '熔點以下是固態。' }] },
+          { q: '「固態」時呢？', options: [{ t: '熔點以下', ok: true, why: '還沒熔化。' }, { t: '沸點以上', why: '沸點以上是氣態。' }] },
+          { q: '液態的鐵至少 1535 °C；固態的鋁最多幾度？', options: [{ t: '660 °C', ok: true, why: '所以液態的鐵比較高。' }, { t: '2467 °C', why: '那是鋁的沸點，固態的鋁要在熔點 660 °C 以下。' }] }],
+        explain: '<p>固態：低於熔點；液態：熔點～沸點之間；氣態：高於沸點。液態鐵 1535～2750 °C、液態氮 －210～－196 °C、冰 ＜ 0 °C、固態鋁 ＜ 660 °C → <b>液態的鐵</b>最高。</p>' },
+      { stars: 2, src: '113 年會考第 27 題', pic: t1Pic,
+        q: '在一大氣壓下，將一塊質量 100 g 的冰塊置於燒杯中，以穩定熱源均勻加熱，其溫度與加熱時間的關係如圖。根據此圖判斷下列何者正確？',
+        options: [{ t: 'T₁ 的數值為 0', ok: true, why: '冰在熔化時溫度停在熔點 0 °C，就是那段水平線。' }, { t: 't₁ 可以表示冰塊的熔點', why: 't₁ 是「時間」，熔點是「溫度」，要看縱軸的 T₁。' },
+          { t: '當時間大於 t₂，燒杯中的水只會以氣態存在', why: 't₂ 之後冰剛熔完，是液態的水在升溫。' }, { t: '在 t₁～t₂ 期間，燒杯中的水是以固體與氣體共存的狀態', why: '這段是熔化，是固體（冰）和液體（水）共存。' }],
+        steps: [{ q: '冰塊加熱，溫度第一次停住不動，是在做什麼？', options: [{ t: '熔化', ok: true, why: '冰變成水。' }, { t: '沸騰', why: '沸騰在 100 °C，要等水先升溫。' }] },
+          { q: '冰的熔點是幾度？', options: [{ t: '0 °C', ok: true, why: '所以 T₁ ＝ 0。' }, { t: '100 °C', why: '100 °C 是沸點。' }] },
+          { q: 't₁～t₂ 熔化期間，燒杯裡有什麼？', options: [{ t: '冰和水（固液共存）', ok: true, why: '一邊熔化，一邊還有沒熔完的冰。' }, { t: '冰和水蒸氣', why: '熔化是固體變液體。' }] }],
+        explain: '<p>水平段＝熔化，溫度停在<b>熔點 0 °C</b>（T₁ ＝ 0），這段是冰水共存。t₁、t₂ 是時間，不能表示熔點；t₂ 之後是液態水升溫。</p>' },
+      { stars: 2, src: '103 年會考題組', pic: c => c.appendChild(h(`<table class="sim-table" style="max-width:420px"><thead><tr><th>金屬塊</th><th>甲</th><th>乙</th><th>丙</th><th>丁</th></tr></thead><tbody><tr><td>材質</td><td>鐵</td><td>鐵</td><td>鋁</td><td>鋁</td></tr><tr><td>初始溫度（°C）</td><td>80</td><td>60</td><td>80</td><td>60</td></tr><tr><td>質量（g）</td><td>100</td><td>200</td><td>100</td><td>200</td></tr></tbody></table>`)),
+        q: '四個金屬塊甲、乙、丙、丁的資訊如表。放在室溫 20 °C 的環境下一段時間後，四者的溫度均降為 20 °C。降到 20 °C 後，四個金屬塊的體積分別為 V甲、V乙、V丙、V丁，下列推斷何者正確？',
+        options: [{ t: 'V甲 ＝ V乙，V丙 ＝ V丁', why: '溫度一樣了，但質量不一樣，同材質的體積就不一樣。' }, { t: 'V甲 ＝ V丙，V乙 ＝ V丁', why: '鐵和鋁密度不同，質量一樣體積也不一樣。' },
+          { t: 'V甲 ＞ V乙，V丙 ＞ V丁', why: '降到同溫後，比的是質量：乙比甲重一倍。' }, { t: 'V甲 ＜ V乙，V丙 ＜ V丁', ok: true, why: '同材質、同溫度時，密度一樣，質量越大體積越大。' }],
+        steps: [{ q: '降到 20 °C 以後，四塊的溫度一樣了。初始溫度還會影響現在的體積嗎？', options: [{ t: '不會，現在的溫度都一樣', ok: true, why: '熱脹冷縮只看「現在」的溫度。' }, { t: '會，原本比較熱的比較大', why: '都冷卻到 20 °C 了，已經縮回去。' }] },
+          { q: '同一種材質、同樣溫度，質量 200 g 和 100 g 的，哪個體積大？', options: [{ t: '200 g 的', ok: true, why: '密度一樣，質量是 2 倍，體積也是 2 倍（想想 1-3 密度）。' }, { t: '一樣大', why: '同材質密度相同，體積 ＝ 質量 ÷ 密度。' }] }],
+        explain: '<p>都降到 20 °C 後，溫度相同。同材質、同溫度 → 密度相同 → 體積 ＝ 質量 ÷ 密度，質量大的體積大：<b>V甲 ＜ V乙、V丙 ＜ V丁</b>。</p>' },
+      { stars: 3, src: '114 年會考第 40 題', pic: flaskPic,
+        q: '在燒瓶中裝水並加熱到沸騰後，停止加熱，塞住瓶口，翻轉倒置燒瓶，使瓶內的空氣位於上方。此時拿一袋冰塊放在燒瓶的上方，瓶內的氣壓會改變，而水會由下而上開始冒出氣泡，是一種物理變化，如圖。根據上述說明，關於冰塊降溫造成此現象的解釋，下列何者最合理？',
+        options: [{ t: '瓶內的水蒸氣凝結，接著藉由水汽化達到新的平衡', ok: true, why: '冰塊讓上方的水蒸氣凝結成水，氣體變少；水就汽化（沸騰）來補充。' }, { t: '瓶內的水蒸氣蒸發，接著藉由水汽化達到新的平衡', why: '水蒸氣已經是氣體，遇冷是「凝結」不是蒸發。' },
+          { t: '瓶內的氣壓降低，接著藉由水分解反應產生氣體達到新的平衡', why: '題目說是物理變化，水沒有分解成氫和氧（那是化學變化）。' }, { t: '瓶內的氣壓升高，接著藉由水分解反應產生氣體達到新的平衡', why: '降溫讓水蒸氣凝結，氣壓是降低；而且不是水分解。' }],
+        steps: [{ q: '冰塊放在燒瓶上方，上方的水蒸氣遇冷會怎樣？', options: [{ t: '凝結成小水滴', ok: true, why: '氣體 → 液體，叫凝結（放熱）。' }, { t: '蒸發', why: '蒸發是液體變氣體。' }] },
+          { q: '水蒸氣變成水，瓶內的氣體變多還是變少？', options: [{ t: '變少，氣壓降低', ok: true, why: '氣壓低了，水比較容易沸騰。' }, { t: '變多', why: '水蒸氣變成液體，氣體就少了。' }] },
+          { q: '水冒出的氣泡是什麼？這是物理還是化學變化？', options: [{ t: '水汽化成的水蒸氣，是物理變化', ok: true, why: '水只是變成氣體，沒有變成新物質。' }, { t: '水分解成的氫氣和氧氣，是化學變化', why: '題目說是物理變化，而且冰塊不會讓水分解。' }] }],
+        explain: '<p>冰塊使上方的水蒸氣<b>凝結</b> → 瓶內氣體變少、氣壓下降 → 水在較低溫就能<b>汽化（沸騰）</b>補充水蒸氣。整個過程只有狀態改變，是物理變化。</p>' }
+    ]);
+  }
+
+  U.run('5-3', ['先猜猜看：熱量跑去哪了？', '動手玩：加熱冰塊、熱脹冷縮', '收成 4 句話'], { guess, play, know, exam, real });
 })();

@@ -110,5 +110,37 @@
     });
   }
 
-  U.run('6-1', ['先猜猜看：還能再分嗎？', '動手玩：電解水與粒子分類', '收成 4 句話'], { guess, play, know, exam });
+  /* ---------------- 5 實戰 ---------------- */
+  const cardsOpt = (e, c) => `<span style="display:inline-flex;gap:8px;vertical-align:middle"><span style="border:1px solid var(--line);border-radius:6px;padding:2px 8px">元素：${e}</span><span style="border:1px solid var(--line);border-radius:6px;padding:2px 8px">化合物：${c}</span></span>`;
+  function nestPic(c) {
+    U.svg(c, '0 0 320 150', `<rect x="10" y="10" width="300" height="130" rx="10" fill="var(--bg)" stroke="var(--stroke)" stroke-width="1.5"/><text x="22" y="30" class="t12b">純物質</text>
+      <rect x="120" y="26" width="180" height="104" rx="10" fill="var(--line)" stroke="var(--stroke)" stroke-width="1.5"/>
+      <rect x="180" y="62" width="110" height="56" rx="10" fill="var(--card)" stroke="var(--stroke)" stroke-width="1.5"/><text x="235" y="94" text-anchor="middle" class="t12b">氧化物</text>`, '純物質包含灰色範圍，灰色範圍包含氧化物').style.maxWidth = '340px';
+  }
+  function real(p, api) {
+    U.real(p, api, [
+      { stars: 1, src: '104 年會考第 35 題',
+        q: '老師在上「元素與化合物」的課程時，要求學生分組討論後，在小卡上分別寫出元素和化合物各一個例子，下列哪一組的舉例最符合老師的要求？',
+        options: [{ t: cardsOpt('氧氣', '臭氧'), why: '臭氧（O₃）只含氧原子，也是元素。' }, { t: cardsOpt('氮氣', '氨氣'), ok: true, why: '氮氣（N₂）只有氮，是元素；氨氣（NH₃）有氮和氫，是化合物。' },
+          { t: cardsOpt('乙醇', '乙酸'), why: '乙醇、乙酸都含碳、氫、氧，兩個都是化合物。' }, { t: cardsOpt('碳酸鈣', '碳酸氫鈉'), why: '兩個都由好幾種元素組成，都是化合物。' }],
+        steps: [{ q: '判斷「元素」的方法是？', options: [{ t: '只由一種原子組成', ok: true, why: '例如 O₂、O₃、N₂ 都只有一種原子。' }, { t: '名字裡有「氣」', why: '氨氣、二氧化碳氣也有「氣」，卻是化合物。' }] },
+          { q: '氨氣（NH₃）是元素還是化合物？', options: [{ t: '化合物', ok: true, why: '有氮、氫兩種原子。' }, { t: '元素', why: 'NH₃ 裡有 N 和 H 兩種。' }] }],
+        explain: '<p>元素只含<b>一種</b>原子（O₂、O₃、N₂），化合物含<b>兩種以上</b>（NH₃、乙醇、碳酸鈣）。只有 (B) 一個元素、一個化合物。</p>' },
+      { stars: 2, src: '114 年會考第 4 題',
+        pic: c => c.appendChild(h('<table class="sim-table" style="max-width:320px"><thead><tr><th>類別</th><th>例子</th></tr></thead><tbody><tr><td>元素</td><td>硫磺</td></tr><tr><td>化合物</td><td>笑氣</td></tr><tr><td>混合物</td><td>花岡岩</td></tr></tbody></table>')),
+        q: '小志將物質分成元素、化合物和混合物三類，並舉例如表。表中各例子所含<b>原子種類</b>多寡的比較，下列何者正確？',
+        options: [{ t: '笑氣 ＞ 硫磺', ok: true, why: '笑氣是化合物（至少兩種原子），硫磺是元素（只有一種）。' }, { t: '硫磺 ＞ 笑氣', why: '硫磺是元素，只有一種原子，最少。' }, { t: '硫磺 ＞ 花岡岩', why: '花岡岩是混合物，含很多種物質和原子。' }, { t: '三個例子都一樣多', why: '元素只有一種原子，化合物、混合物都更多。' }],
+        steps: [{ q: '元素（硫磺）含幾種原子？', options: [{ t: '1 種', ok: true, why: '只有硫（S）。' }, { t: '2 種以上', why: '元素只有一種原子。' }] },
+          { q: '化合物（笑氣）含幾種原子？', options: [{ t: '2 種以上', ok: true, why: '化合物由兩種以上元素組成（笑氣是 N₂O：氮和氧）。' }, { t: '1 種', why: '化合物至少兩種。' }] }],
+        explain: '<p>元素：1 種原子（硫磺 S）。化合物：2 種以上（笑氣 N₂O）。混合物：好幾種物質混合，原子種類通常更多（花岡岩）。所以<b>笑氣 ＞ 硫磺</b>。</p>' },
+      { stars: 2, src: '107 年會考第 22 題', pic: nestPic,
+        q: '圖為小瑞依據物質組成來分類，畫出數種物質的相互關係，被包含在大範圍者，亦屬於大範圍的一種物質，例如：氧化物（被包含者）亦屬於純物質的一種。圖中<b>灰色範圍</b>最可能為下列哪一類？',
+        options: [{ t: '元素', why: '氧化物含氧和另一種元素，不是元素。' }, { t: '化合物', ok: true, why: '氧化物 ⊂ 化合物 ⊂ 純物質。' }, { t: '混合物', why: '混合物不屬於純物質。' }, { t: '聚合物', why: '氧化物（如 CO₂、H₂O）不是聚合物。' }],
+        steps: [{ q: '氧化物（例如 CO₂、H₂O）由幾種元素組成？', options: [{ t: '2 種以上', ok: true, why: '一定有氧，再加上其他元素。' }, { t: '1 種', why: 'CO₂ 有碳和氧。' }] },
+          { q: '那麼包住氧化物、又被純物質包住的那一類是？', options: [{ t: '化合物', ok: true, why: '化合物是純物質的一種，氧化物是化合物的一種。' }, { t: '元素', why: '元素只有一種原子，包不住氧化物。' }] }],
+        explain: '<p>純物質分成元素和化合物。氧化物含兩種以上元素 → 是<b>化合物</b>的一種。所以灰色範圍是化合物。</p>' }
+    ]);
+  }
+
+  U.run('6-1', ['先猜猜看：還能再分嗎？', '動手玩：電解水與粒子分類', '收成 4 句話'], { guess, play, know, exam, real });
 })();

@@ -104,5 +104,46 @@
     });
   }
 
-  U.run('5-1', ['先猜猜看：手量得準嗎？', '動手玩：手感與溫度計', '收成 4 句話', '常見題型'], { guess, play, know, exam });
+  /* ---------------- 5 實戰 ---------------- */
+  function setupPic(c) {
+    U.svg(c, '0 0 320 170', `<rect x="110" y="60" width="100" height="70" fill="var(--water)" stroke="var(--stroke)" stroke-width="1.5"/><line x1="96" y1="132" x2="224" y2="132" stroke="var(--stroke)" stroke-width="2"/>
+      <line x1="230" y1="10" x2="230" y2="150" stroke="var(--stroke)" stroke-width="3"/><line x1="230" y1="20" x2="168" y2="20" stroke="var(--stroke)" stroke-width="2"/>
+      <rect x="164" y="20" width="8" height="108" rx="4" fill="var(--card)" stroke="var(--stroke)"/><circle cx="168" cy="126" r="5" fill="#e53935"/>
+      <path d="M160 152 c-8 -10 -3 -18 0 -22 c4 6 9 12 0 22Z" fill="#f6a54b" stroke="#d64545"/><rect x="140" y="152" width="40" height="14" rx="5" fill="var(--line)" stroke="var(--stroke)"/>
+      <text x="60" y="100" class="t12b">水</text><text x="180" y="40" class="t12b">溫度計</text><text x="250" y="150" class="t12">支架</text><text x="190" y="164" class="t12">酒精燈</text>
+      <path d="M150 128 L120 116" stroke="var(--bad)" stroke-width="1.5"/><text x="70" y="120" class="t12b" style="fill:var(--bad)">碰到杯底</text>`, '溫度計碰到杯底的加熱裝置').style.maxWidth = '340px';
+  }
+  function skinPic(c) {
+    const person = (x, air, skin, side) => `<text x="${x}" y="20" text-anchor="middle" class="t12b">氣溫</text><text x="${x}" y="36" text-anchor="middle" class="t12b">${air}°C</text>
+      <circle cx="${x}" cy="54" r="10" fill="none" stroke="var(--stroke)" stroke-width="1.5"/><path d="M${x} 64 V104 M${x} 74 L${x - 22} 96 M${x} 74 L${x + 22} 96 M${x} 104 L${x - 14} 136 M${x} 104 L${x + 14} 136" stroke="var(--stroke)" stroke-width="1.5" fill="none"/>
+      <text x="${side < 0 ? x - 26 : x + 26}" y="100" text-anchor="${side < 0 ? 'end' : 'start'}" class="t14b" style="fill:var(--bad)">${skin}°C</text>`;
+    U.svg(c, '0 0 320 140', person(90, 27, 33, -1) + person(210, 17, 30, 1) + '<text x="150" y="138" text-anchor="middle" class="t12 mut">手部皮膚溫度</text>', '氣溫 27 度時手部皮膚 33 度，氣溫 17 度時 30 度').style.maxWidth = '320px';
+    c.appendChild(h(`<table class="sim-table" style="max-width:260px"><thead><tr><th>品牌</th><th>開始熔化的溫度</th></tr></thead><tbody><tr><td>甲</td><td>27 °C</td></tr><tr><td>乙</td><td>31 °C</td></tr><tr><td>丙</td><td>35 °C</td></tr><tr><td>丁</td><td>39 °C</td></tr></tbody></table>`));
+  }
+  function real(p, api) {
+    U.real(p, api, [
+      { stars: 1, src: '銜接題',
+        q: '新聞說：「美國某地今天最高溫 104 °F。」換成攝氏大約是多少？（°F ＝ °C × 9 ÷ 5 ＋ 32）',
+        options: [{ t: '約 20 °C', why: '20 °C ＝ 68 °F，太低了。' }, { t: '約 40 °C', ok: true, why: '(104 － 32) × 5 ÷ 9 ＝ 40 °C，非常熱。' }, { t: '約 72 °C', why: '72 是 104－32，還要再乘 5/9。' }, { t: '約 104 °C', why: '華氏和攝氏的數字不一樣，要換算。' }],
+        steps: [{ q: '先把 32 扣掉：104 － 32 ＝ ?', options: [{ t: '72', ok: true, why: '對。' }, { t: '136', why: '是減 32，不是加。' }] },
+          { num: true, q: '再乘 5 ÷ 9：72 × 5 ÷ 9 ＝ ?', post: '°C', answer: 40, hint: '72 ÷ 9 ＝ 8，8 × 5 ＝ ?', why: '40 °C。' }],
+        explain: '<p>倒過來算：°C ＝ (°F － 32) × 5 ÷ 9 ＝ (104 － 32) × 5 ÷ 9 ＝ 40 °C。</p>' },
+      { stars: 2, src: '112 年會考第 6 題', pic: setupPic,
+        q: '阿東進行「水溫與加熱時間的關係」實驗，其裝置如圖所示。老師看到實驗裝置後，建議他改善測量水溫的方式，阿東進行下列哪一個改善方式最合適？',
+        options: [{ t: '將溫度計懸吊在水中，不接觸杯底', ok: true, why: '杯底直接被火加熱，比水熱，碰到杯底就量不到真正的水溫。' }, { t: '調整支架使酒精燈的火焰靠近溫度計', why: '這樣量到的是火的溫度，溫度計還可能破。' },
+          { t: '拿溫度計攪拌杯中的水，使水溫均勻', why: '溫度計很脆弱，不能拿來攪拌，要用玻璃棒。' }, { t: '將酒精燈的酒精裝滿，使火焰大小固定', why: '酒精裝太滿容易溢出起火，最多約 2/3，而且和量水溫無關。' }],
+        steps: [{ q: '我們要量的是什麼的溫度？', options: [{ t: '水', ok: true, why: '實驗是「水溫」與加熱時間。' }, { t: '杯底', why: '要量的是水溫。' }] },
+          { q: '圖中的溫度計碰到杯底。杯底的溫度和水溫一樣嗎？', options: [{ t: '不一樣，杯底直接被火燒，比較熱', ok: true, why: '所以要讓溫度計懸在水中。' }, { t: '一樣', why: '杯底直接接觸火焰，會比水熱。' }] }],
+        explain: '<p>量水溫時，玻璃泡要<b>完全浸在水中、不碰杯底杯壁</b>，等液柱穩定再讀。</p>' },
+      { stars: 3, src: '109 年會考第 19 題', pic: skinPic,
+        q: '小樺在氣溫 27 °C 及 17 °C 時的手部皮膚溫度分別如圖所示。表是四種不同品牌零食開始熔化的溫度。正常體溫的情況下，若小樺希望「在 27 °C 及 17 °C 兩種氣溫下，零食拿在手上都<b>不會</b>熔化，但放入口中卻<b>都會</b>熔化」，則下列哪一品牌最符合他的期待？',
+        options: [{ t: '甲', why: '27 °C 比手的 33 °C 低，拿在手上就熔化了。' }, { t: '乙', why: '31 °C 比 33 °C 低，氣溫 27 °C 時拿在手上會熔化。' }, { t: '丙', ok: true, why: '35 °C：比兩種情況的手（33、30 °C）都高，又比口中（約 37 °C）低。' }, { t: '丁', why: '39 °C 比口中的體溫（約 37 °C）還高，放進嘴巴也不會熔化。' }],
+        steps: [{ q: '拿在手上「不會熔化」，熔化溫度要比手的溫度高還是低？手最熱是幾度？', options: [{ t: '要比手高；手最熱是 33 °C', ok: true, why: '所以熔化溫度要高於 33 °C。' }, { t: '要比手低；手最冷是 30 °C', why: '溫度沒到熔點才不會熔化，所以熔點要比手的溫度「高」。' }] },
+          { q: '放入口中「會熔化」，熔化溫度要比口中溫度（體溫約 36～37 °C）……', options: [{ t: '低', ok: true, why: '溫度超過熔點才會熔化。' }, { t: '高', why: '要比口中低，放進去才會熔。' }] },
+          { q: '所以熔化溫度要在幾度之間？', options: [{ t: '33 °C ～ 36 °C 之間', ok: true, why: '只有丙（35 °C）符合。' }, { t: '30 °C ～ 33 °C 之間', why: '氣溫 27 °C 時手是 33 °C，熔點要比 33 高。' }] }],
+        explain: '<p>不在手上熔化 → 熔點 ＞ 手溫最高的 33 °C；在口中熔化 → 熔點 ＜ 體溫（36～37 °C）。所以 33 ＜ 熔點 ＜ 36，選<b>丙（35 °C）</b>。</p>' }
+    ], '第 2、3 題是真正的會考題（圖是重畫的），第 1 題是暖身的銜接題。卡住就按「🪜 拆解」。');
+  }
+
+  U.run('5-1', ['先猜猜看：手量得準嗎？', '動手玩：手感與溫度計', '收成 4 句話', '常見題型'], { guess, play, know, exam, real });
 })();

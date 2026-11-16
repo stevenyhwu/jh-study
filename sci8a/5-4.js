@@ -132,5 +132,46 @@
     });
   }
 
-  U.run('5-4', ['先猜猜看：熱怎麼跑？', '動手玩：傳導、對流、輻射', '收成 4 句話', '常見題型'], { guess, play, know, exam });
+  /* ---------------- 5 實戰 ---------------- */
+  function ballsPic(c) {
+    U.svg(c, '0 0 320 120', `<circle cx="40" cy="30" r="16" fill="#f2c230" stroke="var(--stroke)"/><path d="M58 40 L120 70 M58 46 L200 70" stroke="#f2c230" stroke-width="2" stroke-dasharray="5 4"/>
+      <line x1="140" y1="10" x2="140" y2="58" stroke="var(--stroke)"/><line x1="220" y1="10" x2="220" y2="58" stroke="var(--stroke)"/>
+      <circle cx="140" cy="76" r="18" fill="#fafafa" stroke="var(--stroke)" stroke-width="1.5"/><circle cx="220" cy="76" r="18" fill="#222" stroke="var(--stroke)" stroke-width="1.5"/>
+      <text x="140" y="112" text-anchor="middle" class="t12b">甲（白）</text><text x="220" y="112" text-anchor="middle" class="t12b">乙（黑）</text>`, '陽光照射吊著的白球和黑球').style.maxWidth = '320px';
+  }
+  function bottlePic(c) {
+    U.svg(c, '0 0 220 170', `<rect x="60" y="20" width="100" height="140" rx="20" fill="#d8dde6" stroke="var(--stroke)" stroke-width="1.5"/><rect x="74" y="34" width="72" height="116" rx="14" fill="var(--card)" stroke="#9aa5b8" stroke-width="4"/>
+      <rect x="80" y="40" width="60" height="104" rx="10" fill="#f3a3a3"/><rect x="80" y="8" width="60" height="18" rx="5" fill="#7a8699" stroke="var(--stroke)"/>
+      <text x="110" y="96" text-anchor="middle" class="t12b">熱水</text><path d="M150 60 L180 50" stroke="var(--stroke)"/><text x="182" y="50" class="t12b">甲</text>
+      <path d="M146 110 L180 120" stroke="var(--stroke)"/><text x="182" y="124" class="t12b">乙</text><path d="M140 16 L180 14" stroke="var(--stroke)"/><text x="182" y="16" class="t12b">丙</text>`, '保溫瓶構造：甲真空層、乙鍍銀瓶壁、丙瓶蓋').style.maxWidth = '220px';
+    c.appendChild(h('<p class="small muted">甲：兩層玻璃之間抽成真空　乙：瓶壁鍍上一層亮亮的銀　丙：瓶蓋</p>'));
+  }
+  function real(p, api) {
+    U.real(p, api, [
+      { stars: 2, src: '105 年會考第 4 題', pic: ballsPic,
+        q: '取溫度、材質及體積相同的甲、乙兩金屬球，將甲球漆成白色，乙球漆成黑色，再將兩球以細線並排懸吊於空中，放置在陽光下曝曬，20 分鐘後測量兩者溫度，結果乙球比甲球高 3 °C，下列何者是此現象發生的主要原因？',
+        options: [{ t: '白色可增加金屬球的比熱', why: '油漆顏色不會改變金屬的比熱。' }, { t: '黑色可增加金屬球的比熱', why: '比熱是材質的性質，和顏色無關；而且比熱變大反而會升溫比較慢。' },
+          { t: '白色金屬球較易吸收輻射熱', why: '白色會反射比較多輻射熱。' }, { t: '黑色金屬球較易吸收輻射熱', ok: true, why: '黑色吸收輻射熱的能力強。' }],
+        steps: [{ q: '太陽的熱，是用哪一種方式傳到球上的？', options: [{ t: '輻射', ok: true, why: '吊在空中、隔著空氣和真空，太陽的熱靠輻射傳來。' }, { t: '傳導', why: '球和太陽沒有接觸。' }] },
+          { q: '兩球材質相同，比熱會因為漆的顏色而不同嗎？', options: [{ t: '不會', ok: true, why: '比熱是材質決定的。' }, { t: '會', why: '油漆只是表面薄薄一層，金屬的比熱不變。' }] },
+          { q: '黑色和白色，哪一個比較會吸收輻射熱？', options: [{ t: '黑色', ok: true, why: '想想黑罐子和白罐子。' }, { t: '白色', why: '白色會反射。' }] }],
+        explain: '<p>兩球材質相同 → 比熱相同。差別在表面顏色：<b>黑色較易吸收輻射熱</b>，白色較易反射，所以黑球溫度較高。</p>' },
+      { stars: 2, src: '模擬題（會考常見題型）', pic: bottlePic,
+        q: '保溫瓶的構造如圖。關於各部位主要阻擋的熱傳播方式，下列配對何者正確？',
+        options: [{ t: '甲：阻擋傳導和對流；乙：阻擋輻射', ok: true, why: '真空沒有物質，傳導和對流都無法進行；鍍銀的亮面把輻射熱反射回去。' }, { t: '甲：阻擋輻射；乙：阻擋傳導', why: '真空擋不住輻射（太陽光就是穿過真空來的）。' },
+          { t: '甲：阻擋對流；乙：阻擋對流', why: '鍍銀是反射輻射用的。' }, { t: '甲、乙都只能阻擋輻射', why: '真空最主要是阻擋傳導和對流。' }],
+        steps: [{ q: '真空層裡沒有物質。哪兩種傳熱方式需要物質？', options: [{ t: '傳導和對流', ok: true, why: '傳導要一個傳一個，對流要液體或氣體流動。' }, { t: '輻射和傳導', why: '輻射不需要物質。' }] },
+          { q: '亮亮的鍍銀瓶壁，主要是把哪一種熱反射回去？', options: [{ t: '輻射', ok: true, why: '光亮的表面會反射輻射熱。' }, { t: '對流', why: '對流是流體流動，和鏡面沒關係。' }] }],
+        explain: '<p>保溫瓶：<b>真空層</b>阻擋傳導、對流；<b>鍍銀瓶壁</b>反射輻射；<b>瓶蓋</b>阻擋對流和蒸發。</p>' },
+      { stars: 3, src: '模擬題（會考常見題型）',
+        q: '下列四種現象中，哪一個<b>主要</b>和「對流」有關？',
+        options: [{ t: '冬天在房間地上放暖爐，一段時間後整個房間都變暖', ok: true, why: '暖空氣上升、冷空氣下降補充，空氣流動起來，是對流。' }, { t: '用金屬湯匙攪熱湯，湯匙柄很快變燙', why: '熱沿著金屬一個傳一個，是傳導。' },
+          { t: '站在營火旁邊，面向火的那一面臉覺得很熱', why: '火的熱直接射到臉上，是輻射。' }, { t: '太陽的熱穿過太空到達地球', why: '太空是真空，靠的是輻射。' }],
+        steps: [{ q: '對流需要什麼才能發生？', options: [{ t: '液體或氣體流動', ok: true, why: '熱的上升、冷的下降。' }, { t: '固體', why: '固體裡的粒子不能流動，主要靠傳導。' }] },
+          { q: '四個選項中，哪一個有「空氣或液體在流動」？', options: [{ t: '暖爐讓房間空氣流動', ok: true, why: '這就是對流。' }, { t: '金屬湯匙', why: '湯匙是固體，靠傳導。' }] }],
+        explain: '<p>傳導：固體一個傳一個（湯匙）；對流：液體、氣體流動（暖爐、燒水）；輻射：不需介質（營火、太陽）。</p>' }
+    ], '第 1 題是真正的會考題（圖是重畫的）。這一節會考比較少單獨出題，第 2、3 題是照會考題型出的模擬題。卡住就按「🪜 拆解」。');
+  }
+
+  U.run('5-4', ['先猜猜看：熱怎麼跑？', '動手玩：傳導、對流、輻射', '收成 4 句話', '常見題型'], { guess, play, know, exam, real });
 })();
