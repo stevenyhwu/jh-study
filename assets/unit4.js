@@ -11,7 +11,7 @@
 
   /* cfg: { unit, home, steps: [{id, label, title, render(panel, api)}] } */
   function mount(host, cfg) {
-    const key = 'sci.' + cfg.unit;
+    const key = (cfg.ns || 'sci') + '.' + cfg.unit;
     let state = Store.get(key, {});
     host.innerHTML = '';
     const bar = h('<div class="u4-steps" role="tablist" aria-label="學習步驟"></div>');
@@ -46,7 +46,7 @@
         b.addEventListener('click', () => show(cur + 1, true));
         foot.appendChild(b);
       } else if (all) {
-        foot.appendChild(h(`<div class="done-banner">🎉 這一節完成了！<a href="${cfg.home || 'index.html'}">回理化首頁</a></div>`));
+        foot.appendChild(h(`<div class="done-banner">🎉 這一節完成了！<a href="${cfg.home || 'index.html'}">${cfg.homeLabel || '回理化首頁'}</a></div>`));
       }
     }
     function api(i) {
@@ -107,12 +107,12 @@
   /* 填數字題。o: {q, pre, post, answer, diag:[{v,msg}], hint, why, onDone} */
   function numq(host, o) {
     const box = h(`<div class="u4-q"><div class="q-prompt">${o.q}</div>
-      <div class="q-fields"><span>${o.pre || ''}</span><input type="text" inputmode="decimal" autocomplete="off" aria-label="答案"><span>${o.post || ''}</span>
+      <div class="q-fields"><span>${o.pre || ''}</span><input type="text" inputmode="${o.signed ? 'text' : 'decimal'}" autocomplete="off" aria-label="答案"><span>${o.post || ''}</span>
       <button type="button" class="btn primary">檢查</button></div><div class="feedback" aria-live="polite"></div></div>`);
     const inp = box.querySelector('input'), btn = box.querySelector('button'), fb = box.querySelector('.feedback');
     function check() {
       if (inp.readOnly) return;
-      const v = Number(String(inp.value).trim().replace(/[．。]/g, '.'));
+      const v = Number(String(inp.value).trim().replace(/[．。]/g, '.').replace(/[−－]/g, '-'));
       if (String(inp.value).trim() === '' || isNaN(v)) { fb.className = 'feedback show'; fb.textContent = '先填一個數字。'; return; }
       const hit = o.range ? (v >= o.range[0] - 1e-9 && v <= o.range[1] + 1e-9) : Math.abs(v - o.answer) < 1e-6;
       if (hit) {
@@ -168,8 +168,9 @@
     return { list, show(i) { list.forEach((d, j) => { d.hidden = j !== i; }); }, end(slot) { card.appendChild(slot); } };
   }
   /* ---------- 一節的四步：fns = {guess, play, know, exam}，titles = [猜, 玩, 懂, 考] ---------- */
-  function run(unit, titles, fns) {
-    document.addEventListener('DOMContentLoaded', () => mount(document.getElementById('unit'), { unit: 'sci8a-' + unit, home: 'index.html', steps: [
+  function run(unit, titles, fns, opt) {
+    opt = opt || {};
+    document.addEventListener('DOMContentLoaded', () => mount(document.getElementById('unit'), { unit: (opt.course || 'sci8a') + '-' + unit, ns: opt.ns, homeLabel: opt.homeLabel, home: 'index.html', steps: [
       { id: 'guess', label: '猜', title: titles[0], render: fns.guess },
       { id: 'play', label: '玩', title: titles[1], render: fns.play },
       { id: 'know', label: '懂', title: titles[2], render: fns.know },

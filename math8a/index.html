@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>國二上數學｜國中學習網</title>
+<meta name="description" content="國二上數學（康軒版）互動課程：每一節先動手玩，再收成公式，最後做會考題。免登入。">
+<link rel="stylesheet" href="../assets/common.css?v=20261117c">
+<link rel="stylesheet" href="../assets/unit4.css?v=20261117c">
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap"><a class="home" href="../index.html">📚 國中學習網</a></div>
+</header>
+<main class="wrap">
+  <div class="hero">
+    <h1>📐 國二上・數學</h1>
+    <div class="meta">康軒版｜每一節大約 10 分鐘：先猜 → 動手玩 → 收成公式 → 會考題 → 會考實戰</div>
+  </div>
+
+  <section class="block">
+    <div class="sci-sum">
+      <div class="box"><b id="s-play">0</b><span>節 玩過</span></div>
+      <div class="box"><b id="s-know">0</b><span>節 懂了</span></div>
+      <div class="box"><b id="s-exam">0</b><span>節 會考過關</span></div>
+      <div class="box"><b id="s-real">0</b><span>節 實戰過關</span></div>
+    </div>
+    <p class="legend">每一節有四個燈：<b>玩</b>（做完任務）、<b>懂</b>（小檢查算對）、<b>考</b>（改寫的會考題全對）、<b>戰</b>（會考原題全對）。<br>還沒改版的小節先連到<b>舊版關卡</b>（可可貓），會一節一節換成新版。</p>
+  </section>
+
+  <section class="block" id="chapters"></section>
+  <p class="muted small">學習紀錄只存在這台裝置的瀏覽器裡，不需要登入。新版試用中：第 3～5 章已改版，第 1～2 章還是舊版關卡。</p>
+</main>
+<footer>國中學習網・內容為自編教材，僅供學習使用</footer>
+<script>
+(function () {
+  // [編號, 名稱, 新版網址 或 null, 舊版網址]
+  const CH = [
+    ['✖️', '第 1 章　乘法公式與多項式', [['1-1a', '和的平方、差的平方', null, '1-1.html'], ['1-1b', '平方差公式', null, '1-1.html'], ['1-2a', '認識多項式', null, '1-2.html'], ['1-2b', '多項式的加減', null, '1-2.html'], ['1-3a', '多項式的乘法', null, '1-3.html'], ['1-3b', '多項式的除法', null, '1-3.html']]],
+    ['√', '第 2 章　平方根與畢氏定理', [['2-1a', '平方根', null, '2-1.html'], ['2-1b', '近似值與估算', null, '2-1.html'], ['2-2a', '根式的化簡', null, '2-2.html'], ['2-2b', '根式的四則運算', null, '2-2.html'], ['2-3a', '畢氏定理求邊長', null, '2-3.html'], ['2-3b', '畢氏定理的逆定理與方格距離', null, '2-3.html']]],
+    ['🧩', '第 3 章　因式分解', [['3-1', '提公因式', '3-1v2.html', '3-1.html'], ['3-2', '利用乘法公式分解', '3-2v2.html', '3-2.html'], ['3-3a', '十字交乘（x² 係數是 1）', '3-3a.html', '3-3.html'], ['3-3b', '十字交乘（x² 係數不是 1）', '3-3b.html', '3-3.html']]],
+    ['🎯', '第 4 章　一元二次方程式', [['4-1', '因式分解法', '4-1v2.html', '4-1.html'], ['4-2a', '配方法', '4-2a.html', '4-2.html'], ['4-2b', '公式解與判別式', '4-2b.html', '4-2.html'], ['4-3a', '應用問題（數字、面積）', '4-3a.html', '4-3.html'], ['4-3b', '應用問題（生活情境）', '4-3b.html', '4-3.html']]],
+    ['📊', '第 5 章　統計', [['5-1a', '次數分配表與直方圖', '5-1a.html', '5-1.html'], ['5-1b', '相對次數、累積次數與折線圖', '5-1b.html', '5-1.html']]]
+  ];
+  function get(k) { try { return JSON.parse(localStorage.getItem('jh.' + k)) || {}; } catch (e) { return {}; } }
+  const sum = { play: 0, know: 0, exam: 0, real: 0 };
+  const host = document.getElementById('chapters');
+  CH.forEach(([icon, title, units]) => {
+    let rows = '';
+    units.forEach(([num, name, href, old]) => {
+      if (href) {
+        const st = get('math.math8a-' + num);
+        ['play', 'know', 'exam', 'real'].forEach(k => { if (st[k]) sum[k]++; });
+        const L = (k, t) => `<span class="${st[k] ? 'on' : ''}">${t}</span>`;
+        rows += `<li><a href="${href}"><span class="num">${num}</span>${name}<span class="lights">${L('play', '玩')}${L('know', '懂')}${L('exam', '考')}${L('real', '戰')}</span></a></li>`;
+      } else {
+        rows += `<li><a href="${old}" class="old"><span class="num">${num}</span>${name}<span class="soon" style="white-space:nowrap">舊版 →</span></a></li>`;
+      }
+    });
+    host.insertAdjacentHTML('beforeend', `<div class="card"><h3>${icon} ${title}</h3><ul class="unit-list">${rows}</ul></div>`);
+  });
+  Object.keys(sum).forEach(k => { document.getElementById('s-' + k).textContent = sum[k]; });
+})();
+</script>
+</body>
+</html>
